@@ -1,0 +1,95 @@
+{%- comment -%}
+  Drop State Engine
+  Evaluates product tags, inventory, and release dates to determine the unified drop state.
+  
+  Accepts:
+  - product: Product object
+  - context: 'badge', 'cart_badge', 'product_page_banner', 'button_text', 'state_string', 'is_locked'
+  - explicit_release_date: (Optional) ISO timestamp string to override tag logic
+{%- endcomment -%}
+
+{%- liquid
+  assign drop_state = 'standard'
+  assign drop_label = ''
+  assign drop_color = ''
+  assign drop_bg = ''
+  assign is_locked = false
+  
+  assign now_timestamp = "now" | date: "%s" | times: 1
+  assign is_released = false
+  
+  assign product_release_date = explicit_release_date | default: product.metafields.drop.release_date.value
+  
+  if product_release_date != blank
+    assign release_timestamp = product_release_date | date: "%s" | times: 1
+    if now_timestamp >= release_timestamp
+      assign is_released = true
+    endif
+  endif
+  
+  if product_release_date != blank and is_released == false
+    assign drop_state = 'preorder'
+    assign drop_label = settings.drop_preorder_label | default: 'PREORDER'
+    assign drop_color = settings.drop_preorder_color | default: '#F59E0B'
+    assign drop_bg = '#000000'
+    assign is_locked = true
+  elsif product_release_date != blank and is_released == true
+    assign drop_state = 'new'
+    assign drop_label = settings.drop_live_label | default: 'LIVE NOW'
+    assign drop_color = settings.drop_live_color | default: '#10B981'
+    assign drop_bg = '#000000'
+  elsif product.tags contains 'waitlist' or product.tags contains 'Waitlist'
+    assign drop_state = 'waitlist'
+    assign drop_label = settings.drop_waitlist_label | default: 'JOIN WAITLIST'
+    assign drop_color = settings.drop_waitlist_color | default: '#8B5CF6'
+    assign drop_bg = 'transparent'
+  elsif product.tags contains 'preorder' or product.tags contains 'Preorder'
+    assign drop_state = 'preorder'
+    assign drop_label = settings.drop_preorder_label | default: 'PREORDER'
+    assign drop_color = settings.drop_preorder_color | default: '#F59E0B'
+    assign drop_bg = '#000000'
+  elsif product.available == false
+    assign drop_state = 'soldout'
+    assign drop_label = 'SOLD OUT'
+    assign drop_color = '#6B7280'
+    assign drop_bg = '#F3F4F6'
+  elsif product.tags contains 'coming_soon' or product.tags contains 'Coming Soon'
+    assign drop_state = 'coming_soon'
+    assign drop_label = settings.drop_coming_soon_label | default: 'COMING SOON'
+    assign drop_color = settings.drop_coming_soon_color | default: '#6B7280'
+    assign drop_bg = 'transparent'
+  elsif product.tags contains 'new' or product.tags contains 'live'
+    assign drop_state = 'new'
+    assign drop_label = settings.drop_live_label | default: 'LIVE NOW'
+    assign drop_color = settings.drop_live_color | default: '#10B981'
+    assign drop_bg = '#000000'
+  endif
+-%}
+
+{%- if context == 'state_string' -%}
+  {{ drop_state }}
+{%- elsif context == 'is_locked' -%}
+  {%- if is_locked -%}true{%- else -%}false{%- endif -%}
+{%- elsif context == 'badge' and drop_state != 'standard' -%}
+  <span class="font-medium tracking-widest uppercase px-3 py-1{% if drop_state == 'soldout' %} border{% endif %}" style="background-color: {{ drop_bg }}; color: {%- if drop_state == 'soldout' -%}{{ drop_color }}{%- else -%}#FFFFFF{%- endif -%};{% if drop_state == 'soldout' %} border-color: {{ settings.custom_border_color | default: '#E5E7EB' }};{% endif %} font-size: 10px;">{{ drop_label }}</span>
+{%- elsif context == 'cart_badge' and drop_state != 'standard' -%}
+  <span class="font-medium tracking-widest uppercase px-2 py-0.5 border" style="color: {{ drop_color }}; border-color: {{ drop_color }}; font-size: 9px; margin-left: 8px;">{{ drop_label }}</span>
+{%- elsif context == 'product_page_banner' and drop_state != 'standard' and drop_state != 'soldout' -%}
+  <div class="p-4 font-medium tracking-wide border mb-4" style="background-color: transparent; border-color: {{ drop_color }}; color: {{ drop_color }}; font-size: 12px;">
+    [{{ drop_label }}] {%- if drop_state == 'preorder' -%}Expected to ship {{ preorder_date | default: 'August 2026' }}{%- endif -%}
+  </div>
+{%- elsif context == 'cart_message' and drop_state != 'standard' and drop_state != 'soldout' -%}
+  <div class="mt-2 font-medium tracking-wide" style="color: {{ drop_color }}; font-size: 10px;">
+    {%- if drop_state == 'preorder' -%}Expected to ship {{ preorder_date | default: 'August 2026' }}{%- elsif drop_state == 'waitlist' -%}You are on the waitlist for this item.{%- endif -%}
+  </div>
+{%- elsif context == 'button_text' -%}
+  {%- if drop_state == 'preorder' -%}
+    {{ drop_label }} NOW
+  {%- elsif drop_state == 'waitlist' or drop_state == 'coming_soon' -%}
+    {{ drop_label }}
+  {%- elsif drop_state == 'soldout' -%}
+    SOLD OUT
+  {%- else -%}
+    ADD TO CART
+  {%- endif -%}
+{%- endif -%}

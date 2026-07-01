@@ -8,16 +8,250 @@
       "label": "Hero Image"
     },
     {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Hero Image"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "hero_height",
+      "options": [
+        { "value": "60vh", "label": "Small" },
+        { "value": "75vh", "label": "Medium" },
+        { "value": "85vh", "label": "Large" },
+        { "value": "100vh", "label": "Full" }
+      ],
+      "default": "85vh",
+      "label": "Hero Height"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left",
+      "label": "Text Alignment"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "options": [
+        { "value": "start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "end", "label": "Bottom" }
+      ],
+      "default": "end",
+      "label": "Content Position"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "options": [
+        { "value": "max-w-sm", "label": "Narrow" },
+        { "value": "max-w-md", "label": "Medium" },
+        { "value": "max-w-lg", "label": "Wide" }
+      ],
+      "default": "max-w-md",
+      "label": "Content Width"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "default": "#000000",
+      "label": "Overlay Color"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40,
+      "label": "Overlay Opacity"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay_gradient",
+      "default": true,
+      "label": "Use Gradient Overlay"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "DROP 01: BEGINNINGS"
     },
     {
+      "type": "range",
+      "id": "heading_font_size_desktop",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 36,
+      "label": "Heading Size (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 30,
+      "label": "Heading Size (Mobile)"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "options": [
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" },
+        { "value": "800", "label": "800" }
+      ],
+      "default": "600",
+      "label": "Heading Font Weight"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "default": true,
+      "label": "Uppercase Heading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "default": "#000000",
+      "label": "Heading Color"
+    },
+    {
       "type": "textarea",
       "id": "text",
       "label": "Text",
       "default": "Sign up for exclusive access before the global release."
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "label": "Subtext Font Size"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "default": "#6B7280",
+      "label": "Subtext Color"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "default": "Subscribe",
+      "label": "CTA Button Text"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outlined", "label": "Outlined" },
+        { "value": "minimal", "label": "Minimal" }
+      ],
+      "default": "filled",
+      "label": "CTA Style"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "default": "#000000",
+      "label": "CTA Background"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "default": "#FFFFFF",
+      "label": "CTA Text Color"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "label": "CTA Font Size"
+    },
+    {
+      "type": "range",
+      "id": "cta_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "CTA Border Radius"
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "default": "#FFFFFF",
+      "label": "Card Background"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 32,
+      "label": "Card Padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_shadow",
+      "default": true,
+      "label": "Show Card Shadow"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 0,
+      "label": "Card Border Radius"
     }
   ],
   "presets": [
@@ -28,28 +262,56 @@
 }
 {% endschema %}
 
-<section class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-muted">
+{%- assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0 -%}
+
+<style>
+  #Hero-{{ section.id }} .hero-heading {
+    font-size: {{ section.settings.heading_font_size_mobile }}px;
+  }
+  @media (min-width: 768px) {
+    #Hero-{{ section.id }} .hero-heading {
+      font-size: {{ section.settings.heading_font_size_desktop }}px;
+    }
+  }
+</style>
+
+<section id="Hero-{{ section.id }}" class="relative w-full flex justify-center overflow-hidden" style="min-height: {{ section.settings.hero_height }}; align-items: {{ section.settings.content_position }};">
+    
     <!-- Background Image -->
     <div class="absolute inset-0 w-full h-full">
         {%- if section.settings.image != blank -%}
-            <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.heading | escape }}" class="w-full h-full object-cover">
+            <picture>
+                {%- if section.settings.mobile_image != blank -%}
+                    <source media="(max-width: 767px)" srcset="{{ section.settings.mobile_image | image_url: width: 800 }}">
+                {%- endif -%}
+                <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.heading | escape }}" class="w-full h-full object-cover">
+            </picture>
         {%- else -%}
             {{ 'lifestyle-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
         {%- endif -%}
-        <!-- Subtle dark gradient overlay to ensure text legibility if needed, or keep stark -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        
+        <!-- Overlay -->
+        {%- if section.settings.overlay_gradient -%}
+            <div class="absolute inset-0 bg-gradient-to-t from-transparent" style="--tw-gradient-to: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_opacity }};"></div>
+            <!-- Additional gradient for bottom if content is at bottom -->
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent" style="--tw-gradient-to: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_opacity }};"></div>
+        {%- else -%}
+            <div class="absolute inset-0" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ overlay_opacity }};"></div>
+        {%- endif -%}
     </div>
 
     <!-- Content / Email Capture Card -->
-    <div class="relative z-10 w-full max-w-md mx-4 mt-auto mb-16 md:mb-24 bg-background p-8 shadow-2xl animate-fade-in-up">
-        <h2 class="text-3xl md:text-4xl font-semibold tracking-tighter uppercase mb-3">{{ section.settings.heading }}</h2>
-        <p class="text-sm text-muted-foreground mb-8 leading-relaxed">{{ section.settings.text }}</p>
+    <div class="relative z-10 w-full {{ section.settings.content_width }} mx-4 mt-24 mb-16 md:mb-24 animate-fade-in-up" 
+         style="background-color: {{ section.settings.card_bg_color }}; padding: {{ section.settings.card_padding }}px; border-radius: {{ section.settings.card_border_radius }}px; text-align: {{ section.settings.text_alignment }};{% if section.settings.card_shadow %} box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);{% endif %}">
+        
+        <h2 class="hero-heading tracking-tighter mb-3" style="font-weight: {{ section.settings.heading_font_weight }}; color: {{ section.settings.heading_color }};{% if section.settings.heading_uppercase %} text-transform: uppercase;{% endif %}">{{ section.settings.heading }}</h2>
+        <p class="mb-8 leading-relaxed" style="font-size: {{ section.settings.subtext_font_size }}px; color: {{ section.settings.subtext_color }};">{{ section.settings.text }}</p>
 
         {% form 'customer', id: 'HeroContactForm' %}
             <input type="hidden" name="contact[tags]" value="newsletter, waitlist">
             
             {%- if form.posted_successfully? -%}
-                <div class="p-4 bg-muted text-primary text-sm font-medium text-center uppercase tracking-wide">
+                <div class="p-4 bg-muted text-primary text-sm font-medium text-center uppercase tracking-wide" style="background-color: {{ section.settings.card_bg_color | color_darken: 5 }};">
                     Thank you. Check your inbox.
                 </div>
             {%- else -%}
@@ -62,12 +324,28 @@
                 <div class="flex flex-col gap-4">
                     <input type="email" 
                            name="contact[email]" 
-                           class="w-full bg-background border-b border-border px-0 py-3 text-sm focus:border-primary focus:ring-0 transition-colors placeholder:text-muted-foreground" 
+                           class="w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors" 
+                           style="border-color: {{ section.settings.subtext_color }}; color: {{ section.settings.heading_color }};"
                            placeholder="Email Address"
                            required>
                            
-                    <button type="submit" class="w-full bg-primary text-primary-foreground font-medium text-sm tracking-widest uppercase py-4 hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 group">
-                        <span>Subscribe</span>
+                    {%- assign button_border = 'none' -%}
+                    {%- assign button_bg = section.settings.cta_bg_color -%}
+                    {%- assign button_text = section.settings.cta_text_color -%}
+                    
+                    {%- if section.settings.cta_style == 'outlined' -%}
+                        {%- assign button_border = '1px solid ' | append: section.settings.cta_bg_color -%}
+                        {%- assign button_bg = 'transparent' -%}
+                        {%- assign button_text = section.settings.cta_bg_color -%}
+                    {%- elsif section.settings.cta_style == 'minimal' -%}
+                        {%- assign button_border = 'none' -%}
+                        {%- assign button_bg = 'transparent' -%}
+                        {%- assign button_text = section.settings.cta_bg_color -%}
+                    {%- endif -%}
+                           
+                    <button type="submit" class="w-full font-medium tracking-widest uppercase py-4 transition-colors flex items-center justify-center gap-2 group hover:opacity-90"
+                            style="background-color: {{ button_bg }}; color: {{ button_text }}; border: {{ button_border }}; font-size: {{ section.settings.cta_font_size }}px; border-radius: {{ section.settings.cta_border_radius }}px;">
+                        <span>{{ section.settings.cta_text }}</span>
                         <span class="material-symbols-outlined text-sm font-light transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </button>
                 </div>

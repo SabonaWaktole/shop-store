@@ -3,6 +3,189 @@
   "name": "Luxury Footer",
   "settings": [
     {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "footer_layout",
+      "options": [
+        { "value": "2-column", "label": "2 Columns" },
+        { "value": "3-column", "label": "3 Columns" },
+        { "value": "4-column", "label": "4 Columns" }
+      ],
+      "default": "3-column",
+      "label": "Footer Layout"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64,
+      "label": "Top Padding"
+    },
+    {
+      "type": "range",
+      "id": "footer_padding_bottom",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32,
+      "label": "Bottom Padding"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "footer_bg_color",
+      "default": "#FFFFFF",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "footer_text_color",
+      "default": "#000000",
+      "label": "Text Color"
+    },
+    {
+      "type": "color",
+      "id": "footer_heading_color",
+      "default": "#6B7280",
+      "label": "Heading Color"
+    },
+    {
+      "type": "color",
+      "id": "footer_link_color",
+      "default": "#000000",
+      "label": "Link Color"
+    },
+    {
+      "type": "color",
+      "id": "footer_link_hover_color",
+      "default": "#6B7280",
+      "label": "Link Hover Color"
+    },
+    {
+      "type": "color",
+      "id": "footer_border_color",
+      "default": "#E5E7EB",
+      "label": "Border Color"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "footer_heading_font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "label": "Heading Font Size"
+    },
+    {
+      "type": "select",
+      "id": "footer_heading_font_weight",
+      "options": [
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "500",
+      "label": "Heading Font Weight"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_heading_uppercase",
+      "default": true,
+      "label": "Uppercase Headings"
+    },
+    {
+      "type": "range",
+      "id": "footer_link_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "label": "Link Font Size"
+    },
+    {
+      "type": "range",
+      "id": "footer_copyright_font_size",
+      "min": 10,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "label": "Copyright Font Size"
+    },
+    {
+      "type": "header",
+      "content": "Social"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_social",
+      "default": true,
+      "label": "Show Social Section"
+    },
+    {
+      "type": "range",
+      "id": "footer_social_icon_size",
+      "min": 14,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 20,
+      "label": "Social Icon Size"
+    },
+    {
+      "type": "color",
+      "id": "footer_social_color",
+      "default": "#000000",
+      "label": "Social Icon Color"
+    },
+    {
+      "type": "color",
+      "id": "footer_social_hover_color",
+      "default": "#6B7280",
+      "label": "Social Hover Color"
+    },
+    {
+      "type": "range",
+      "id": "footer_social_spacing",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16,
+      "label": "Social Icon Spacing"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_newsletter",
+      "default": true,
+      "label": "Show Newsletter"
+    },
+    {
       "type": "text",
       "id": "newsletter_heading",
       "label": "Newsletter Heading",
@@ -15,6 +198,47 @@
       "default": "Subscribe to receive updates on exclusive releases, early access, and editorial content."
     },
     {
+      "type": "range",
+      "id": "newsletter_heading_font_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 24,
+      "label": "Newsletter Heading Size"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_text",
+      "default": "Subscribe",
+      "label": "Button Text"
+    },
+    {
+      "type": "header",
+      "content": "Footer Extras"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_payment_icons",
+      "default": false,
+      "label": "Show Payment Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer Logo"
+    },
+    {
+      "type": "range",
+      "id": "footer_logo_width",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 120,
+      "label": "Footer Logo Width"
+    },
+    {
       "type": "link_list",
       "id": "footer_menu",
       "default": "footer",
@@ -24,78 +248,130 @@
 }
 {% endschema %}
 
-<footer class="bg-background border-t border-border pt-16 pb-8 px-4 md:px-8 mt-24">
-    <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 mb-16">
+{%- assign grid_cols = 'md:grid-cols-12' -%}
+{%- assign newsletter_span = 'lg:col-span-6' -%}
+{%- assign links_span = 'lg:col-span-3' -%}
+{%- assign social_span = 'lg:col-span-3' -%}
+
+{%- if section.settings.footer_layout == '2-column' -%}
+  {%- assign newsletter_span = 'lg:col-span-6' -%}
+  {%- assign links_span = 'lg:col-span-6' -%}
+  {%- assign social_span = 'hidden' -%}
+{%- elsif section.settings.footer_layout == '4-column' -%}
+  {%- assign newsletter_span = 'lg:col-span-4' -%}
+  {%- assign links_span = 'lg:col-span-4' -%}
+  {%- assign social_span = 'lg:col-span-4' -%}
+{%- endif -%}
+
+<style>
+  .footer-link-hover {
+    color: {{ section.settings.footer_link_color }};
+  }
+  .footer-link-hover:hover {
+    color: {{ section.settings.footer_link_hover_color }};
+  }
+  .footer-social-hover {
+    color: {{ section.settings.footer_social_color }};
+  }
+  .footer-social-hover:hover {
+    color: {{ section.settings.footer_social_hover_color }};
+  }
+</style>
+
+<footer class="border-t mt-24" style="background-color: {{ section.settings.footer_bg_color }}; color: {{ section.settings.footer_text_color }}; border-color: {{ section.settings.footer_border_color }}; padding-top: {{ section.settings.footer_padding_top }}px; padding-bottom: {{ section.settings.footer_padding_bottom }}px;">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-8">
         
-        <!-- Newsletter Signup (High Priority for Conversion) -->
-        <div class="md:col-span-12 lg:col-span-6 flex flex-col gap-6">
-            <div>
-                <h3 class="text-2xl font-semibold tracking-tighter uppercase mb-2">{{ section.settings.newsletter_heading }}</h3>
-                <p class="text-sm text-muted-foreground">{{ section.settings.newsletter_text }}</p>
+        {%- if section.settings.footer_logo != blank -%}
+          <div class="mb-12">
+            <img src="{{ section.settings.footer_logo | image_url: width: 400 }}" alt="{{ shop.name }}" style="width: {{ section.settings.footer_logo_width }}px; height: auto;">
+          </div>
+        {%- endif -%}
+
+        <div class="grid grid-cols-1 {{ grid_cols }} gap-12 lg:gap-24 mb-16">
+            
+            <!-- Newsletter Signup -->
+            {%- if section.settings.footer_show_newsletter -%}
+            <div class="md:col-span-12 {{ newsletter_span }} flex flex-col gap-6">
+                <div>
+                    <h3 class="font-semibold tracking-tighter uppercase mb-2" style="font-size: {{ section.settings.newsletter_heading_font_size }}px;">{{ section.settings.newsletter_heading }}</h3>
+                    <p style="color: {{ section.settings.footer_text_color }};">{{ section.settings.newsletter_text }}</p>
+                </div>
+                
+                {% form 'customer', id: 'FooterContactForm', class: 'max-w-md w-full' %}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    
+                    {%- if form.posted_successfully? -%}
+                        <div class="font-medium uppercase tracking-wide" style="color: {{ section.settings.footer_heading_color }};">
+                            Successfully subscribed.
+                        </div>
+                    {%- else -%}
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input type="email" 
+                                   name="contact[email]" 
+                                   class="flex-1 bg-transparent border-b px-0 py-3 focus:ring-0 transition-colors" 
+                                   style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_link_font_size }}px;"
+                                   placeholder="Email Address"
+                                   required>
+                            <button type="submit" class="font-medium uppercase tracking-widest px-8 py-3 transition-colors flex-shrink-0" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
+                                {{ section.settings.newsletter_button_text }}
+                            </button>
+                        </div>
+                        {%- if form.errors -%}
+                            <div class="text-error text-xs mt-2">
+                                {{ form.errors | default_errors }}
+                            </div>
+                        {%- endif -%}
+                    {%- endif -%}
+                {% endform %}
+            </div>
+            {%- endif -%}
+
+            <!-- Links -->
+            <div class="md:col-span-6 {{ links_span }}">
+                <h4 class="tracking-widest mb-6" style="color: {{ section.settings.footer_heading_color }}; font-size: {{ section.settings.footer_heading_font_size }}px; font-weight: {{ section.settings.footer_heading_font_weight }};{% if section.settings.footer_heading_uppercase %} text-transform: uppercase;{% endif %}">Information</h4>
+                <ul class="flex flex-col gap-4">
+                    {%- if section.settings.footer_menu != blank -%}
+                        {%- for link in linklists[section.settings.footer_menu].links -%}
+                            <li>
+                                <a href="{{ link.url }}" class="transition-colors footer-link-hover" style="font-size: {{ section.settings.footer_link_font_size }}px;">{{ link.title }}</a>
+                            </li>
+                        {%- endfor -%}
+                    {%- else -%}
+                        <li><a href="#" class="transition-colors footer-link-hover" style="font-size: {{ section.settings.footer_link_font_size }}px;">Shipping & Returns</a></li>
+                        <li><a href="#" class="transition-colors footer-link-hover" style="font-size: {{ section.settings.footer_link_font_size }}px;">Terms & Conditions</a></li>
+                        <li><a href="#" class="transition-colors footer-link-hover" style="font-size: {{ section.settings.footer_link_font_size }}px;">Privacy Policy</a></li>
+                        <li><a href="#" class="transition-colors footer-link-hover" style="font-size: {{ section.settings.footer_link_font_size }}px;">Contact</a></li>
+                    {%- endif -%}
+                </ul>
             </div>
             
-            {% form 'customer', id: 'FooterContactForm', class: 'max-w-md w-full' %}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                
-                {%- if form.posted_successfully? -%}
-                    <div class="text-sm font-medium text-primary uppercase tracking-wide">
-                        Successfully subscribed.
-                    </div>
-                {%- else -%}
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <input type="email" 
-                               name="contact[email]" 
-                               class="flex-1 bg-background border-b border-border px-0 py-3 text-sm focus:border-primary focus:ring-0 transition-colors placeholder:text-muted-foreground" 
-                               placeholder="Email Address"
-                               required>
-                        <button type="submit" class="bg-primary text-primary-foreground text-xs font-medium uppercase tracking-widest px-8 py-3 hover:bg-primary/90 transition-colors flex-shrink-0">
-                            Subscribe
-                        </button>
-                    </div>
-                    {%- if form.errors -%}
-                        <div class="text-error text-xs mt-2">
-                            {{ form.errors | default_errors }}
-                        </div>
-                    {%- endif -%}
-                {%- endif -%}
-            {% endform %}
+            <!-- Socials -->
+            {%- if section.settings.footer_show_social -%}
+            <div class="md:col-span-6 {{ social_span }}">
+                <h4 class="tracking-widest mb-6" style="color: {{ section.settings.footer_heading_color }}; font-size: {{ section.settings.footer_heading_font_size }}px; font-weight: {{ section.settings.footer_heading_font_weight }};{% if section.settings.footer_heading_uppercase %} text-transform: uppercase;{% endif %}">Social</h4>
+                <ul class="flex flex-col" style="gap: {{ section.settings.footer_social_spacing }}px;">
+                    <li><a href="#" class="transition-colors footer-social-hover flex items-center gap-2" style="font-size: {{ section.settings.footer_link_font_size }}px;"><span class="material-symbols-outlined" style="font-size: {{ section.settings.footer_social_icon_size }}px;">photo_camera</span> Instagram</a></li>
+                    <li><a href="#" class="transition-colors footer-social-hover flex items-center gap-2" style="font-size: {{ section.settings.footer_link_font_size }}px;"><span class="material-symbols-outlined" style="font-size: {{ section.settings.footer_social_icon_size }}px;">play_arrow</span> TikTok</a></li>
+                    <li><a href="#" class="transition-colors footer-social-hover flex items-center gap-2" style="font-size: {{ section.settings.footer_link_font_size }}px;"><span class="material-symbols-outlined" style="font-size: {{ section.settings.footer_social_icon_size }}px;">chat</span> Twitter</a></li>
+                </ul>
+            </div>
+            {%- endif -%}
         </div>
 
-        <!-- Links -->
-        <div class="md:col-span-6 lg:col-span-3">
-            <h4 class="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">Information</h4>
-            <ul class="flex flex-col gap-4">
-                {%- if section.settings.footer_menu != blank -%}
-                    {%- for link in linklists[section.settings.footer_menu].links -%}
-                        <li>
-                            <a href="{{ link.url }}" class="text-sm text-primary hover:text-muted-foreground transition-colors">{{ link.title }}</a>
-                        </li>
-                    {%- endfor -%}
-                {%- else -%}
-                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Shipping & Returns</a></li>
-                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Terms & Conditions</a></li>
-                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Contact</a></li>
-                {%- endif -%}
-            </ul>
-        </div>
-        
-        <!-- Socials -->
-        <div class="md:col-span-6 lg:col-span-3">
-            <h4 class="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">Social</h4>
-            <ul class="flex flex-col gap-4">
-                <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Instagram</a></li>
-                <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">TikTok</a></li>
-                <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Twitter</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="max-w-[1600px] mx-auto border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground uppercase tracking-widest">
-        <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All Rights Reserved.</p>
-        <div class="flex gap-4">
-            <span>Powered by Shopify</span>
+        <!-- Copyright -->
+        <div class="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 uppercase tracking-widest" style="border-color: {{ section.settings.footer_border_color }}; font-size: {{ section.settings.footer_copyright_font_size }}px; color: {{ section.settings.footer_heading_color }};">
+            <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All Rights Reserved.</p>
+            
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+              {%- if section.settings.footer_show_payment_icons -%}
+                <div class="flex gap-2">
+                  {%- for type in shop.enabled_payment_types -%}
+                    {{ type | payment_type_svg_tag: class: 'h-6' }}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+              <span>Powered by Shopify</span>
+            </div>
         </div>
     </div>
 </footer>

@@ -1,26 +1,17 @@
 {% schema %}
 {
-  "name": "Luxury Featured Col",
+  "name": "Luxury Featured Products",
   "settings": [
     {
       "type": "text",
       "id": "title",
       "label": "Heading",
-      "default": "PRE-FALL 2026"
+      "default": "CURATED PRODUCTS"
     },
     {
-      "type": "collection",
-      "id": "collection",
-      "label": "Collection"
-    },
-    {
-      "type": "range",
-      "id": "products_to_show",
-      "min": 4,
-      "max": 12,
-      "step": 4,
-      "default": 4,
-      "label": "Maximum products to show"
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Link"
     },
     {
       "type": "header",
@@ -59,30 +50,6 @@
     },
     {
       "type": "header",
-      "content": "Spacing"
-    },
-    {
-      "type": "range",
-      "id": "section_padding_top",
-      "min": 20,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 96,
-      "label": "Top Padding"
-    },
-    {
-      "type": "range",
-      "id": "section_padding_bottom",
-      "min": 20,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 96,
-      "label": "Bottom Padding"
-    },
-    {
-      "type": "header",
       "content": "Colors"
     },
     {
@@ -111,49 +78,7 @@
     },
     {
       "type": "header",
-      "content": "Heading Typography"
-    },
-    {
-      "type": "range",
-      "id": "heading_font_size",
-      "min": 16,
-      "max": 48,
-      "step": 2,
-      "unit": "px",
-      "default": 24,
-      "label": "Heading Font Size"
-    },
-    {
-      "type": "select",
-      "id": "heading_font_weight",
-      "options": [
-        { "value": "400", "label": "400" },
-        { "value": "500", "label": "500" },
-        { "value": "600", "label": "600" },
-        { "value": "700", "label": "700" }
-      ],
-      "default": "600",
-      "label": "Heading Font Weight"
-    },
-    {
-      "type": "checkbox",
-      "id": "heading_uppercase",
-      "default": true,
-      "label": "Uppercase Heading"
-    },
-    {
-      "type": "range",
-      "id": "view_all_font_size",
-      "min": 10,
-      "max": 16,
-      "step": 1,
-      "unit": "px",
-      "default": 12,
-      "label": "View All Font Size"
-    },
-    {
-      "type": "header",
-      "content": "Product Cards"
+      "content": "Card Display"
     },
     {
       "type": "select",
@@ -210,65 +135,34 @@
       "label": "Show Vendor"
     },
     {
-      "type": "header",
-      "content": "Badges"
-    },
-    {
       "type": "checkbox",
       "id": "show_badges",
       "default": true,
-      "label": "Show Badges"
-    },
+      "label": "Show Drop Badges"
+    }
+  ],
+  "blocks": [
     {
-      "type": "range",
-      "id": "badge_font_size",
-      "min": 8,
-      "max": 14,
-      "step": 1,
-      "unit": "px",
-      "default": 10,
-      "label": "Badge Font Size"
-    },
-    {
-      "type": "color",
-      "id": "badge_preorder_bg",
-      "default": "#000000",
-      "label": "Preorder Badge BG"
-    },
-    {
-      "type": "color",
-      "id": "badge_preorder_text",
-      "default": "#FFFFFF",
-      "label": "Preorder Badge Text"
-    },
-    {
-      "type": "color",
-      "id": "badge_soldout_bg",
-      "default": "#F3F4F6",
-      "label": "Sold Out Badge BG"
-    },
-    {
-      "type": "color",
-      "id": "badge_soldout_text",
-      "default": "#6B7280",
-      "label": "Sold Out Badge Text"
-    },
-    {
-      "type": "color",
-      "id": "badge_new_bg",
-      "default": "#000000",
-      "label": "New Badge BG"
-    },
-    {
-      "type": "color",
-      "id": "badge_new_text",
-      "default": "#FFFFFF",
-      "label": "New Badge Text"
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Luxury Featured Collection"
+      "name": "Luxury Featured Products",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
     }
   ]
 }
@@ -281,20 +175,23 @@
   {%- assign grid_desktop = 'lg:grid-cols-3' -%}
 {%- endif -%}
 
-<section class="w-full" style="background-color: {{ section.settings.section_bg_color }}; color: {{ section.settings.section_text_color }}; padding-top: {{ section.settings.section_padding_top }}px; padding-bottom: {{ section.settings.section_padding_bottom }}px;">
+<section class="w-full py-16" style="background-color: {{ section.settings.section_bg_color }}; color: {{ section.settings.section_text_color }};">
     <div class="max-w-[1600px] mx-auto px-4 md:px-8">
         <div class="flex items-end justify-between mb-12 border-b pb-4" style="border-color: {{ section.settings.section_border_color }};">
-            <h2 class="tracking-tighter" style="font-size: {{ section.settings.heading_font_size }}px; font-weight: {{ section.settings.heading_font_weight }};{% if section.settings.heading_uppercase %} text-transform: uppercase;{% endif %}">{{ section.settings.title }}</h2>
-            <a href="{% if section.settings.collection != blank %}{{ collections[section.settings.collection].url }}{% else %}/collections/all{% endif %}" class="font-medium tracking-widest uppercase transition-colors hover:opacity-70" style="font-size: {{ section.settings.view_all_font_size }}px; color: {{ section.settings.muted_text_color }};">
+            <h2 class="tracking-tighter text-2xl font-semibold uppercase">{{ section.settings.title }}</h2>
+            {%- if section.settings.view_all_link != blank -%}
+            <a href="{{ section.settings.view_all_link }}" class="font-medium tracking-widest uppercase transition-colors hover:opacity-70 text-xs" style="color: {{ section.settings.muted_text_color }};">
                 View All
             </a>
+            {%- endif -%}
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 {{ grid_desktop }}" style="column-gap: {{ section.settings.grid_gap_x }}px; row-gap: {{ section.settings.grid_gap_y }}px;">
-            {%- assign collection = collections[section.settings.collection] -%}
-            {%- if section.settings.collection != blank and collection.products_count > 0 -%}
-                {%- for product in collection.products limit: section.settings.products_to_show -%}
-                    <div class="group relative">
+            {%- for block in section.blocks -%}
+                {%- assign product = block.settings.product -%}
+                
+                <div class="group relative" {{ block.shopify_attributes }}>
+                    {%- if product != blank -%}
                         <a href="{{ product.url }}" class="block overflow-hidden relative" style="aspect-ratio: {{ section.settings.card_aspect_ratio }};">
                             {%- if product.featured_image -%}
                                 <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
@@ -326,27 +223,20 @@
                             </a>
                             <span style="font-size: {{ section.settings.card_price_font_size }}px; color: {{ section.settings.muted_text_color }};">{{ product.price | money }}</span>
                         </div>
-                    </div>
-                {%- endfor -%}
-            {%- else -%}
-                <!-- Fallback -->
-                {%- for i in (1..4) -%}
-                    <div class="group relative">
-                        <div class="block overflow-hidden relative" style="aspect-ratio: {{ section.settings.card_aspect_ratio }};">
-                            {{ 'product-' | append: i | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
-                            {%- if section.settings.show_badges -%}
-                            <div class="absolute top-4 left-4">
-                                <span class="font-medium tracking-widest uppercase px-3 py-1" style="background-color: {{ section.settings.badge_preorder_bg }}; color: {{ section.settings.badge_preorder_text }}; font-size: {{ section.settings.badge_font_size }}px;">Pre-order</span>
-                            </div>
-                            {%- endif -%}
+                    {%- else -%}
+                        <!-- Fallback block -->
+                        <div class="block overflow-hidden relative bg-muted/20" style="aspect-ratio: {{ section.settings.card_aspect_ratio }};">
+                            <div class="flex items-center justify-center w-full h-full text-xs tracking-widest text-muted-foreground uppercase">Select Product</div>
                         </div>
                         <div class="mt-4 flex flex-col gap-1">
-                            <span class="tracking-wide" style="font-size: {{ section.settings.card_title_font_size }}px; font-weight: {{ section.settings.card_title_font_weight }};">Luxury Garment {{ i }}</span>
-                            <span style="font-size: {{ section.settings.card_price_font_size }}px; color: {{ section.settings.muted_text_color }};">$295.00</span>
+                            <span class="tracking-wide" style="font-size: {{ section.settings.card_title_font_size }}px; font-weight: {{ section.settings.card_title_font_weight }};">Product Title</span>
+                            <span style="font-size: {{ section.settings.card_price_font_size }}px; color: {{ section.settings.muted_text_color }};">$0.00</span>
                         </div>
-                    </div>
-                {%- endfor -%}
-            {%- endif -%}
+                    {%- endif -%}
+                </div>
+            {%- else -%}
+                <p class="col-span-full py-12 text-center" style="color: {{ section.settings.muted_text_color }};">No products selected. Add product blocks below.</p>
+            {%- endfor -%}
         </div>
     </div>
 </section>

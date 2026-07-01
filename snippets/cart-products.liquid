@@ -201,6 +201,7 @@
                       >
                         {{- item.product.title -}}
                       </a>
+                      {% render 'drop-state-engine', product: item.product, context: 'cart_badge' %}
                       {% render 'cart-disclosure-tooltip',
                         product: item.product,
                         unique_id: cart_disclosure_unique_id,
@@ -291,6 +292,7 @@
                         </ul>
                       {%- endif -%}
                     {%- endif -%}
+                    {% render 'drop-state-engine', product: item.product, context: 'cart_message' %}
                   </div>
 
                   <div class="cart-items__unit-price-wrapper">

@@ -10,66 +10,389 @@
       "step": 4,
       "default": 16,
       "label": "Products per page"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "grid_columns_desktop",
+      "options": [
+        { "value": "2", "label": "2 Columns" },
+        { "value": "3", "label": "3 Columns" },
+        { "value": "4", "label": "4 Columns" }
+      ],
+      "default": "4",
+      "label": "Grid Columns (Desktop)"
+    },
+    {
+      "type": "select",
+      "id": "grid_columns_mobile",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "2",
+      "label": "Grid Columns (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_x",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24,
+      "label": "Horizontal Gap"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_y",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "label": "Vertical Gap"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "label": "Top Padding"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 96,
+      "label": "Bottom Padding"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "default": "#FFFFFF",
+      "label": "Section Background"
+    },
+    {
+      "type": "color",
+      "id": "section_text_color",
+      "default": "#000000",
+      "label": "Section Text Color"
+    },
+    {
+      "type": "color",
+      "id": "section_border_color",
+      "default": "#E5E7EB",
+      "label": "Border Color"
+    },
+    {
+      "type": "header",
+      "content": "Collection Header"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36,
+      "label": "Title Font Size"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "options": [
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "600",
+      "label": "Title Font Weight"
+    },
+    {
+      "type": "checkbox",
+      "id": "title_uppercase",
+      "default": true,
+      "label": "Uppercase Title"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "label": "Description Font Size"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "default": "#6B7280",
+      "label": "Description Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "default": true,
+      "label": "Show Collection Description"
+    },
+    {
+      "type": "header",
+      "content": "Product Cards"
+    },
+    {
+      "type": "select",
+      "id": "card_aspect_ratio",
+      "options": [
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "4/3", "label": "Landscape (4:3)" },
+        { "value": "auto", "label": "Auto" }
+      ],
+      "default": "3/4",
+      "label": "Card Image Ratio"
+    },
+    {
+      "type": "select",
+      "id": "card_image_fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover",
+      "label": "Image Fit"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_second_image",
+      "default": true,
+      "label": "Show Second Image on Hover"
+    },
+    {
+      "type": "range",
+      "id": "card_title_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "label": "Product Title Font Size"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_weight",
+      "options": [
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" }
+      ],
+      "default": "500",
+      "label": "Product Title Font Weight"
+    },
+    {
+      "type": "range",
+      "id": "card_price_font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "label": "Price Font Size"
+    },
+    {
+      "type": "color",
+      "id": "card_price_color",
+      "default": "#6B7280",
+      "label": "Price Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_show_vendor",
+      "default": false,
+      "label": "Show Vendor"
+    },
+    {
+      "type": "range",
+      "id": "card_info_spacing",
+      "min": 2,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 4,
+      "label": "Card Info Spacing"
+    },
+    {
+      "type": "header",
+      "content": "Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "default": true,
+      "label": "Show Badges"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 10,
+      "label": "Badge Font Size"
+    },
+    {
+      "type": "color",
+      "id": "badge_preorder_bg",
+      "default": "#000000",
+      "label": "Preorder Badge Background"
+    },
+    {
+      "type": "color",
+      "id": "badge_preorder_text",
+      "default": "#FFFFFF",
+      "label": "Preorder Badge Text"
+    },
+    {
+      "type": "color",
+      "id": "badge_soldout_bg",
+      "default": "#F3F4F6",
+      "label": "Sold Out Badge Background"
+    },
+    {
+      "type": "color",
+      "id": "badge_soldout_text",
+      "default": "#6B7280",
+      "label": "Sold Out Badge Text"
+    },
+    {
+      "type": "color",
+      "id": "badge_new_bg",
+      "default": "#000000",
+      "label": "New Badge Background"
+    },
+    {
+      "type": "color",
+      "id": "badge_new_text",
+      "default": "#FFFFFF",
+      "label": "New Badge Text"
+    },
+    {
+      "type": "header",
+      "content": "Button Overrides"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_buttons",
+      "default": false,
+      "label": "Override Global Button Style"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_override",
+      "default": "#000000",
+      "label": "Button Background"
+    },
+    {
+      "type": "color",
+      "id": "button_text_override",
+      "default": "#FFFFFF",
+      "label": "Button Text Color"
     }
   ]
 }
 {% endschema %}
 
-<section class="max-w-[1600px] mx-auto px-4 md:px-8 py-12 lg:py-24">
-    <!-- Header -->
-    <div class="mb-12 border-b border-border pb-8">
-        <h1 class="text-3xl md:text-4xl font-semibold tracking-tighter uppercase mb-4">{{ collection.title }}</h1>
-        {%- if collection.description != blank -%}
-            <div class="text-sm text-muted-foreground max-w-2xl">{{ collection.description }}</div>
-        {%- endif -%}
-    </div>
+{%- assign grid_mobile = 'grid-cols-1' -%}
+{%- if section.settings.grid_columns_mobile == '2' -%}
+  {%- assign grid_mobile = 'grid-cols-2' -%}
+{%- endif -%}
 
-    <!-- Grid -->
-    {% paginate collection.products by section.settings.products_per_page %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-            {%- for product in collection.products -%}
-                <div class="group relative">
-                    <a href="{{ product.url }}" class="block aspect-portrait bg-muted overflow-hidden relative">
-                        {%- if product.featured_image -%}
-                            <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}">
-                            {%- if product.images[1] -%}
-                                <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100" src="{{ product.images[1] | image_url: width: 600 }}" alt="{{ product.images[1].alt | escape }}">
-                            {%- else -%}
-                                <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}">
-                            {%- endif -%}
-                        {%- else -%}
-                            {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
-                        {%- endif -%}
-                        
-                        <div class="absolute top-4 left-4 flex flex-col gap-2">
-                            {%- if product.tags contains 'preorder' -%}
-                                <span class="bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase px-3 py-1">Pre-order</span>
-                            {%- elsif product.available == false -%}
-                                <span class="bg-muted text-muted-foreground border border-border text-[10px] font-medium tracking-widest uppercase px-3 py-1">Sold Out</span>
-                            {%- elsif product.tags contains 'new' -%}
-                                <span class="bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase px-3 py-1">New</span>
-                            {%- endif -%}
-                        </div>
-                    </a>
-                    
-                    <div class="mt-4 flex flex-col gap-1">
-                        <a href="{{ product.url }}" class="text-sm font-medium tracking-wide text-primary hover:underline underline-offset-4">
-                            {{ product.title }}
-                        </a>
-                        <span class="text-xs text-muted-foreground">{{ product.price | money }}</span>
-                    </div>
-                </div>
-            {%- else -%}
-                <div class="col-span-full py-16 text-center text-muted-foreground">
-                    <p>No products found in this collection.</p>
-                </div>
-            {%- endfor -%}
+{%- assign grid_desktop = 'lg:grid-cols-4' -%}
+{%- if section.settings.grid_columns_desktop == '2' -%}
+  {%- assign grid_desktop = 'lg:grid-cols-2' -%}
+{%- elsif section.settings.grid_columns_desktop == '3' -%}
+  {%- assign grid_desktop = 'lg:grid-cols-3' -%}
+{%- endif -%}
+
+<section class="w-full" style="background-color: {{ section.settings.section_bg_color }}; color: {{ section.settings.section_text_color }}; padding-top: {{ section.settings.section_padding_top }}px; padding-bottom: {{ section.settings.section_padding_bottom }}px;">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-8">
+        <!-- Header -->
+        <div class="mb-12 border-b pb-8" style="border-color: {{ section.settings.section_border_color }};">
+            <h1 class="tracking-tighter mb-4" style="font-size: {{ section.settings.title_font_size }}px; font-weight: {{ section.settings.title_font_weight }};{% if section.settings.title_uppercase %} text-transform: uppercase;{% endif %}">{{ collection.title }}</h1>
+            {%- if section.settings.show_description and collection.description != blank -%}
+                <div class="max-w-2xl" style="font-size: {{ section.settings.description_font_size }}px; color: {{ section.settings.description_color }};">{{ collection.description }}</div>
+            {%- endif -%}
         </div>
 
-        {%- if paginate.pages > 1 -%}
-            <div class="mt-16 flex justify-center">
-                {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
+        <!-- Grid -->
+        {% paginate collection.products by section.settings.products_per_page %}
+            <div class="grid {{ grid_mobile }} sm:grid-cols-2 {{ grid_desktop }}" style="column-gap: {{ section.settings.grid_gap_x }}px; row-gap: {{ section.settings.grid_gap_y }}px;">
+                {%- for product in collection.products -%}
+                    <div class="group relative">
+                        <a href="{{ product.url }}" class="block overflow-hidden relative" style="{% if section.settings.card_aspect_ratio != 'auto' %}aspect-ratio: {{ section.settings.card_aspect_ratio }};{% endif %}">
+                            {%- if product.featured_image -%}
+                                <img class="absolute inset-0 w-full h-full transition-opacity duration-500 group-hover:opacity-0" style="object-fit: {{ section.settings.card_image_fit }};" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+                                {%- if section.settings.show_second_image -%}
+                                    {%- if product.images[1] -%}
+                                        <img class="absolute inset-0 w-full h-full transition-opacity duration-500 opacity-0 group-hover:opacity-100" style="object-fit: {{ section.settings.card_image_fit }};" src="{{ product.images[1] | image_url: width: 600 }}" alt="{{ product.images[1].alt | escape }}" loading="lazy">
+                                    {%- else -%}
+                                        <img class="absolute inset-0 w-full h-full transition-opacity duration-500 opacity-0 group-hover:opacity-100" style="object-fit: {{ section.settings.card_image_fit }};" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+                                    {%- endif -%}
+                                {%- endif -%}
+                            {%- else -%}
+                                {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+                            {%- endif -%}
+                            
+                            {%- if section.settings.show_badges -%}
+                            <div class="absolute top-4 left-4 flex flex-col gap-2">
+                                {% render 'drop-state-engine', product: product, context: 'badge' %}
+                            </div>
+                            {%- endif -%}
+                        </a>
+                        
+                        <div class="flex flex-col" style="margin-top: {{ section.settings.card_info_spacing | plus: 12 }}px; gap: {{ section.settings.card_info_spacing }}px;">
+                            {%- if section.settings.card_show_vendor -%}
+                                <span class="text-xs tracking-widest uppercase" style="color: {{ section.settings.card_price_color }};">{{ product.vendor }}</span>
+                            {%- endif -%}
+                            <a href="{{ product.url }}" class="font-medium tracking-wide hover:underline underline-offset-4" style="font-size: {{ section.settings.card_title_font_size }}px; font-weight: {{ section.settings.card_title_font_weight }};">
+                                {{ product.title }}
+                            </a>
+                            <span style="font-size: {{ section.settings.card_price_font_size }}px; color: {{ section.settings.card_price_color }};">{{ product.price | money }}</span>
+                        </div>
+                    </div>
+                {%- else -%}
+                    <div class="col-span-full py-16 text-center" style="color: {{ section.settings.description_color }};">
+                        <p>No products found in this collection.</p>
+                    </div>
+                {%- endfor -%}
             </div>
-        {%- endif -%}
-    {% endpaginate %}
+
+            {%- if paginate.pages > 1 -%}
+                <div class="mt-16 flex justify-center">
+                    {{ paginate | default_pagination: next: 'Next &rarr;', previous: '&larr; Prev' }}
+                </div>
+            {%- endif -%}
+        {% endpaginate %}
+    </div>
 </section>

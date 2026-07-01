@@ -1,0 +1,221 @@
+{% schema %}
+{
+  "name": "Countdown Product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select Product"
+    },
+    {
+      "type": "text",
+      "id": "release_date",
+      "label": "Release Date (Fallback)",
+      "info": "Format: YYYY-MM-DD HH:MM:SS (e.g. 2026-08-15 12:00:00). Used only if product metafield drop.release_date is empty."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "UPCOMING DROP"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Product"
+    }
+  ]
+}
+{% endschema %}
+
+{%- assign product = section.settings.product -%}
+{%- assign explicit_date = section.settings.release_date -%}
+{%- assign final_release_date = product.metafields.drop.release_date.value | default: explicit_date -%}
+
+<section class="py-16 md:py-24 relative overflow-hidden" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};" data-section-id="{{ section.id }}">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Image Side -->
+            <div class="relative">
+                {%- if product != blank and product.featured_image -%}
+                    <a href="{{ product.url }}" class="block overflow-hidden" style="aspect-ratio: 3/4;">
+                        <img class="w-full h-full object-cover" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+                    </a>
+                {%- else -%}
+                    <div class="w-full bg-muted/20 flex items-center justify-center" style="aspect-ratio: 3/4;">
+                        <span class="text-xs tracking-widest uppercase opacity-50">Select Product</span>
+                    </div>
+                {%- endif -%}
+                
+                <div class="absolute top-4 left-4 flex flex-col gap-2" id="cd-badge-{{ section.id }}">
+                    {%- if product != blank -%}
+                        {% render 'drop-state-engine', product: product, context: 'badge', explicit_release_date: final_release_date %}
+                    {%- endif -%}
+                </div>
+            </div>
+
+            <!-- Content Side -->
+            <div class="flex flex-col justify-center">
+                <h3 class="text-sm font-medium tracking-widest uppercase mb-6 opacity-70">{{ section.settings.heading }}</h3>
+                
+                {%- if product != blank -%}
+                    <h2 class="text-4xl md:text-6xl tracking-tighter uppercase font-semibold mb-4">{{ product.title }}</h2>
+                    <p class="text-lg opacity-80 mb-8">{{ product.price | money }}</p>
+                    
+                    {%- assign is_locked = false -%}
+                    {%- capture lock_check -%}{% render 'drop-state-engine', product: product, context: 'is_locked', explicit_release_date: final_release_date %}{%- endcapture -%}
+                    {%- if lock_check contains 'true' -%}
+                      {%- assign is_locked = true -%}
+                    {%- endif -%}
+                    
+                    {%- if final_release_date != blank -%}
+                        <!-- Countdown Timer -->
+                        <div id="countdown-timer-{{ section.id }}" class="flex items-center gap-4 md:gap-8 font-serif tracking-tighter text-3xl md:text-5xl mb-12" data-target="{{ final_release_date }}">
+                            <div class="flex flex-col items-center">
+                                <span class="cd-days w-12 md:w-16">00</span>
+                                <span class="text-[10px] md:text-xs font-sans tracking-widest uppercase mt-2 opacity-50">Days</span>
+                            </div>
+                            <span class="opacity-30 pb-4">:</span>
+                            <div class="flex flex-col items-center">
+                                <span class="cd-hours w-12 md:w-16">00</span>
+                                <span class="text-[10px] md:text-xs font-sans tracking-widest uppercase mt-2 opacity-50">Hours</span>
+                            </div>
+                            <span class="opacity-30 pb-4">:</span>
+                            <div class="flex flex-col items-center">
+                                <span class="cd-minutes w-12 md:w-16">00</span>
+                                <span class="text-[10px] md:text-xs font-sans tracking-widest uppercase mt-2 opacity-50">Mins</span>
+                            </div>
+                            <span class="opacity-30 pb-4 hidden sm:block">:</span>
+                            <div class="flex flex-col items-center hidden sm:flex">
+                                <span class="cd-seconds w-12 md:w-16">00</span>
+                                <span class="text-[10px] md:text-xs font-sans tracking-widest uppercase mt-2 opacity-50">Secs</span>
+                            </div>
+                        </div>
+                    {%- endif -%}
+
+                    <div id="cd-action-{{ section.id }}">
+                        {%- if is_locked -%}
+                            <!-- Locked Button -->
+                            <button disabled class="w-full md:w-auto px-12 py-4 tracking-widest uppercase font-medium text-sm transition-opacity opacity-50 cursor-not-allowed" style="background-color: {{ settings.button_bg_color | default: '#000000' }}; color: {{ settings.button_text_color | default: '#FFFFFF' }};">
+                                {% render 'drop-state-engine', product: product, context: 'button_text', explicit_release_date: final_release_date %}
+                            </button>
+                        {%- else -%}
+                            <!-- Add to Cart Form -->
+                            {%- form 'product', product -%}
+                                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                                <button type="submit" class="w-full md:w-auto px-12 py-4 tracking-widest uppercase font-medium text-sm transition-opacity hover:opacity-80" style="background-color: {{ settings.button_bg_color | default: '#000000' }}; color: {{ settings.button_text_color | default: '#FFFFFF' }};">
+                                    {% render 'drop-state-engine', product: product, context: 'button_text', explicit_release_date: final_release_date %}
+                                </button>
+                            {%- endform -%}
+                        {%- endif -%}
+                    </div>
+                    
+                    <!-- Hidden form to swap in when countdown hits zero -->
+                    <template id="cd-unlocked-form-{{ section.id }}">
+                        {%- form 'product', product -%}
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <button type="submit" class="w-full md:w-auto px-12 py-4 tracking-widest uppercase font-medium text-sm transition-opacity hover:opacity-80" style="background-color: {{ settings.button_bg_color | default: '#000000' }}; color: {{ settings.button_text_color | default: '#FFFFFF' }};">
+                                ADD TO CART
+                            </button>
+                        {%- endform -%}
+                    </template>
+                    
+                    <!-- Hidden badge to swap in when countdown hits zero -->
+                    <template id="cd-unlocked-badge-{{ section.id }}">
+                        <span class="font-medium tracking-widest uppercase px-3 py-1" style="background-color: {{ settings.drop_live_color | default: '#10B981' }}; color: #000000; font-size: 10px;">{{ settings.drop_live_label | default: 'LIVE NOW' }}</span>
+                    </template>
+
+                {%- else -%}
+                    <h2 class="text-4xl md:text-6xl tracking-tighter uppercase font-semibold mb-4">PRODUCT NAME</h2>
+                    <p class="text-lg opacity-80 mb-8">$0.00</p>
+                    <button disabled class="w-full md:w-auto px-12 py-4 tracking-widest uppercase font-medium text-sm transition-opacity opacity-50 cursor-not-allowed border" style="border-color: {{ section.settings.text_color }};">
+                        SELECT A PRODUCT
+                    </button>
+                {%- endif -%}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{%- if final_release_date != blank and is_locked -%}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const timer = document.getElementById('countdown-timer-{{ section.id }}');
+    if (!timer) return;
+    
+    // Replace hyphens with slashes for Safari compatibility if it's not a pure ISO string
+    let targetString = timer.dataset.target.replace(/-/g, '/');
+    if(timer.dataset.target.includes('T')) {
+        targetString = timer.dataset.target; // keep standard ISO
+    }
+    const targetDate = new Date(targetString).getTime();
+
+    const daysEl = timer.querySelector('.cd-days');
+    const hoursEl = timer.querySelector('.cd-hours');
+    const minutesEl = timer.querySelector('.cd-minutes');
+    const secondsEl = timer.querySelector('.cd-seconds');
+    
+    const actionContainer = document.getElementById('cd-action-{{ section.id }}');
+    const badgeContainer = document.getElementById('cd-badge-{{ section.id }}');
+    const unlockedFormTpl = document.getElementById('cd-unlocked-form-{{ section.id }}');
+    const unlockedBadgeTpl = document.getElementById('cd-unlocked-badge-{{ section.id }}');
+
+    let countdownInterval;
+
+    function unlockDrop() {
+        clearInterval(countdownInterval);
+        timer.style.display = 'none'; // hide timer
+        
+        // Swap CTA
+        if (actionContainer && unlockedFormTpl) {
+            actionContainer.innerHTML = unlockedFormTpl.innerHTML;
+        }
+        
+        // Swap Badge
+        if (badgeContainer && unlockedBadgeTpl) {
+            badgeContainer.innerHTML = unlockedBadgeTpl.innerHTML;
+        }
+    }
+
+    function update() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            unlockDrop();
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        if(daysEl) daysEl.innerText = days.toString().padStart(2, '0');
+        if(hoursEl) hoursEl.innerText = hours.toString().padStart(2, '0');
+        if(minutesEl) minutesEl.innerText = minutes.toString().padStart(2, '0');
+        if(secondsEl) secondsEl.innerText = seconds.toString().padStart(2, '0');
+    }
+
+    update();
+    if(targetDate > new Date().getTime()) {
+        countdownInterval = setInterval(update, 1000);
+    }
+});
+</script>
+{%- endif -%}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}" class="dark">
+<html lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,31 +9,125 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
 
-    {% render 'tailwind-config-public-equity' %}
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        /* Shopify specific fixes to play nice with Tailwind */
-        .shopify-section { width: 100%; }
-        [x-cloak] { display: none !important; }
+      :root {
+        /* Colors */
+        --color-background: {{ settings.color_palette.background | default: '#ffffff' }};
+        --color-foreground: {{ settings.color_palette.foreground | default: '#000000' }};
+        --color-accent: {{ settings.custom_accent_color | default: '#8B5CF6' }};
+        --color-hover: {{ settings.custom_hover_color | default: '#7C3AED' }};
+        --color-overlay: {{ settings.custom_overlay_color | default: '#000000' }};
+        --color-secondary-bg: {{ settings.custom_secondary_bg | default: '#F9FAFB' }};
+        --color-secondary-text: {{ settings.custom_secondary_text | default: '#6B7280' }};
+        --color-border: {{ settings.custom_border_color | default: '#E5E7EB' }};
+        --color-success: {{ settings.custom_success_color | default: '#10B981' }};
+        --color-error: {{ settings.custom_error_color | default: '#EF4444' }};
+        
+        /* Typography */
+        --font-size-base: {{ settings.type_size_paragraph | default: 14 }}px;
+        --font-size-button: {{ settings.button_font_size | default: '14px' }};
+        --font-weight-button: {{ settings.button_font_weight | default: 500 }};
+        --letter-spacing-button: {% if settings.button_letter_spacing == 'normal' %}0em{% elsif settings.button_letter_spacing == 'wide' %}0.05em{% else %}0.1em{% endif %};
+        
+        /* Spacing & Layout */
+        --container-width: {{ settings.global_container_width | default: '1400px' }};
+        --section-spacing: {% if settings.global_section_spacing == 'compact' %}40px{% elsif settings.global_section_spacing == 'spacious' %}120px{% else %}80px{% endif %};
+        --padding-horizontal: {{ settings.global_horizontal_padding | default: 24 }}px;
+        --grid-gap: {{ settings.global_grid_gap | default: 24 }}px;
+        --card-gap: {{ settings.global_card_gap | default: 16 }}px;
+        
+        /* Components */
+        --border-radius-global: {{ settings.global_border_radius | default: 8 }}px;
+        
+        /* Icons */
+        --icon-size-sm: {{ settings.global_icon_size_sm | default: 16 }}px;
+        --icon-size-md: {{ settings.global_icon_size_md | default: 24 }}px;
+        --icon-size-lg: {{ settings.global_icon_size_lg | default: 32 }}px;
+        --icon-color: {{ settings.global_icon_color | default: '#000000' }};
+        
+        /* Socials */
+        --social-icon-size: {{ settings.social_icon_size | default: 20 }}px;
+        --social-icon-color: {{ settings.social_icon_color | default: '#000000' }};
+        --social-icon-hover-color: {{ settings.social_icon_hover_color | default: '#8B5CF6' }};
+        --social-icon-spacing: {{ settings.social_icon_spacing | default: 12 }}px;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+      }
+      
+      /* Minimalist scrollbar */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--color-secondary-bg); }
+      ::-webkit-scrollbar-thumb { background: var(--color-border); }
+      ::-webkit-scrollbar-thumb:hover { background: var(--color-secondary-text); }
+
+      /* Shopify specific fixes to play nice with Tailwind */
+      .shopify-section { width: 100%; }
+      [x-cloak] { display: none !important; }
+      
+      /* Utility for aspect ratios */
+      .aspect-portrait { aspect-ratio: 3/4; }
+      .aspect-landscape { aspect-ratio: 16/9; }
+      .aspect-square { aspect-ratio: 1/1; }
     </style>
 
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: "var(--color-background)",
+                        foreground: "var(--color-foreground)",
+                        muted: "var(--color-secondary-bg)",
+                        "muted-foreground": "var(--color-secondary-text)",
+                        border: "var(--color-border)",
+                        primary: "var(--color-foreground)",
+                        "primary-foreground": "var(--color-background)",
+                        accent: "var(--color-accent)",
+                        hover: "var(--color-hover)",
+                        error: "var(--color-error)",
+                        success: "var(--color-success)"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        serif: ["Georgia", "serif"]
+                    },
+                    spacing: {
+                        "gutter": "var(--padding-horizontal)",
+                        "section": "var(--section-spacing)"
+                    },
+                    maxWidth: {
+                        "container": "var(--container-width)"
+                    },
+                    borderRadius: {
+                        "global": "var(--border-radius-global)"
+                    }
+                }
+            }
+        }
+    </script>
+    
     {{ content_for_header }}
   </head>
-  <body class="bg-background text-on-surface font-body-main antialiased selection:bg-primary selection:text-background flex flex-col min-h-screen bg-noise">
+  <body class="bg-background text-foreground selection:bg-foreground selection:text-background flex flex-col min-h-screen">
     
-    {% section 'header-public-equity' %}
-    {% section 'cart-drawer-public-equity' %}
+    {% section 'luxury-header' %}
 
-    <main id="MainContent" class="flex-grow pt-20" role="main">
+    <main id="MainContent" class="flex-grow pt-[100px]" role="main">
       {{ content_for_layout }}
     </main>
 
-    {% section 'footer-public-equity' %}
+    {% section 'luxury-footer' %}
+    {% section 'email-popup' %}
     
+    {% section 'cart-drawer-section' %}
   </body>
 </html>

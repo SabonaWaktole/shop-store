@@ -3,6 +3,97 @@
   "name": "Luxury Header",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "default": true,
+      "label": "Sticky Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_header",
+      "default": false,
+      "label": "Transparent Header"
+    },
+    {
+      "type": "range",
+      "id": "header_height",
+      "min": 48,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 72,
+      "label": "Header Height"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 200,
+      "label": "Logo Width"
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "label": "Navigation Font Size"
+    },
+    {
+      "type": "select",
+      "id": "nav_letter_spacing",
+      "options": [
+        { "value": "0em", "label": "Normal" },
+        { "value": "0.05em", "label": "Wide" },
+        { "value": "0.1em", "label": "Wider" }
+      ],
+      "default": "0.05em",
+      "label": "Navigation Letter Spacing"
+    },
+    {
+      "type": "select",
+      "id": "nav_font_weight",
+      "options": [
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "500",
+      "label": "Navigation Font Weight"
+    },
+    {
+      "type": "checkbox",
+      "id": "nav_uppercase",
+      "default": true,
+      "label": "Uppercase Navigation"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24,
+      "label": "Icon Size"
+    },
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "announcement_enabled",
+      "default": true,
+      "label": "Enable Announcement Bar"
+    },
+    {
       "type": "text",
       "id": "announcement_text",
       "label": "Announcement Text",
@@ -12,6 +103,70 @@
       "type": "url",
       "id": "announcement_link",
       "label": "Announcement Link"
+    },
+    {
+      "type": "color",
+      "id": "announcement_bg_color",
+      "default": "#000000",
+      "label": "Announcement Background"
+    },
+    {
+      "type": "color",
+      "id": "announcement_text_color",
+      "default": "#FFFFFF",
+      "label": "Announcement Text Color"
+    },
+    {
+      "type": "range",
+      "id": "announcement_font_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "label": "Announcement Font Size"
+    },
+    {
+      "type": "header",
+      "content": "Header Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color",
+      "default": "#FFFFFF",
+      "label": "Header Background"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "default": "#000000",
+      "label": "Header Text Color"
+    },
+    {
+      "type": "color",
+      "id": "header_border_color",
+      "default": "#E5E7EB",
+      "label": "Header Border Color"
+    },
+    {
+      "type": "header",
+      "content": "Social Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_show_social",
+      "default": false,
+      "label": "Show Social Icons"
+    },
+    {
+      "type": "range",
+      "id": "header_social_icon_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18,
+      "label": "Social Icon Size"
     },
     {
       "type": "link_list",
@@ -24,8 +179,8 @@
 {% endschema %}
 
 <!-- Announcement Bar -->
-{%- if section.settings.announcement_text != blank -%}
-<div class="bg-primary text-primary-foreground text-xs font-medium text-center py-2 tracking-wide">
+{%- if section.settings.announcement_enabled and section.settings.announcement_text != blank -%}
+<div class="text-center py-2 font-medium tracking-wide" style="background-color: {{ section.settings.announcement_bg_color }}; color: {{ section.settings.announcement_text_color }}; font-size: {{ section.settings.announcement_font_size }}px;">
   {%- if section.settings.announcement_link != blank -%}
     <a href="{{ section.settings.announcement_link }}" class="hover:underline">
       {{ section.settings.announcement_text }}
@@ -39,13 +194,18 @@
 {%- endif -%}
 
 <!-- Main Header -->
-<header class="fixed top-[32px] left-0 w-full bg-background/95 backdrop-blur z-[100] border-b border-border transition-all duration-300" id="main-header">
-  <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+{%- assign header_position = "relative" -%}
+{%- if section.settings.sticky_header -%}
+  {%- assign header_position = "fixed top-0" -%}
+{%- endif -%}
+
+<header class="{{ header_position }} left-0 w-full z-[100] border-b transition-all duration-300" id="main-header" style="background-color: {% if section.settings.transparent_header %}transparent{% else %}{{ section.settings.header_bg_color }}{% endif %}; color: {{ section.settings.header_text_color }}; border-color: {{ section.settings.header_border_color }}; min-height: {{ section.settings.header_height }}px;">
+  <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-4 flex justify-between items-center h-full" style="min-height: {{ section.settings.header_height }}px;">
     
     <!-- Mobile Menu Toggle (Left) -->
     <div class="lg:hidden flex items-center">
-      <button class="text-primary hover:opacity-70 transition-opacity">
-        <span class="material-symbols-outlined text-2xl font-light">menu</span>
+      <button class="hover:opacity-70 transition-opacity">
+        <span class="material-symbols-outlined font-light" style="font-size: {{ section.settings.icon_size }}px;">menu</span>
       </button>
     </div>
 
@@ -53,33 +213,38 @@
     <nav class="hidden lg:flex items-center gap-8 flex-1">
       {%- if section.settings.menu != blank -%}
         {%- for link in linklists[section.settings.menu].links -%}
-          <a class="text-sm font-medium tracking-wide uppercase transition-colors {% if link.active %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}" href="{{ link.url }}">
+          <a class="transition-colors hover:opacity-70" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="{{ link.url }}">
             {{ link.title }}
           </a>
         {%- endfor -%}
       {%- else -%}
-        <a class="text-sm font-medium tracking-wide uppercase text-muted-foreground hover:text-primary transition-colors" href="/collections/all">Shop</a>
-        <a class="text-sm font-medium tracking-wide uppercase text-muted-foreground hover:text-primary transition-colors" href="#">Collections</a>
-        <a class="text-sm font-medium tracking-wide uppercase text-muted-foreground hover:text-primary transition-colors" href="#">Editorial</a>
+        <a class="transition-colors hover:opacity-70" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="/collections/all">Shop</a>
+        <a class="transition-colors hover:opacity-70" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="#">Collections</a>
+        <a class="transition-colors hover:opacity-70" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="#">Editorial</a>
       {%- endif -%}
     </nav>
 
     <!-- Logo (Center) -->
     <div class="flex-shrink-0 text-center lg:flex-1">
-      <a href="{{ routes.root_url }}" class="text-2xl font-semibold tracking-tighter uppercase text-primary">
-        {{ shop.name | default: 'STUDIO' }}
+      <a href="{{ routes.root_url }}" class="font-semibold tracking-tighter uppercase inline-block" style="width: {{ section.settings.logo_width }}px; max-width: 100%;">
+        <span style="font-size: {{ section.settings.logo_width | divided_by: 6 }}px;">{{ shop.name | default: 'STUDIO' }}</span>
       </a>
     </div>
     
     <!-- Utilities (Right) -->
     <div class="flex items-center justify-end gap-6 flex-1">
-      <a href="{{ routes.search_url }}" class="hidden md:flex items-center gap-2 text-sm font-medium tracking-wide text-muted-foreground hover:text-primary transition-colors uppercase">
+      {%- if section.settings.header_show_social -%}
+        <div class="hidden md:flex gap-4">
+          <a href="#" class="hover:opacity-70"><span class="material-symbols-outlined" style="font-size: {{ section.settings.header_social_icon_size }}px;">share</span></a>
+        </div>
+      {%- endif -%}
+      <a href="{{ routes.search_url }}" class="hidden md:flex items-center gap-2 hover:opacity-70 transition-opacity" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}">
         <span>Search</span>
       </a>
-      <a href="{{ routes.account_url }}" class="hidden md:flex items-center gap-2 text-sm font-medium tracking-wide text-muted-foreground hover:text-primary transition-colors uppercase">
+      <a href="{{ routes.account_url }}" class="hidden md:flex items-center gap-2 hover:opacity-70 transition-opacity" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}">
         <span>Account</span>
       </a>
-      <a href="{{ routes.cart_url }}" class="flex items-center gap-2 text-sm font-medium tracking-wide text-primary hover:opacity-70 transition-opacity uppercase">
+      <a href="{{ routes.cart_url }}" class="flex items-center gap-2 hover:opacity-70 transition-opacity" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}">
         <span>Cart ({{ cart.item_count }})</span>
       </a>
     </div>
@@ -90,13 +255,18 @@
 // Adjust header position on scroll to hide announcement bar
 let lastScrollY = window.scrollY;
 const header = document.getElementById('main-header');
-const announcementHeight = 32;
+const announcementEnabled = {{ section.settings.announcement_enabled | json }};
+const stickyHeader = {{ section.settings.sticky_header | json }};
+const announcementHeight = announcementEnabled ? 32 : 0;
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY > announcementHeight) {
-        header.style.top = '0px';
-    } else {
-        header.style.top = `${announcementHeight - window.scrollY}px`;
-    }
-});
+if(stickyHeader && announcementEnabled) {
+  header.style.top = `${announcementHeight}px`;
+  window.addEventListener('scroll', () => {
+      if (window.scrollY > announcementHeight) {
+          header.style.top = '0px';
+      } else {
+          header.style.top = `${announcementHeight - window.scrollY}px`;
+      }
+  });
+}
 </script>
