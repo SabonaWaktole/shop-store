@@ -1,0 +1,101 @@
+{% comment %}
+  Customer Account Dashboard
+  Shows order history and account details
+{% endcomment %}
+
+<div class="max-w-[1200px] mx-auto py-24 px-4 md:px-8">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-16">
+    <h1 class="text-2xl font-semibold tracking-tighter uppercase text-foreground">My Account</h1>
+    <a href="{{ routes.account_logout_url }}" class="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
+      Log Out
+    </a>
+  </div>
+
+  <!-- Order History -->
+  <section class="mb-20">
+    <h2 class="text-xs tracking-widest uppercase text-muted-foreground mb-8">Order History</h2>
+
+    {% if customer.orders.size == 0 %}
+      <p class="text-sm text-muted-foreground">No orders yet.</p>
+    {% else %}
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-border">
+              <th class="text-left py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Order</th>
+              <th class="text-left py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Date</th>
+              <th class="text-left py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Status</th>
+              <th class="text-right py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in customer.orders %}
+              <tr class="border-b border-border hover:bg-muted transition-colors">
+                <td class="py-4">
+                  <a href="{{ order.customer_url }}" class="text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors">
+                    {{ order.name }}
+                  </a>
+                </td>
+                <td class="py-4 text-muted-foreground">
+                  {{ order.created_at | date: "%B %d, %Y" }}
+                </td>
+                <td class="py-4">
+                  <span class="text-xs tracking-widest uppercase">{{ order.fulfillment_status_label }}</span>
+                </td>
+                <td class="py-4 text-right">
+                  {{ order.total_price | money }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% if customer.orders.size > 20 %}
+        <div class="flex justify-center gap-4 mt-8">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
+              &larr; Previous
+            </a>
+          {% endif %}
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
+              Next &rarr;
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </section>
+
+  <!-- Account Details -->
+  <section>
+    <h2 class="text-xs tracking-widest uppercase text-muted-foreground mb-8">Account Details</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Customer Info -->
+      <div>
+        <p class="text-sm text-foreground mb-1">{{ customer.name }}</p>
+        <p class="text-sm text-muted-foreground">{{ customer.email }}</p>
+      </div>
+
+      <!-- Default Address -->
+      <div>
+        {% if customer.default_address %}
+          <div class="text-sm text-muted-foreground leading-relaxed">
+            {{ customer.default_address | format_address }}
+          </div>
+        {% else %}
+          <p class="text-sm text-muted-foreground">No default address set.</p>
+        {% endif %}
+
+        <a href="{{ routes.account_addresses_url }}" class="inline-block mt-4 text-xs tracking-widest uppercase text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors">
+          Manage Addresses
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>

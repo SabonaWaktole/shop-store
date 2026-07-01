@@ -1,0 +1,50 @@
+<div class="w-full max-w-container-max mx-auto pt-[60px] md:pt-[100px] pb-32" data-section-id="{{ section.id }}" data-section-type="list-collections">
+    <header class="px-margin-mobile md:px-margin-desktop mb-12 md:mb-24">
+        <h1 class="font-display-xl text-display-xl uppercase max-w-5xl leading-none mb-16 text-[48px] md:text-[80px]">
+            {{ section.settings.title | default: 'ALL COLLECTIONS' }}
+        </h1>
+    </header>
+
+    {% paginate collections by 12 %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter bg-outline-variant border-y border-outline-variant">
+            {%- for collection in collections -%}
+                <a href="{{ collection.url }}" class="bg-background flex flex-col group cursor-pointer h-full block">
+                    <div class="w-full aspect-[4/3] overflow-hidden relative border-b border-outline-variant">
+                        {%- if collection.image -%}
+                            <img src="{{ collection.image | image_url: width: 800 }}" alt="{{ collection.title | escape }}" class="w-full h-full object-cover filter grayscale contrast-125 transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                        {%- else -%}
+                            <!-- Fallback placeholder -->
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBspfskFLVEOuIY79fWyqFEHvolxtTsqzxEi1TNWZ-UDnyt7A0pf7oHDZsLv3UHxhSG-ozI5TQWh2mEmFBhUgzZMa2pIrgAG3id4oBBY3ugcrFHFlrNtnP0u-0tB8mUqblLjFzEGlIZ94V9-gMCcPI0bLlwcgVzvsS5Q8kWzeDHVEFfTfJISsae30jtWrPg2VJtsUPgMHcVbzo7Bjt4eSCuQmzjkSj1qC6wdekcUaQTNlyHXA7tRnsz831qnjDvS2JTcO_PaD3cyFOH" class="w-full h-full object-cover filter grayscale contrast-125 transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                        {%- endif -%}
+                    </div>
+                    <div class="p-8 flex justify-between items-center font-label-mono text-label-mono uppercase group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300 flex-grow">
+                        <h2>{{ collection.title }}</h2>
+                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </div>
+                </a>
+            {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+            <div class="mt-24 flex justify-center">
+                <a href="{{ paginate.next.url }}" class="border border-outline-variant px-12 py-6 font-label-mono text-label-mono uppercase hover:bg-primary hover:text-on-primary hover:border-primary transition-colors duration-300 text-center">
+                    LOAD NEXT SEQUENCE
+                </a>
+            </div>
+        {%- endif -%}
+    {% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": "Collections List (PE)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "ALL COLLECTIONS"
+    }
+  ]
+}
+{% endschema %}

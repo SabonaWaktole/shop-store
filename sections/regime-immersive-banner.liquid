@@ -1,0 +1,96 @@
+<section
+  id="RegimeBanner-{{ section.id }}"
+  class="regime-banner regime-reveal"
+  data-section-id="{{ section.id }}"
+>
+  <div class="regime-banner__media" data-regime-parallax="0.4">
+    {% if section.settings.image != blank %}
+      {{
+        section.settings.image
+        | image_url: width: 3840
+        | image_tag:
+          loading: 'lazy',
+          widths: '832, 1200, 1600, 1920, 2560, 3840',
+          sizes: '100vw',
+          class: 'regime-banner__image'
+      }}
+    {% else %}
+      <div class="regime-banner__media-placeholder" aria-hidden="true"></div>
+    {% endif %}
+  </div>
+
+  <div class="regime-banner__overlay"></div>
+
+  <div class="regime-banner__content regime-reveal regime-reveal--delay-1">
+    {% if section.settings.eyebrow != blank %}
+      <p class="regime-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+
+    {% if section.settings.title != blank %}
+      <h2 class="regime-banner__title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    {% if section.settings.text != blank %}
+      <p class="regime-banner__text">{{ section.settings.text }}</p>
+    {% endif %}
+
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      <div class="regime-cta" style="margin-top: 32px;">
+        <a href="{{ section.settings.button_link }}" class="button button-primary">
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Regime Immersive Banner",
+  "tag": "section",
+  "class": "regime-banner-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Upload a cinematic wide image. CSS placeholder used if empty."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "VISUAL TRANSMISSION // SECTOR 7"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "BUILT IN THE SHADOWS OF TOMORROW"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "Every piece is a signal. Every drop is an act of defiance against the machine."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "VIEW COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Regime Immersive Banner",
+      "category": "Regime 2093"
+    }
+  ]
+}
+{% endschema %}

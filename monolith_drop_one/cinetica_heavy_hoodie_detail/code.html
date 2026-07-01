@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CINETICA - C001 HEAVY HOODIE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;family=Geist:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* The Scanner Animation */
+        @keyframes scan {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        .animate-scanner {
+            animation: scan 3s linear infinite;
+        }
+
+        /* Hide Scrollbar for sleek look */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#464747",
+                    "surface-container": "#1f1f20",
+                    "on-primary-fixed-variant": "#454747",
+                    "on-tertiary-container": "#646464",
+                    "on-tertiary": "#2f3131",
+                    "tertiary-fixed": "#e3e2e2",
+                    "error-container": "#93000a",
+                    "surface-dim": "#131314",
+                    "on-secondary-fixed-variant": "#474747",
+                    "primary": "#ffffff",
+                    "primary-container": "#e2e2e2",
+                    "on-surface": "#e5e2e3",
+                    "error": "#ffb4ab",
+                    "surface-container-highest": "#353436",
+                    "tertiary-container": "#e3e2e2",
+                    "on-surface-variant": "#c4c7c8",
+                    "on-secondary-container": "#b5b5b5",
+                    "surface-variant": "#353436",
+                    "on-secondary-fixed": "#1b1b1b",
+                    "on-primary-fixed": "#1a1c1c",
+                    "on-background": "#e5e2e3",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-primary": "#2f3131",
+                    "surface": "#131314",
+                    "secondary": "#c6c6c6",
+                    "inverse-on-surface": "#303031",
+                    "inverse-surface": "#e5e2e3",
+                    "background": "#131314",
+                    "inverse-primary": "#5d5f5f",
+                    "surface-bright": "#39393a",
+                    "surface-container-high": "#2a2a2b",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#1b1b1c",
+                    "on-error": "#690005",
+                    "outline-variant": "#444748",
+                    "surface-tint": "#c6c6c7",
+                    "tertiary-fixed-dim": "#c7c6c6",
+                    "outline": "#8e9192",
+                    "tertiary": "#ffffff",
+                    "primary-fixed": "#e2e2e2",
+                    "on-secondary": "#303030",
+                    "secondary-fixed": "#e2e2e2",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "on-primary-container": "#636565",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "surface-container-lowest": "#0e0e0f",
+                    "secondary-container": "#474747"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-desktop": "60px",
+                    "margin-mobile": "20px",
+                    "gutter": "1px",
+                    "container-max": "1920px"
+            },
+            "fontFamily": {
+                    "display-xl": [
+                            "Inter"
+                    ],
+                    "body-main": [
+                            "Inter"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "label-mono": [
+                            "Geist"
+                    ]
+            },
+            "fontSize": {
+                    "display-xl": [
+                            "80px",
+                            {
+                                    "lineHeight": "100%",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "900"
+                            }
+                    ],
+                    "body-main": [
+                            "16px",
+                            {
+                                    "lineHeight": "160%",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "caption": [
+                            "11px",
+                            {
+                                    "lineHeight": "140%",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "110%",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "110%",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-mono": [
+                            "12px",
+                            {
+                                    "lineHeight": "100%",
+                                    "letterSpacing": "0.15em",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-primary font-body-main selection:bg-primary selection:text-surface antialiased overflow-x-hidden">
+<!-- TopNavBar from JSON -->
+<nav class="bg-background/90 dark:bg-background/90 backdrop-blur-xl text-primary dark:text-primary font-label-mono text-label-mono fixed top-0 w-full z-50 border-b border-outline-variant flex justify-between items-center h-20 px-margin-desktop w-full">
+<!-- Brand Logo -->
+<div class="font-display-xl text-display-xl tracking-widest text-primary shrink-0 origin-left scale-[0.25] transform translate-y-[-2px] hover:opacity-70 transition-opacity">
+<a href="#">CINETICA</a>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-12">
+<a class="text-primary border-b border-primary pb-1 hover:opacity-70 transition-opacity active:scale-95 transition-transform uppercase" href="#">SHOP</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 hover:opacity-70 transition-opacity active:scale-95 transition-transform uppercase" href="#">COLLECTIONS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 hover:opacity-70 transition-opacity active:scale-95 transition-transform uppercase" href="#">CAMPAIGN</a>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-6">
+<button class="hover:opacity-70 transition-opacity active:scale-95 transition-transform text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+<button class="hover:opacity-70 transition-opacity active:scale-95 transition-transform text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</button>
+<button class="hover:opacity-70 transition-opacity active:scale-95 transition-transform text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="w-full min-h-screen pt-20 flex flex-col md:flex-row border-b border-outline-variant relative">
+<!-- Left Gallery Column (Scrollable within document flow) -->
+<div class="w-full md:w-7/12 lg:w-8/12 flex flex-col bg-outline-variant gap-gutter border-r border-outline-variant">
+<!-- Gallery Item 1 -->
+<div class="relative w-full aspect-[3/4] md:aspect-auto md:h-[1228px] bg-surface group overflow-hidden">
+<div class="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+<div class="w-full h-px bg-primary/50 shadow-[0_0_8px_rgba(255,255,255,0.8)] absolute top-0 left-0 animate-scanner"></div>
+</div>
+<img class="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 ease-in-out cursor-crosshair" data-alt="A striking digital fashion editorial shot of a heavy, oversized black hoodie worn by an androgynous model in a stark, brutalist concrete environment. The lighting is high-contrast, casting sharp shadows and highlighting the thick texture of the fabric. The overall mood is cold, technical, and dystopian, echoing a luxury streetwear aesthetic from the year 2093. Cinematic framing with deep blacks and stark whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaq04CKS6YJHm-62lWm7DQIidw3cuO1c3drK38DfNoYCei4j1X97W2aN8NUs11twz8LV7trFWA-BAcZ83DWJXm3On20h7_FEFC7tK-6ALFR6MlH8UdCXbwaRnOOmmq1cd-sSgFDgFi8xHk8rA9UuZtMtseSvnWYypdtX4ufqxbiGyB37yZiFaIYNORmvolWwyNMn_BhOe7_mj511oBKHD2qI4DQRaWkqgwI75rDyDh2s4cKd3PbZrGy6XtklS5n3YEo_ol9F-XneNp"/>
+</div>
+<!-- Gallery Item 2 -->
+<div class="relative w-full aspect-[3/4] md:aspect-auto md:h-[1024px] bg-surface group overflow-hidden">
+<div class="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+<div class="w-full h-px bg-primary/50 shadow-[0_0_8px_rgba(255,255,255,0.8)] absolute top-0 left-0 animate-scanner"></div>
+</div>
+<img class="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 ease-in-out cursor-crosshair" data-alt="Macro detail photography of heavy 100% French Terry cotton fabric in deep void-black. The image focuses intensely on the weave and dense loopback texture, illuminated by a harsh, singular light source that creates a metallic, almost brutalist sheen on the textile surface. The depth of field is exceptionally shallow, emphasizing technical precision and premium material quality. Minimalist and stark." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClJKNoOKwfYuzZ-paIStjuchYcDzRpM8kr42QbsOmX3_F7kuVft-mQuE58-bzAmZ-M0GdBz3shPyyOHdK8JEqA6bnm5eYhJ1rFSiJBktbDmH_VCCEs7HM5eHi4VP8AbyB23QIetf3sGmgOUMsyjnnCHlBks_3bKF6Tjh8uoKEL-9SLivimNPnHIry5N6Ok4Z4HS-bMcbq_1ria125GYEYdqIhMNI7VjY44uX3noFw7fwjWYBg2OI-BlNb-Ki4sgaghR4jAzvhaf8kb"/>
+</div>
+<!-- Gallery Item 3 -->
+<div class="relative w-full aspect-[3/4] md:aspect-auto md:h-[1228px] bg-surface group overflow-hidden">
+<div class="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+<div class="w-full h-px bg-primary/50 shadow-[0_0_8px_rgba(255,255,255,0.8)] absolute top-0 left-0 animate-scanner"></div>
+</div>
+<img class="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 ease-in-out cursor-crosshair" data-alt="A rear-view cinematic shot of a figure wearing a massive, structured black hoodie walking away down a sterile, dimly lit laboratory corridor. The silhouette is dominant and imposing, cutting against the aggressive linear perspective of the architecture. The color palette is restricted to pure black, stark white, and a cold metallic grey. The atmosphere conveys rebellion, isolation, and premium utilitarianism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEt3ONsSK1WDNkMrPnzuW28eoAMWFWTGD2bBV2UfWcro_Bd9QjxsFA1_SkTo8iZrr1w7iWj4gh5U6TOhMO10ysQn0vxb8qBOqI0BJfq5jJPfnZ4h0j8MuuKY9_6NiMuLlTMgQ7KB7Lygvx_7GNakojEEnmLyNzI028C2APE3j2y0QhPwTb3EbPCcTNEBTYUHpkuFJFL_ja0PQrM8QmNElpptbwPgC-6NUZXeNH6vXYnm2w3zUiLStImHj5txTrl9mt5eMh_F_rg129"/>
+</div>
+</div>
+<!-- Right Info Column (Sticky) -->
+<div class="w-full md:w-5/12 lg:w-4/12 bg-background relative z-10">
+<div class="sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto hide-scrollbar p-margin-mobile md:p-margin-desktop flex flex-col justify-between">
+<div>
+<!-- Headers -->
+<div class="mb-12">
+<div class="flex justify-between items-start mb-4">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-primary leading-none tracking-tight">C001 HEAVY HOODIE</h1>
+</div>
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">$240.00 USD</p>
+</div>
+<!-- Divider -->
+<div class="w-full h-px bg-outline-variant mb-12"></div>
+<!-- Color Selector -->
+<div class="mb-12">
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">COLOR</span>
+<span class="font-label-mono text-label-mono text-primary uppercase" id="color-display">NERO</span>
+</div>
+<div class="grid grid-cols-3 gap-gutter bg-outline-variant border border-outline-variant">
+<button class="bg-primary text-surface font-label-mono text-label-mono py-4 uppercase hover:bg-surface hover:text-primary transition-colors focus:outline-none">NERO</button>
+<button class="bg-surface text-primary font-label-mono text-label-mono py-4 uppercase hover:bg-primary hover:text-surface transition-colors focus:outline-none">SILVER</button>
+<button class="bg-surface text-primary font-label-mono text-label-mono py-4 uppercase hover:bg-primary hover:text-surface transition-colors focus:outline-none">GRAPHITE</button>
+</div>
+</div>
+<!-- Size Selector -->
+<div class="mb-12">
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">SIZE</span>
+<button class="font-label-mono text-label-mono text-on-surface-variant uppercase border-b border-on-surface-variant hover:text-primary hover:border-primary transition-colors pb-0.5">GUIDE</button>
+</div>
+<div class="grid grid-cols-5 gap-gutter bg-outline-variant border border-outline-variant">
+<button class="bg-surface text-primary font-label-mono text-label-mono py-4 uppercase hover:bg-primary hover:text-surface transition-colors focus:outline-none">XS</button>
+<button class="bg-surface text-primary font-label-mono text-label-mono py-4 uppercase hover:bg-primary hover:text-surface transition-colors focus:outline-none">S</button>
+<button class="bg-primary text-surface font-label-mono text-label-mono py-4 uppercase hover:bg-surface hover:text-primary transition-colors focus:outline-none">M</button>
+<button class="bg-surface text-on-surface-variant font-label-mono text-label-mono py-4 uppercase opacity-50 cursor-not-allowed">L</button>
+<button class="bg-surface text-primary font-label-mono text-label-mono py-4 uppercase hover:bg-primary hover:text-surface transition-colors focus:outline-none">XL</button>
+</div>
+</div>
+<!-- CTAs -->
+<div class="flex flex-col gap-4 mb-16">
+<button class="w-full bg-primary text-surface border border-primary font-label-mono text-label-mono py-5 uppercase tracking-widest hover:bg-surface hover:text-primary transition-colors duration-300">
+                            PREORDER
+                        </button>
+<button class="w-full bg-transparent text-primary border border-outline-variant font-label-mono text-label-mono py-5 uppercase tracking-widest hover:border-primary hover:bg-surface-bright transition-colors duration-300 flex justify-center items-center gap-2">
+                            ADD TO BAG <span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Accordions -->
+<div class="border-t border-outline-variant flex flex-col">
+<!-- Accordion Item: Fabric -->
+<div class="accordion-item border-b border-outline-variant">
+<button class="w-full flex justify-between items-center py-6 focus:outline-none group" onclick="toggleAccordion(this)">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-widest">FABRIC &amp; CARE</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors icon-state">add</span>
+</button>
+<div class="accordion-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out font-body-main text-body-main text-on-surface-variant">
+<div class="pb-6">
+<ul class="list-none space-y-2">
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary inline-block"></span> 100% Heavyweight French Terry Cotton.</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary inline-block"></span> 500 GSM density for structural integrity.</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary inline-block"></span> Machine wash cold, dry flat. Do not iron.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Accordion Item: Fit -->
+<div class="accordion-item border-b border-outline-variant">
+<button class="w-full flex justify-between items-center py-6 focus:outline-none group" onclick="toggleAccordion(this)">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-widest">FIT PROFILE</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors icon-state">add</span>
+</button>
+<div class="accordion-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out font-body-main text-body-main text-on-surface-variant">
+<div class="pb-6">
+                                Designed with an aggressive, oversized block. Dropped shoulders, cropped body length, and a dramatically enlarged hood to obscure the profile. We recommend taking your true size for the intended brutalist aesthetic.
+                            </div>
+</div>
+</div>
+<!-- Accordion Item: Shipping -->
+<div class="accordion-item border-b border-outline-variant">
+<button class="w-full flex justify-between items-center py-6 focus:outline-none group" onclick="toggleAccordion(this)">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-widest">SHIPPING &amp; RETURNS</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors icon-state">add</span>
+</button>
+<div class="accordion-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out font-body-main text-body-main text-on-surface-variant">
+<div class="pb-6">
+                                Preorders will commence dispatch in Q4 2093. Due to the nature of this artifact, all sales are final. Standard interplanetary freight rates apply.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer from JSON -->
+<footer class="bg-background dark:bg-background text-primary dark:text-primary font-label-mono text-label-mono w-full py-32 border-t border-outline-variant grid grid-cols-12 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+<!-- Brand / Copyright -->
+<div class="col-span-12 md:col-span-6 flex flex-col justify-between mb-16 md:mb-0">
+<div class="font-display-xl text-display-xl text-primary uppercase leading-none tracking-tighter mb-8 max-w-full overflow-hidden text-ellipsis">
+                CINETICA
+            </div>
+<div class="text-on-surface-variant uppercase">
+                © 2093 CINETICA. ALL RIGHTS RESERVED.
+            </div>
+</div>
+<!-- Links -->
+<div class="col-span-12 md:col-span-6 flex flex-wrap gap-8 md:gap-16 justify-start md:justify-end items-end">
+<a class="text-on-surface-variant hover:text-primary underline transition-all uppercase" href="#">EDITORIAL</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all uppercase" href="#">ARCHIVE</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all uppercase" href="#">LEGAL</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all uppercase" href="#">PRIVACY</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all uppercase" href="#">TERMS</a>
+<a class="text-on-surface-variant hover:text-primary underline transition-all uppercase" href="#">SHIPPING</a>
+</div>
+</footer>
+<script>
+        // Simple Accordion Logic
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('.icon-state');
+            const allContents = document.querySelectorAll('.accordion-content');
+            const allIcons = document.querySelectorAll('.icon-state');
+
+            // Close others
+            allContents.forEach(c => {
+                if (c !== content) {
+                    c.style.maxHeight = null;
+                }
+            });
+            allIcons.forEach(i => {
+                if (i !== icon) {
+                    i.textContent = 'add';
+                }
+            });
+
+            // Toggle current
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.textContent = 'add';
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.textContent = 'remove';
+            }
+        }
+    </script>
+</body></html>

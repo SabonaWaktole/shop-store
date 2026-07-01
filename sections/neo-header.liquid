@@ -1,0 +1,51 @@
+{% schema %}
+{
+  "name": "NEO-DYS Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}
+
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full px-margin-desktop py-4 bg-background/90 backdrop-blur-md z-[100] flex justify-between items-center border-b border-outline/30">
+  <div class="flex items-center gap-12">
+    <a href="{{ routes.root_url }}" class="font-headline-lg text-[24px] font-bold tracking-tighter text-on-background">
+      {{ shop.name | default: 'LYFESTYLE_2093' }}
+    </a>
+    
+    <nav class="hidden lg:flex gap-10">
+      {%- if section.settings.menu != blank -%}
+        {%- for link in linklists[section.settings.menu].links -%}
+          <a class="font-utility-label text-utility-label uppercase tracking-widest transition-all {% if link.active %}text-primary-fixed-dim hover:text-white{% else %}text-secondary opacity-60 hover:opacity-100 hover:text-primary-container{% endif %}" href="{{ link.url }}">
+            {{ link.title }}
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Fallback if no menu selected -->
+        <a class="font-utility-label text-utility-label uppercase tracking-widest text-primary-fixed-dim hover:text-white transition-all" href="#">NEW_DROPS</a>
+        <a class="font-utility-label text-utility-label uppercase tracking-widest text-secondary opacity-60 hover:opacity-100 hover:text-primary-container transition-all" href="#">TOPS</a>
+        <a class="font-utility-label text-utility-label uppercase tracking-widest text-secondary opacity-60 hover:opacity-100 hover:text-primary-container transition-all" href="#">BOTTOMS</a>
+        <a class="font-utility-label text-utility-label uppercase tracking-widest text-secondary opacity-60 hover:opacity-100 hover:text-primary-container transition-all" href="#">OUTERWEAR</a>
+        <a class="font-utility-label text-utility-label uppercase tracking-widest text-secondary opacity-60 hover:opacity-100 hover:text-primary-container transition-all" href="#">ACCESSORIES</a>
+      {%- endif -%}
+    </nav>
+  </div>
+  
+  <div class="flex items-center gap-6">
+    <a href="{{ routes.search_url }}" class="flex items-center gap-1 font-utility-label text-utility-label text-primary-container/60 hover:text-primary-container cursor-pointer transition-colors">
+      <span class="material-symbols-outlined text-[20px]">search</span>
+      <span class="hidden sm:inline">LOCATE</span>
+    </a>
+    <a href="{{ routes.cart_url }}" class="relative group cursor-pointer" id="cart-icon-bubble">
+      <span class="material-symbols-outlined text-primary-container glitch-hover">shopping_cart</span>
+      <span class="absolute -top-2 -right-2 bg-primary-container text-black text-[10px] px-1.5 font-bold" id="cart-count">{{ cart.item_count }}</span>
+    </a>
+    <span class="material-symbols-outlined text-primary-container cursor-pointer lg:hidden">menu</span>
+  </div>
+</header>

@@ -1,0 +1,80 @@
+{% schema %}
+{
+  "name": "Manifesto 2093",
+  "tag": "section",
+  "class": "section-manifesto-2093",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "ANTI-CONFORMITY"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "THE SYSTEM IS A CONSTRUCT. WE PROVIDE THE TOOLS FOR DECONSTRUCTION. EVERY ARTIFACT IN OUR COLLECTION IS A STATEMENT OF DEFUTURISM—A REJECTION OF HOMOGENIZED DIGITAL EXISTENCE."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "WE DO NOT DESIGN FOR THE MASSES. WE ARCHITECT FOR THE ANOMALY. ACCESS IS NOT GRANTED; IT IS TAKEN. STATUS: OPERATIONAL."
+    },
+    {
+      "type": "text",
+      "id": "divider_text",
+      "label": "Divider Text",
+      "default": "SYSTEM_CHECK_COMPLETE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Manifesto 2093"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="py-section-gap px-margin-mobile lg:px-margin-desktop bg-black flex flex-col items-center text-center">
+  <div class="reveal-on-scroll max-w-4xl">
+    <h2 class="font-headline-lg text-primary uppercase mb-16 tracking-[0.2em]">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-section-gap text-left">
+      <p class="font-body-lg text-on-surface-variant border-l border-primary pl-8">
+        {{ section.settings.paragraph_1 }}
+      </p>
+      <p class="font-body-lg text-on-surface-variant border-l border-primary pl-8">
+        {{ section.settings.paragraph_2 }}
+      </p>
+    </div>
+    <div class="mt-section-gap">
+      <div class="h-[1px] w-full bg-outline-variant relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-8">
+          <span class="font-utility-label text-primary-fixed-dim uppercase tracking-[0.5em]">{{ section.settings.divider_text }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .py-section-gap { padding-top: var(--spacing-section-gap); padding-bottom: var(--spacing-section-gap); }
+  .max-w-4xl { max-width: 56rem; }
+  .tracking-\[0\.2em\] { letter-spacing: 0.2em; }
+  .tracking-\[0\.5em\] { letter-spacing: 0.5em; }
+  .grid { display: grid; }
+  .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .gap-section-gap { gap: var(--spacing-section-gap); }
+  .border-l { border-left-width: 1px; border-left-style: solid; }
+  .pl-8 { padding-left: 32px; }
+  .mt-section-gap { margin-top: var(--spacing-section-gap); }
+  .h-\[1px\] { height: 1px; }
+  .bg-outline-variant { background-color: var(--color-outline-variant); }
+  .top-1\/2 { top: 50%; }
+  .px-8 { padding-left: 32px; padding-right: 32px; }
+  
+  @media (min-width: 768px) {
+    .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

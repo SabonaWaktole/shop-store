@@ -1,0 +1,77 @@
+{% schema %}
+{
+  "name": "Banner 2093",
+  "tag": "section",
+  "class": "section-banner-2093",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "WITNESS THE COLLAPSE OF THE MONOCULTURE"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "THE TRANSITION FROM GLOBAL CITIZEN TO SYSTEM OUTLIER IS NOT A CHOICE. IT IS AN EVOLUTION. WE ARE THE CATALYST."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "VIEW_DATA_STREAM"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner 2093"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="relative h-[80vh] w-full flex items-center overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 banner-2093-gradient z-10"></div>
+    {% if section.settings.background_image != blank %}
+      <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ section.settings.background_image | image_url: width: 2000 }}')"></div>
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'w-full h-full object-cover' }}
+    {% endif %}
+  </div>
+  <div class="relative z-20 px-margin-mobile lg:px-margin-desktop max-w-3xl">
+    <div class="reveal-on-scroll">
+      <h2 class="font-headline-lg text-white uppercase mb-8 leading-tight">{{ section.settings.title }}</h2>
+      <p class="font-body-lg text-secondary mb-12">{{ section.settings.subtitle }}</p>
+      <a href="{{ section.settings.button_link | default: '#' }}" class="inline-block px-12 py-4 industrial-border font-utility-label text-white uppercase tracking-widest hover-bg-white hover-text-black transition-colors">
+        {{ section.settings.button_text }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .h-\[80vh\] { height: 80vh; }
+  .max-w-3xl { max-width: 48rem; }
+  .inline-block { display: inline-block; }
+  .banner-2093-gradient {
+    background: linear-gradient(to right, #000 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+  }
+  .bg-cover { background-size: cover; }
+  .bg-center { background-position: center; }
+  .leading-tight { line-height: 1.25; }
+  .hover-bg-white:hover { background-color: #fff; }
+  .hover-text-black:hover { color: #000; }
+  .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+</style>

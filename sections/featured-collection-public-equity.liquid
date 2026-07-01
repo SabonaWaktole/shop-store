@@ -1,0 +1,68 @@
+<div class="w-full max-w-container-max mx-auto py-24 md:py-32" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+    
+    <header class="px-margin-mobile md:px-margin-desktop mb-12 flex justify-between items-end">
+        <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase text-primary leading-none tracking-tight">
+            {{ section.settings.title | default: section.settings.collection.title | default: 'FEATURED DROP' }}
+        </h2>
+        {%- if section.settings.collection != blank -%}
+            <a href="{{ section.settings.collection.url }}" class="hidden md:inline-flex items-center gap-2 font-label-mono text-label-mono uppercase text-on-surface-variant hover:text-primary transition-colors">
+                VIEW ALL <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+        {%- endif -%}
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter bg-outline-variant border-y border-outline-variant">
+        {%- assign collection = section.settings.collection -%}
+        {%- if collection != blank and collection.products_count > 0 -%}
+            {%- for product in collection.products limit: section.settings.products_to_show -%}
+                {% render 'product-card-public-equity', product: product %}
+            {%- endfor -%}
+        {%- else -%}
+            <!-- Fallback placeholders -->
+            {% for i in (1..section.settings.products_to_show) %}
+                {% render 'product-card-public-equity' %}
+            {% endfor %}
+        {%- endif -%}
+    </div>
+    
+    {%- if section.settings.collection != blank -%}
+        <div class="mt-12 flex justify-center md:hidden">
+            <a href="{{ section.settings.collection.url }}" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase text-primary border border-primary px-8 py-4 hover:bg-primary hover:text-background transition-colors">
+                VIEW ALL <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+        </div>
+    {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Featured Collection (PE)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "FEATURED DROP"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 16,
+      "step": 4,
+      "default": 4,
+      "label": "Maximum products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection (PE)"
+    }
+  ]
+}
+{% endschema %}

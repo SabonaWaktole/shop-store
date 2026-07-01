@@ -1,0 +1,240 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .hero-container {
+    height: {{ section.settings.hero_height_mobile }}px;
+  }
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .hero-container {
+      height: {{ section.settings.hero_height_desktop }}px;
+    }
+  }
+  #shopify-section-{{ section.id }} .hero-overlay {
+    background-color: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+  #shopify-section-{{ section.id }} .hero-headline {
+    font-size: {{ section.settings.headline_size_mobile }}px;
+    text-align: {{ section.settings.text_alignment }};
+  }
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .hero-headline {
+      font-size: {{ section.settings.headline_size_desktop }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="relative w-full hero-container min-h-[500px] bg-surface flex {% if section.settings.text_alignment == 'left' %}justify-start{% elsif section.settings.text_alignment == 'right' %}justify-end{% else %}justify-center{% endif %} items-center overflow-hidden border-b border-outline-variant">
+    
+    <!-- Background Images -->
+    {%- if section.settings.bg_image_desktop -%}
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block" style="background-image: url('{{ section.settings.bg_image_desktop | image_url: width: 2500 }}')"></div>
+    {%- else -%}
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVRDH0cVn-YFOTBIEll0fghObtyIKaH9Va6u1Jrj4-3Dv787m2CGFC_OgTMm5iBjf9dlizQbMj5zPlAesO4aZoySQWGvNRzDIkppF3NyMgAiNp6ybldolSCZ9aLiD1Lzi7ZLaaygSoCZ8ed32b_gNNmu-txg-FpWrhEv_4Oi3l-CFN5xRAx4lTE_15TzpZlDoUQcAGgJ7L92bd5NxtsJls6pf1uscXEWYFYGXRPWdlMS48QYVdgLxcRxwpfhMx5oihewrKTt-9yotG')"></div>
+    {%- endif -%}
+
+    {%- if section.settings.bg_image_mobile -%}
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden block" style="background-image: url('{{ section.settings.bg_image_mobile | image_url: width: 1000 }}')"></div>
+    {%- elsif section.settings.bg_image_desktop -%}
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden block" style="background-image: url('{{ section.settings.bg_image_desktop | image_url: width: 1000 }}')"></div>
+    {%- else -%}
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden block" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVRDH0cVn-YFOTBIEll0fghObtyIKaH9Va6u1Jrj4-3Dv787m2CGFC_OgTMm5iBjf9dlizQbMj5zPlAesO4aZoySQWGvNRzDIkppF3NyMgAiNp6ybldolSCZ9aLiD1Lzi7ZLaaygSoCZ8ed32b_gNNmu-txg-FpWrhEv_4Oi3l-CFN5xRAx4lTE_15TzpZlDoUQcAGgJ7L92bd5NxtsJls6pf1uscXEWYFYGXRPWdlMS48QYVdgLxcRxwpfhMx5oihewrKTt-9yotG')"></div>
+    {%- endif -%}
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 hero-overlay z-10"></div>
+    
+    <!-- The Scanner -->
+    {%- if section.settings.enable_scanner -%}
+    <div class="scanner-line z-20"></div>
+    {%- endif -%}
+    
+    <!-- Technical grid overlay -->
+    {%- if section.settings.enable_grid -%}
+    <div class="absolute inset-0 pointer-events-none grid grid-cols-12 gap-gutter px-margin-mobile md:px-margin-desktop opacity-10 z-10">
+        <div class="bg-primary h-full"></div><div class="bg-primary h-full"></div><div class="bg-primary h-full"></div><div class="bg-primary h-full"></div>
+        <div class="bg-primary h-full"></div><div class="bg-primary h-full"></div>
+    </div>
+    {%- endif -%}
+    
+    <!-- Content -->
+    <div class="relative z-30 flex flex-col w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-[102px]" style="align-items: {% if section.settings.text_alignment == 'left' %}flex-start{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}center{% endif %};">
+        <h1 class="hero-headline font-display-xl text-primary uppercase mb-12 tracking-[0.15em] leading-none mix-blend-difference">
+            {{ section.settings.headline | newline_to_br }}
+        </h1>
+        
+        <div class="flex gap-4 flex-wrap w-full" style="justify-content: {% if section.settings.text_alignment == 'left' %}flex-start{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}center{% endif %};">
+            {%- for block in section.blocks -%}
+                {%- if block.type == 'button' -%}
+                    {%- if block.settings.btn_style == 'primary' -%}
+                        <a class="inline-flex items-center justify-center bg-primary text-background border border-primary font-label-mono text-label-mono px-12 py-5 uppercase tracking-widest hover:bg-background hover:text-primary transition-all duration-300" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+                            {{ block.settings.text }}
+                        </a>
+                    {%- else -%}
+                        <a class="inline-flex items-center justify-center bg-transparent text-primary border border-primary font-label-mono text-label-mono px-12 py-5 uppercase tracking-widest hover:bg-primary hover:text-background transition-all duration-300" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+                            {{ block.settings.text }}
+                        </a>
+                    {%- endif -%}
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_desktop",
+      "label": "Background Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Background Image (Mobile)",
+      "info": "Falls back to desktop image if not set."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_height_desktop",
+      "label": "Desktop Height",
+      "min": 500,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 920
+    },
+    {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "label": "Mobile Height",
+      "min": 400,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "REJECT\nUNIFORMITY"
+    },
+    {
+      "type": "range",
+      "id": "headline_size_desktop",
+      "label": "Headline Size (Desktop)",
+      "min": 40,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "headline_size_mobile",
+      "label": "Headline Size (Mobile)",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Overlay & Effects"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scanner",
+      "label": "Enable scanner animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_grid",
+      "label": "Enable subtle grid background",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Button Text",
+          "default": "SHOP NOW"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
+        },
+        {
+          "type": "select",
+          "id": "btn_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "primary", "label": "Primary (Filled)" },
+            { "value": "secondary", "label": "Secondary (Outline)" }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

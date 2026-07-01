@@ -1,0 +1,127 @@
+<section
+  id="RegimeManifesto-{{ section.id }}"
+  class="regime-manifesto regime-reveal"
+  data-section-id="{{ section.id }}"
+>
+  <div class="regime-manifesto__inner{% if section.settings.layout == 'centered' %} regime-manifesto__inner--centered{% endif %}">
+    <div class="regime-manifesto__column">
+      {% if section.settings.label != blank %}
+        <span class="regime-manifesto__label">{{ section.settings.label }}</span>
+      {% endif %}
+
+      {% if section.settings.headline != blank %}
+        <h2 class="regime-manifesto__headline">{{ section.settings.headline }}</h2>
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <div class="regime-manifesto__body">{{ section.settings.body }}</div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <div class="regime-cta{% if section.settings.critical_cta %} regime-cta--critical{% endif %}" style="margin-top: 40px;">
+          <a href="{{ section.settings.button_link }}" class="button button-primary">
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_stat %}
+      <div class="regime-manifesto__column regime-reveal regime-reveal--delay-2" style="text-align: center;">
+        {% if section.settings.stat_number != blank %}
+          <p class="regime-manifesto__stat">{{ section.settings.stat_number }}</p>
+        {% endif %}
+        {% if section.settings.stat_label != blank %}
+          <p class="regime-manifesto__stat-label">{{ section.settings.stat_label }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Regime Manifesto",
+  "tag": "section",
+  "class": "regime-manifesto-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "split", "label": "Split editorial" },
+        { "value": "centered", "label": "Centered statement" }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Eyebrow label",
+      "default": "SYSTEM BROADCAST // 2093"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "THEY WANT YOU <em>UNIFORM</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>Conformity is the regime's greatest weapon. We exist outside the grid — forged in darkness, built for those who refuse to be programmed. This is not fashion. This is rebellion with a price tag.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "ENTER THE VOID"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "critical_cta",
+      "label": "Use rebel accent (orange)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Stat block"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stat",
+      "label": "Show stat block",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Stat number",
+      "default": "2093"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "label": "Stat label",
+      "default": "YEAR OF THE BREAK"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Regime Manifesto",
+      "category": "Regime 2093"
+    }
+  ]
+}
+{% endschema %}

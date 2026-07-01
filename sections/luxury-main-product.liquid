@@ -1,0 +1,178 @@
+{% schema %}
+{
+  "name": "Luxury Main Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "label": "Enable Sticky Product Info",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "preorder_date",
+      "label": "Preorder Ship Date (Fallback)",
+      "default": "Expected to ship August 2026",
+      "info": "Used if the product is tagged 'preorder'."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Main Product"
+    }
+  ]
+}
+{% endschema %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign is_preorder = false -%}
+{%- if product.tags contains 'preorder' or product.tags contains 'Preorder' -%}
+  {%- assign is_preorder = true -%}
+{%- endif -%}
+
+<section class="max-w-[1600px] mx-auto px-4 md:px-8 py-12 lg:py-24" data-section="luxury-product">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+    
+    <!-- Left: Image Gallery (Stacked for Editorial Look) -->
+    <div class="lg:col-span-8 flex flex-col gap-4 md:gap-8">
+      {%- if product.media.size > 0 -%}
+        {%- for media in product.media -%}
+          <div class="w-full bg-muted relative aspect-[3/4] md:aspect-auto overflow-hidden">
+            {%- if media.media_type == 'image' -%}
+              <img src="{{ media | image_url: width: 1400 }}" alt="{{ media.alt | escape }}" class="w-full h-full object-cover md:object-contain" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+            {%- else -%}
+              {{ media | media_tag: class: 'w-full h-full object-cover' }}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Fallback Mock -->
+        <div class="w-full bg-muted relative aspect-[3/4]">
+          {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+        </div>
+        <div class="w-full bg-muted relative aspect-[3/4]">
+          {{ 'product-2' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Right: Sticky Product Info -->
+    <div class="lg:col-span-4 relative">
+      <div class="{% if section.settings.enable_sticky_info %}lg:sticky lg:top-[120px]{% endif %} flex flex-col gap-6">
+        
+        <!-- Breadcrumbs / Vendor -->
+        <div class="text-xs uppercase tracking-widest text-muted-foreground font-medium">
+          {{ product.vendor | default: 'STUDIO' }}
+        </div>
+
+        <!-- Title & Price -->
+        <div>
+          <h1 class="text-3xl lg:text-4xl font-semibold tracking-tighter uppercase mb-4">{{ product.title | default: 'Luxury Garment 01' }}</h1>
+          <div class="text-lg font-medium text-primary flex items-center gap-4">
+            <span>{{ current_variant.price | money }}</span>
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              <span class="text-muted-foreground line-through text-sm">{{ current_variant.compare_at_price | money }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Preorder / Urgency Badges -->
+        {%- if is_preorder -%}
+            <div class="bg-primary/5 border border-primary p-4 text-primary text-sm font-medium tracking-wide">
+                [PREORDER] {{ section.settings.preorder_date }}
+            </div>
+        {%- endif -%}
+        {%- if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 10 and is_preorder == false -%}
+            <div class="flex items-center gap-2 text-error text-xs font-medium uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                Limited Stock: Only {{ current_variant.inventory_quantity }} left
+            </div>
+        {%- endif -%}
+
+        <!-- Form -->
+        {% form 'product', product, id: 'luxury-product-form', class: 'mt-4 flex flex-col gap-6' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          
+          {%- unless product.has_only_default_variant -%}
+            <div class="flex flex-col gap-4">
+              {%- for option in product.options_with_values -%}
+                <div class="flex flex-col gap-2">
+                  <label class="text-xs font-medium uppercase tracking-widest text-muted-foreground">{{ option.name }}</label>
+                  <select name="options[{{ option.name | escape }}]" class="w-full border border-border p-3 text-sm bg-background focus:border-primary focus:ring-0 uppercase tracking-wide cursor-pointer transition-colors">
+                    {%- for value in option.values -%}
+                      <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+                        {{ value }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endunless -%}
+
+          <div class="pt-4">
+            <button type="submit" 
+                    class="w-full py-4 text-sm font-medium tracking-widest uppercase transition-colors {% if current_variant.available %}bg-primary text-primary-foreground hover:bg-primary/90{% else %}bg-muted text-muted-foreground cursor-not-allowed{% endif %}"
+                    {% unless current_variant.available %}disabled{% endunless %}>
+              {%- if current_variant.available -%}
+                {%- if is_preorder -%}
+                    PREORDER NOW
+                {%- else -%}
+                    ADD TO CART
+                {%- endif -%}
+              {%- else -%}
+                SOLD OUT
+              {%- endif -%}
+            </button>
+          </div>
+        {% endform %}
+
+        <!-- Description -->
+        <div class="prose prose-sm mt-8 text-muted-foreground">
+          {%- if product.description != blank -%}
+            {{ product.description }}
+          {%- else -%}
+            <p>Signature heavy-weight cotton construction with dropped shoulders and a cropped hem. Features subtle distressed detailing and a tonal embroidered logo on the chest. Designed in Los Angeles.</p>
+            <ul class="list-disc pl-4 mt-4 space-y-1 text-xs">
+                <li>100% Organic Cotton</li>
+                <li>450 GSM Heavyweight Fleece</li>
+                <li>Oversized fit</li>
+                <li>Made in Portugal</li>
+            </ul>
+          {%- endif -%}
+        </div>
+
+        <!-- Shipping Info Accordions -->
+        <div class="border-t border-border mt-6 pt-6 flex flex-col gap-4">
+            <details class="group cursor-pointer">
+                <summary class="flex justify-between items-center text-xs font-medium uppercase tracking-widest list-none">
+                    Shipping & Returns
+                    <span class="material-symbols-outlined text-lg group-open:rotate-180 transition-transform">expand_more</span>
+                </summary>
+                <div class="pt-4 text-sm text-muted-foreground leading-relaxed">
+                    Complimentary worldwide shipping on orders over $300. Returns accepted within 14 days of delivery. Preorders cannot be cancelled once production has started.
+                </div>
+            </details>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Include minimal script for variant switching if needed -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Basic variant listener if needed for a production build
+    const form = document.getElementById('luxury-product-form');
+    if(form) {
+        const selects = form.querySelectorAll('select');
+        selects.forEach(select => {
+            select.addEventListener('change', () => {
+                // In a full implementation, this updates the hidden ID and URL.
+                // Minimal implementation relies on Shopify's default form submission or page reload.
+            });
+        });
+    }
+});
+</script>

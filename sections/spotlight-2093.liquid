@@ -1,0 +1,112 @@
+{% schema %}
+{
+  "name": "Spotlight 2093",
+  "tag": "section",
+  "class": "section-spotlight-2093",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spotlight 2093"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="py-section-gap px-margin-mobile lg:px-margin-desktop bg-black overflow-hidden">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-section-gap items-center">
+    <div class="relative reveal-on-scroll">
+      <!-- Cinematic Focus Image -->
+      <div class="spotlight-glow-circle"></div>
+      <div class="relative z-10 industrial-border p-4 spotlight-img-container">
+        {% assign product = section.settings.product %}
+        {% if product != blank and product.featured_image != blank %}
+          <img class="w-full spotlight-img object-cover" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}"/>
+        {% else %}
+          {{ 'product-2' | placeholder_svg_tag: 'w-full spotlight-img object-cover' }}
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Content Side -->
+    <div class="reveal-on-scroll">
+      <div class="relative z-10">
+        <h2 class="font-headline-lg text-primary uppercase mb-4">{{ product.title | default: 'OMEGA_KEY' }}</h2>
+        <p class="font-utility-label text-on-surface-variant mb-12 tracking-[0.3em]">MASTER_PROTOCOL_01</p>
+        
+        <div class="space-y-8 mb-16">
+          <div class="flex justify-between border-b border-outline-variant pb-4">
+            <span class="font-utility-label text-secondary uppercase">MATERIAL_COMPOSTION</span>
+            <span class="font-utility-label text-white">REINFORCED_OSMIUM</span>
+          </div>
+          <div class="flex justify-between border-b border-outline-variant pb-4">
+            <span class="font-utility-label text-secondary uppercase">ENCRYPTION_LAYER</span>
+            <span class="font-utility-label text-white">QUANTUM_LATTICE_512</span>
+          </div>
+          <div class="flex justify-between border-b border-outline-variant pb-4">
+            <span class="font-utility-label text-secondary uppercase">SYSTEM_ACCESS</span>
+            <span class="font-utility-label text-primary-fixed-dim">UNRESTRICTED_NODE_00</span>
+          </div>
+          <div class="flex justify-between border-b border-outline-variant pb-4">
+            <span class="font-utility-label text-secondary uppercase">WEIGHT</span>
+            <span class="font-utility-label text-white">450G_NOMINAL</span>
+          </div>
+        </div>
+        
+        <div class="flex flex-col gap-gutter">
+          <div class="font-body-md text-on-surface-variant mb-4">
+            // THE OMEGA_KEY IS NOT A TOOL. IT IS A PERMISSION SLIP FOR THE ARCHITECTS OF THE NEW WORLD. 
+            LIMITED AVAILABILITY. NODE RESTRICTIONS APPLY.
+          </div>
+          <button class="w-full py-6 bg-primary-fixed-dim text-black font-headline-lg-mobile uppercase hover:bg-white transition-all">
+            SECURE_ACCESS
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gap-section-gap { gap: var(--spacing-section-gap); }
+  .spotlight-glow-circle {
+    position: absolute;
+    top: -5rem;
+    left: -5rem;
+    width: 24rem;
+    height: 24rem;
+    background-color: rgba(42, 229, 0, 0.1);
+    border-radius: 9999px;
+    filter: blur(120px);
+    z-index: 0;
+  }
+  .spotlight-img-container {
+    background-color: rgba(42, 42, 42, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .spotlight-img { height: 600px; }
+  .z-10 { z-index: 10; }
+  .p-4 { padding: 1rem; }
+  .lg-p-16 { padding: 4rem; }
+  .mb-4 { margin-bottom: 1rem; }
+  .mb-12 { margin-bottom: 3rem; }
+  .mb-16 { margin-bottom: 4rem; }
+  .space-y-8 > :not([hidden]) ~ :not([hidden]) { margin-top: 2rem; }
+  .pb-4 { padding-bottom: 1rem; }
+  .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .tracking-\[0\.3em\] { letter-spacing: 0.3em; }
+  .object-cover { object-fit: cover; }
+  .overflow-hidden { overflow: hidden; }
+  .w-full { width: 100%; }
+  
+  @media (min-width: 1024px) {
+    .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .section-spotlight-2093 .lg\:px-margin-desktop { padding-left: var(--spacing-margin-desktop); padding-right: var(--spacing-margin-desktop); }
+  }
+</style>

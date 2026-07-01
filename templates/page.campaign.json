@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page-campaign-public-equity",
+      "blocks": {
+        "hero": {
+          "type": "hero_image",
+          "settings": {
+            "overlay_text": "CAMPAIGN 001",
+            "caption": "[ REF_CAMPAIGN_001 ]"
+          }
+        },
+        "spacer1": {
+          "type": "spacer",
+          "settings": {
+            "size": "h-16",
+            "show_divider": true
+          }
+        },
+        "editorial": {
+          "type": "text_block",
+          "settings": {
+            "heading": "SEQUENCE 002:\nINITIALIZING",
+            "body": "<p>A technical evolution in tactile architecture. Sequence 002 explores the intersection of raw biological necessity and crystalline digital precision.</p>"
+          }
+        },
+        "pair": {
+          "type": "image_pair",
+          "settings": {}
+        },
+        "products": {
+          "type": "featured_products",
+          "settings": {
+            "heading": "FROM THIS CAMPAIGN"
+          }
+        }
+      },
+      "block_order": [
+        "hero",
+        "spacer1",
+        "editorial",
+        "pair",
+        "products"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

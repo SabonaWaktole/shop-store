@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {% render 'tailwind-config-public-equity' %}
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Shopify specific fixes to play nice with Tailwind */
+        .shopify-section { width: 100%; }
+        [x-cloak] { display: none !important; }
+    </style>
+
+    {{ content_for_header }}
+  </head>
+  <body class="bg-background text-on-surface font-body-main antialiased selection:bg-primary selection:text-background flex flex-col min-h-screen bg-noise">
+    
+    {% section 'header-public-equity' %}
+    {% section 'cart-drawer-public-equity' %}
+
+    <main id="MainContent" class="flex-grow pt-20" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer-public-equity' %}
+    
+  </body>
+</html>

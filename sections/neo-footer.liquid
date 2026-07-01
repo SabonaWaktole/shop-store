@@ -1,0 +1,185 @@
+{% schema %}
+{
+  "name": "NEO-DYS Footer",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show Newsletter Signup",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "NAVIGATE",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "Menu"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{%- if section.settings.show_newsletter -%}
+<!-- Newsletter: ENCRYPTION_JOIN -->
+<section class="py-section-gap px-margin-desktop flex flex-col items-center justify-center bg-background border-t border-outline/10">
+  <div class="max-w-3xl w-full text-center">
+    <div class="flex items-center justify-center gap-4 mb-8">
+      <span class="h-[1px] w-12 bg-primary-container"></span>
+      <h3 class="font-utility-label text-utility-label text-primary-container uppercase tracking-[0.5em]">ENCRYPTION_JOIN</h3>
+      <span class="h-[1px] w-12 bg-primary-container"></span>
+    </div>
+    <h2 class="font-headline-lg text-headline-lg uppercase mb-8">EARLY_ACCESS_SIGNALS</h2>
+    <p class="font-body-md text-on-surface-variant mb-12">Link your terminal to receive prioritized drop coordinates and subversive intel. The system won't wait for you.</p>
+    
+    {% form 'customer', class: 'flex flex-col md:flex-row gap-0 w-full group border border-outline/30 focus-within:border-primary-container transition-colors' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input 
+        id="NewsletterForm--{{ section.id }}"
+        type="email"
+        name="contact[email]"
+        class="flex-grow bg-transparent border-none text-on-surface font-utility-label py-5 px-6 focus:ring-0 placeholder:text-on-surface-variant/40"
+        value="{{ form.email }}"
+        aria-required="true"
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="email"
+        {% if form.errors %}
+          autofocus
+          aria-invalid="true"
+          aria-describedby="Newsletter-error--{{ section.id }}"
+        {% elsif form.posted_successfully? %}
+          aria-describedby="Newsletter-success--{{ section.id }}"
+        {% endif %}
+        placeholder="TERMINAL_ID@LYFESTYLE.IO"
+        required
+      >
+      <button class="bg-primary-container text-on-primary-container px-12 py-5 font-utility-label text-utility-label font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all" type="submit" name="commit">LINK_NODE</button>
+    {% endform %}
+
+    <div class="mt-8 flex justify-center gap-12">
+      <div class="flex items-center gap-2 font-utility-label text-[10px] text-on-surface-variant">
+        <span class="material-symbols-outlined text-sm">lock</span>
+        AES-256_SECURED
+      </div>
+      <div class="flex items-center gap-2 font-utility-label text-[10px] text-on-surface-variant">
+        <span class="material-symbols-outlined text-sm">wifi_tethering</span>
+        DECENTRALIZED_FEED
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- Footer -->
+<footer class="w-full px-margin-desktop py-gutter flex flex-col items-center gap-12 bg-surface-container-lowest border-t border-outline/20">
+  <div class="w-full flex flex-col md:flex-row justify-between items-start gap-8 py-12">
+    <div class="font-headline-lg text-[32px] font-bold tracking-tighter text-on-background opacity-80 mb-8 md:mb-0">
+      {{ shop.name | default: 'LYFESTYLE_2093' }}
+    </div>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-12 text-left w-full md:w-auto">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'link_list' -%}
+            <div>
+              <h5 class="font-utility-label text-[10px] text-primary-container mb-4 uppercase tracking-[0.3em]">{{ block.settings.heading | escape }}</h5>
+              <nav class="flex flex-col gap-2">
+                {%- if block.settings.menu != blank -%}
+                  {%- for link in linklists[block.settings.menu].links -%}
+                    <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="{{ link.url }}">{{ link.title }}</a>
+                  {%- endfor -%}
+                {%- else -%}
+                  <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">LINK_01</a>
+                  <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">LINK_02</a>
+                {%- endif -%}
+              </nav>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 -%}
+        <!-- Fallback if no blocks -->
+        <div>
+          <h5 class="font-utility-label text-[10px] text-primary-container mb-4 uppercase tracking-[0.3em]">NAVIGATE</h5>
+          <nav class="flex flex-col gap-2">
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">NEW_DROPS</a>
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">COLLECTIONS</a>
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">ARCHIVE</a>
+          </nav>
+        </div>
+        <div>
+          <h5 class="font-utility-label text-[10px] text-primary-container mb-4 uppercase tracking-[0.3em]">PROTOCOL</h5>
+          <nav class="flex flex-col gap-2">
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">SHIPPING</a>
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">RETURNS</a>
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">SIZING_GUIDE</a>
+          </nav>
+        </div>
+        <div>
+          <h5 class="font-utility-label text-[10px] text-primary-container mb-4 uppercase tracking-[0.3em]">SECURE</h5>
+          <nav class="flex flex-col gap-2">
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">DATA_PRIVACY</a>
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">ENCRYPTION</a>
+            <a class="font-utility-label text-[12px] text-on-surface-variant hover:text-white transition-colors" href="#">TERMS</a>
+          </nav>
+        </div>
+      {%- endif -%}
+
+      <div>
+        <h5 class="font-utility-label text-[10px] text-primary-container mb-4 uppercase tracking-[0.3em]">TERMINAL</h5>
+        <div class="flex gap-4">
+          <span class="material-symbols-outlined text-on-surface-variant hover:text-primary-container cursor-pointer transition-colors">language</span>
+          <span class="material-symbols-outlined text-on-surface-variant hover:text-primary-container cursor-pointer transition-colors">share</span>
+          <span class="material-symbols-outlined text-on-surface-variant hover:text-primary-container cursor-pointer transition-colors">rss_feed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full border-t border-outline/10 pt-8 pb-12 flex flex-col md:flex-row justify-between items-center text-center">
+    <p class="font-utility-label text-[10px] text-on-surface-variant opacity-40 uppercase tracking-[0.2em]">&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. ALL_SYSTEMS_OPERATIONAL.</p>
+    <p class="font-utility-label text-[10px] text-primary-container opacity-40 uppercase tracking-[0.2em] mt-4 md:mt-0">CONNECTED_VIA_NODE_34.05</p>
+  </div>
+</footer>
+
+<script>
+  // Micro-interactions and Atmosphere
+  document.querySelectorAll('.glitch-hover').forEach(button => {
+      button.addEventListener('mouseenter', () => {
+          // Optional: add visual glitches to UI elements via classes
+      });
+  });
+
+  // Simple scroll reveal effect for images
+  const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              entry.target.classList.add('opacity-100');
+              entry.target.classList.remove('grayscale');
+          }
+      });
+  }, observerOptions);
+
+  document.querySelectorAll('img').forEach(img => {
+      img.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+      observer.observe(img);
+  });
+</script>

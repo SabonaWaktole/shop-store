@@ -1,0 +1,100 @@
+{% schema %}
+{
+  "name": "Luxury Featured Col",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "PRE-FALL 2026"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 4,
+      "label": "Maximum products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Featured Collection"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="py-24 px-4 md:px-8 bg-background max-w-[1600px] mx-auto">
+    <div class="flex items-end justify-between mb-12 border-b border-border pb-4">
+        <h2 class="text-2xl font-semibold tracking-tighter uppercase text-primary">{{ section.settings.title }}</h2>
+        <a href="{% if section.settings.collection != blank %}{{ collections[section.settings.collection].url }}{% else %}/collections/all{% endif %}" class="text-xs font-medium tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors">
+            View All
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+        {%- assign collection = collections[section.settings.collection] -%}
+        {%- if section.settings.collection != blank and collection.products_count > 0 -%}
+            {%- for product in collection.products limit: section.settings.products_to_show -%}
+                <div class="group relative">
+                    <a href="{{ product.url }}" class="block aspect-portrait bg-muted overflow-hidden relative">
+                        {%- if product.featured_image -%}
+                            <!-- Primary Image -->
+                            <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}">
+                            
+                            <!-- Hover Image -->
+                            {%- if product.images[1] -%}
+                                <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100" src="{{ product.images[1] | image_url: width: 600 }}" alt="{{ product.images[1].alt | escape }}">
+                            {%- else -%}
+                                <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}">
+                            {%- endif -%}
+                        {%- else -%}
+                            {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+                        {%- endif -%}
+                        
+                        <!-- Badges -->
+                        <div class="absolute top-4 left-4 flex flex-col gap-2">
+                            {%- if product.tags contains 'preorder' -%}
+                                <span class="bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase px-3 py-1">Pre-order</span>
+                            {%- elsif product.available == false -%}
+                                <span class="bg-muted text-muted-foreground border border-border text-[10px] font-medium tracking-widest uppercase px-3 py-1">Sold Out</span>
+                            {%- elsif product.tags contains 'new' -%}
+                                <span class="bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase px-3 py-1">New</span>
+                            {%- endif -%}
+                        </div>
+                    </a>
+                    
+                    <div class="mt-4 flex flex-col gap-1">
+                        <a href="{{ product.url }}" class="text-sm font-medium tracking-wide text-primary hover:underline underline-offset-4">
+                            {{ product.title }}
+                        </a>
+                        <span class="text-xs text-muted-foreground">{{ product.price | money }}</span>
+                    </div>
+                </div>
+            {%- endfor -%}
+        {%- else -%}
+            <!-- Fallback -->
+            {%- for i in (1..4) -%}
+                <div class="group relative">
+                    <div class="block aspect-portrait bg-muted overflow-hidden relative">
+                        {{ 'product-' | append: i | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase px-3 py-1">Pre-order</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex flex-col gap-1">
+                        <span class="text-sm font-medium tracking-wide text-primary">Luxury Garment {{ i }}</span>
+                        <span class="text-xs text-muted-foreground">$295.00</span>
+                    </div>
+                </div>
+            {%- endfor -%}
+        {%- endif -%}
+    </div>
+</section>

@@ -1,0 +1,91 @@
+{% schema %}
+{
+  "name": "Email Popup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the Waitlist"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Sign up for exclusive early access to Drop 01."
+    }
+  ]
+}
+{% endschema %}
+
+<div id="email-popup" class="fixed inset-0 bg-primary/20 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4">
+    <div class="bg-background w-full max-w-md p-8 relative shadow-2xl animate-fade-in-up">
+        <button class="absolute top-4 right-4 text-muted-foreground hover:text-primary transition-colors" onclick="document.getElementById('email-popup').classList.add('hidden')">
+            <span class="material-symbols-outlined font-light">close</span>
+        </button>
+        
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-semibold tracking-tighter uppercase mb-2">{{ section.settings.heading }}</h2>
+            <p class="text-sm text-muted-foreground">{{ section.settings.text }}</p>
+        </div>
+
+        {% form 'customer', id: 'PopupContactForm' %}
+            <input type="hidden" name="contact[tags]" value="newsletter, waitlist">
+            
+            {%- if form.posted_successfully? -%}
+                <div class="p-4 bg-muted text-primary text-sm font-medium text-center mb-4 uppercase tracking-wide">
+                    You're on the list.
+                </div>
+            {%- else -%}
+                {%- if form.errors -%}
+                    <div class="p-4 border border-error text-error text-sm mb-4">
+                        {{ form.errors | default_errors }}
+                    </div>
+                {%- endif -%}
+
+                <div class="space-y-4">
+                    <input type="email" 
+                           name="contact[email]" 
+                           class="w-full bg-background border-b border-border px-0 py-3 text-sm focus:border-primary focus:ring-0 transition-colors placeholder:text-muted-foreground" 
+                           placeholder="Email Address"
+                           required>
+                           
+                    <button type="submit" class="w-full bg-primary text-primary-foreground font-medium text-sm tracking-widest uppercase py-4 hover:bg-primary/90 transition-colors">
+                        Subscribe
+                    </button>
+                </div>
+                
+                <p class="text-xs text-muted-foreground text-center mt-6">
+                    By subscribing, you agree to our Terms of Service and Privacy Policy.
+                </p>
+            {%- endif -%}
+        {% endform %}
+    </div>
+</div>
+
+<style>
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+</style>
+
+<script>
+// Show popup automatically after 5 seconds if not seen
+if (!localStorage.getItem('popup_seen')) {
+    setTimeout(() => {
+        document.getElementById('email-popup').classList.remove('hidden');
+        localStorage.setItem('popup_seen', 'true');
+    }, 5000);
+}
+
+// Close on outside click
+document.getElementById('email-popup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.classList.add('hidden');
+    }
+});
+</script>

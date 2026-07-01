@@ -1,0 +1,99 @@
+{% schema %}
+{
+  "name": "NEO-DYS Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "COLLECTION_02: PHASE_TWO_AVAILABLE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "REJECT <br/> UNIFORMITY"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_text",
+      "label": "Primary Button Text",
+      "default": "SHOP_COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary Button Text",
+      "default": "VIEW_LOOKBOOK"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NEO-DYS Hero"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="relative h-[90vh] w-full flex flex-col items-center justify-center text-center px-margin-desktop overflow-hidden border-b border-outline/10">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
+    {%- if section.settings.background_image != blank -%}
+      <img src="{{ section.settings.background_image | image_url: width: 2000 }}" alt="{{ section.settings.background_image.alt | escape }}" class="w-full h-full object-cover opacity-40 filter grayscale brightness-50">
+    {%- else -%}
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBz83wMbxdlDxRajV6xjEtZ01vwssyXPvGjglYiyrWaiJ2rukI_z8V8EEYPb0nf5pFKG2149iYcdnnkNeb-p1pIpiGgrSHg2fn8LHc5LW3ZiwkendOLIOvKjFGi9oTxCdJR8AibLc71udb99l3BSHXe3h-24oOMFw5hi6CdGcyDlgUG-UikObgcg-3xwZX7XrEHD6DlTnpqloEUSL7rQtBYbmkDPT-ggXBkN2Mo2jTZ-LbxOkHZ5_ZyGQ6FJjlNlwZjBopGKzpSCQQ" class="w-full h-full object-cover opacity-40 filter grayscale brightness-50">
+    {%- endif -%}
+  </div>
+  
+  <div class="relative z-20">
+    {%- if section.settings.subtitle != blank -%}
+      <p class="font-utility-label text-utility-label text-primary-container mb-4 tracking-[0.5em] uppercase">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+    
+    {%- if section.settings.title != blank -%}
+      <h1 class="font-headline-xl text-headline-xl uppercase tracking-tighter max-w-5xl leading-[0.9] mb-8">
+        {{ section.settings.title }}
+      </h1>
+    {%- endif -%}
+    
+    <div class="flex flex-col sm:flex-row gap-6 justify-center">
+      {%- if section.settings.primary_button_text != blank -%}
+        <a href="{{ section.settings.primary_button_link | default: '#' }}" class="group relative inline-flex items-center justify-center px-10 py-5 bg-primary-container text-on-primary-container font-utility-label text-utility-label font-bold uppercase tracking-[0.2em] transition-all hover:bg-white hover:text-black glitch-hover">
+          {{ section.settings.primary_button_text }}
+          <span class="ml-4 material-symbols-outlined group-hover:translate-x-1 transition-transform">shopping_bag</span>
+        </a>
+      {%- endif -%}
+      
+      {%- if section.settings.secondary_button_text != blank -%}
+        <a href="{{ section.settings.secondary_button_link | default: '#' }}" class="group relative inline-flex items-center justify-center px-10 py-5 border border-primary-container text-primary-container font-utility-label text-utility-label uppercase tracking-[0.2em] transition-all hover:bg-primary-container/10">
+          {{ section.settings.secondary_button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  <div class="absolute bottom-12 left-margin-desktop right-margin-desktop flex justify-between items-end border-t border-outline/20 pt-4 z-20">
+    <div class="font-utility-label text-[10px] text-on-surface-variant flex gap-4">
+      <span>EST_PROTOCOL: ALPHA_DECAY</span>
+      <span class="text-primary-container/40">SYSTEM_STABLE: 99.8%</span>
+    </div>
+    <div class="font-utility-label text-[10px] text-on-surface-variant">
+      COORDS: 34.0522° N, 118.2437° W
+    </div>
+  </div>
+</section>

@@ -1,0 +1,101 @@
+{% schema %}
+{
+  "name": "Luxury Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter Heading",
+      "default": "Join the Waitlist"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Newsletter Text",
+      "default": "Subscribe to receive updates on exclusive releases, early access, and editorial content."
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "default": "footer",
+      "label": "Footer Menu"
+    }
+  ]
+}
+{% endschema %}
+
+<footer class="bg-background border-t border-border pt-16 pb-8 px-4 md:px-8 mt-24">
+    <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 mb-16">
+        
+        <!-- Newsletter Signup (High Priority for Conversion) -->
+        <div class="md:col-span-12 lg:col-span-6 flex flex-col gap-6">
+            <div>
+                <h3 class="text-2xl font-semibold tracking-tighter uppercase mb-2">{{ section.settings.newsletter_heading }}</h3>
+                <p class="text-sm text-muted-foreground">{{ section.settings.newsletter_text }}</p>
+            </div>
+            
+            {% form 'customer', id: 'FooterContactForm', class: 'max-w-md w-full' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                
+                {%- if form.posted_successfully? -%}
+                    <div class="text-sm font-medium text-primary uppercase tracking-wide">
+                        Successfully subscribed.
+                    </div>
+                {%- else -%}
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="email" 
+                               name="contact[email]" 
+                               class="flex-1 bg-background border-b border-border px-0 py-3 text-sm focus:border-primary focus:ring-0 transition-colors placeholder:text-muted-foreground" 
+                               placeholder="Email Address"
+                               required>
+                        <button type="submit" class="bg-primary text-primary-foreground text-xs font-medium uppercase tracking-widest px-8 py-3 hover:bg-primary/90 transition-colors flex-shrink-0">
+                            Subscribe
+                        </button>
+                    </div>
+                    {%- if form.errors -%}
+                        <div class="text-error text-xs mt-2">
+                            {{ form.errors | default_errors }}
+                        </div>
+                    {%- endif -%}
+                {%- endif -%}
+            {% endform %}
+        </div>
+
+        <!-- Links -->
+        <div class="md:col-span-6 lg:col-span-3">
+            <h4 class="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">Information</h4>
+            <ul class="flex flex-col gap-4">
+                {%- if section.settings.footer_menu != blank -%}
+                    {%- for link in linklists[section.settings.footer_menu].links -%}
+                        <li>
+                            <a href="{{ link.url }}" class="text-sm text-primary hover:text-muted-foreground transition-colors">{{ link.title }}</a>
+                        </li>
+                    {%- endfor -%}
+                {%- else -%}
+                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Shipping & Returns</a></li>
+                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Contact</a></li>
+                {%- endif -%}
+            </ul>
+        </div>
+        
+        <!-- Socials -->
+        <div class="md:col-span-6 lg:col-span-3">
+            <h4 class="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">Social</h4>
+            <ul class="flex flex-col gap-4">
+                <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Instagram</a></li>
+                <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">TikTok</a></li>
+                <li><a href="#" class="text-sm text-primary hover:text-muted-foreground transition-colors">Twitter</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="max-w-[1600px] mx-auto border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground uppercase tracking-widest">
+        <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All Rights Reserved.</p>
+        <div class="flex gap-4">
+            <span>Powered by Shopify</span>
+        </div>
+    </div>
+</footer>

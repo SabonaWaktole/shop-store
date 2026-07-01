@@ -1,0 +1,102 @@
+{% schema %}
+{
+  "name": "Luxury Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "Sign up for early access to Drop 01."
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement Link"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Announcement Bar -->
+{%- if section.settings.announcement_text != blank -%}
+<div class="bg-primary text-primary-foreground text-xs font-medium text-center py-2 tracking-wide">
+  {%- if section.settings.announcement_link != blank -%}
+    <a href="{{ section.settings.announcement_link }}" class="hover:underline">
+      {{ section.settings.announcement_text }}
+    </a>
+  {%- else -%}
+    <span class="cursor-pointer hover:underline" onclick="document.getElementById('email-popup').classList.remove('hidden')">
+      {{ section.settings.announcement_text }}
+    </span>
+  {%- endif -%}
+</div>
+{%- endif -%}
+
+<!-- Main Header -->
+<header class="fixed top-[32px] left-0 w-full bg-background/95 backdrop-blur z-[100] border-b border-border transition-all duration-300" id="main-header">
+  <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+    
+    <!-- Mobile Menu Toggle (Left) -->
+    <div class="lg:hidden flex items-center">
+      <button class="text-primary hover:opacity-70 transition-opacity">
+        <span class="material-symbols-outlined text-2xl font-light">menu</span>
+      </button>
+    </div>
+
+    <!-- Desktop Nav (Left) -->
+    <nav class="hidden lg:flex items-center gap-8 flex-1">
+      {%- if section.settings.menu != blank -%}
+        {%- for link in linklists[section.settings.menu].links -%}
+          <a class="text-sm font-medium tracking-wide uppercase transition-colors {% if link.active %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}" href="{{ link.url }}">
+            {{ link.title }}
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        <a class="text-sm font-medium tracking-wide uppercase text-muted-foreground hover:text-primary transition-colors" href="/collections/all">Shop</a>
+        <a class="text-sm font-medium tracking-wide uppercase text-muted-foreground hover:text-primary transition-colors" href="#">Collections</a>
+        <a class="text-sm font-medium tracking-wide uppercase text-muted-foreground hover:text-primary transition-colors" href="#">Editorial</a>
+      {%- endif -%}
+    </nav>
+
+    <!-- Logo (Center) -->
+    <div class="flex-shrink-0 text-center lg:flex-1">
+      <a href="{{ routes.root_url }}" class="text-2xl font-semibold tracking-tighter uppercase text-primary">
+        {{ shop.name | default: 'STUDIO' }}
+      </a>
+    </div>
+    
+    <!-- Utilities (Right) -->
+    <div class="flex items-center justify-end gap-6 flex-1">
+      <a href="{{ routes.search_url }}" class="hidden md:flex items-center gap-2 text-sm font-medium tracking-wide text-muted-foreground hover:text-primary transition-colors uppercase">
+        <span>Search</span>
+      </a>
+      <a href="{{ routes.account_url }}" class="hidden md:flex items-center gap-2 text-sm font-medium tracking-wide text-muted-foreground hover:text-primary transition-colors uppercase">
+        <span>Account</span>
+      </a>
+      <a href="{{ routes.cart_url }}" class="flex items-center gap-2 text-sm font-medium tracking-wide text-primary hover:opacity-70 transition-opacity uppercase">
+        <span>Cart ({{ cart.item_count }})</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+// Adjust header position on scroll to hide announcement bar
+let lastScrollY = window.scrollY;
+const header = document.getElementById('main-header');
+const announcementHeight = 32;
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > announcementHeight) {
+        header.style.top = '0px';
+    } else {
+        header.style.top = `${announcementHeight - window.scrollY}px`;
+    }
+});
+</script>

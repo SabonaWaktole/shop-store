@@ -1,0 +1,314 @@
+{%- style -%}
+  @media screen and (min-width: 768px) {
+    #cart-drawer {
+      width: {{ section.settings.drawer_width }}px;
+    }
+  }
+{%- endstyle -%}
+
+<!-- Overlay Backdrop -->
+<div id="cart-overlay" class="hidden fixed inset-0 bg-background/80 backdrop-blur-[30px] z-40 transition-opacity duration-500" onclick="closeCartDrawer()"></div>
+
+<!-- Cart Drawer -->
+<aside id="cart-drawer" class="fixed inset-y-0 right-0 w-full bg-background border-l border-outline-variant z-50 flex flex-col shadow-2xl transform translate-x-full transition-transform duration-500 ease-out" data-section-id="{{ section.id }}" data-section-type="cart-drawer">
+    
+    <!-- Drawer Header -->
+    <header class="flex justify-between items-center p-8 md:p-12 border-b border-outline-variant shrink-0">
+        <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-widest">
+            CART <span class="text-on-surface-variant font-normal text-xl ml-2">({{ cart.item_count }})</span>
+        </h2>
+        <button onclick="closeCartDrawer()" class="text-on-surface-variant hover:text-primary transition-colors hover:scale-95 transform duration-300 flex items-center justify-center p-2 border border-transparent hover:border-outline-variant">
+            <span class="material-symbols-outlined" style="font-size: 28px;">close</span>
+        </button>
+    </header>
+
+    {%- if cart.item_count > 0 -%}
+        <!-- Shipping Progress -->
+        {%- if section.settings.show_free_shipping_bar -%}
+            <div class="px-8 md:px-12 py-8 border-b border-outline-variant shrink-0 bg-surface">
+                {%- assign free_shipping_threshold = section.settings.free_shipping_threshold | default: 20000 -%}
+                {%- assign difference = free_shipping_threshold | minus: cart.total_price -%}
+                
+                <div class="flex justify-between items-end mb-4">
+                    <span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Shipping Tier</span>
+                    {%- if difference > 0 -%}
+                        <span class="font-label-mono text-label-mono text-primary uppercase">{{ difference | money }} AWAY FROM SECURE DELIVERY</span>
+                    {%- else -%}
+                        <span class="font-label-mono text-label-mono text-primary uppercase">SECURE DELIVERY UNLOCKED</span>
+                    {%- endif -%}
+                </div>
+                
+                <!-- Minimal Progress Bar: 1px line -->
+                <div class="w-full h-gutter bg-surface-container-highest relative">
+                    {%- assign progress = cart.total_price | times: 100 | divided_by: free_shipping_threshold | at_most: 100 -%}
+                    <div class="absolute top-0 left-0 h-full bg-primary transition-all duration-1000 ease-out" style="width: {{ progress }}%;"></div>
+                </div>
+            </div>
+        {%- endif -%}
+
+        <!-- Item List -->
+        <div class="flex-1 overflow-y-auto hide-scrollbar flex flex-col" id="cart-drawer-items">
+            {%- for item in cart.items -%}
+                <div class="flex gap-6 p-8 md:p-12 border-b border-outline-variant group relative overflow-hidden shrink-0">
+                    <div class="w-28 h-36 md:w-32 md:h-40 shrink-0 bg-surface-container relative">
+                        {%- if item.image -%}
+                            <img src="{{ item.image | image_url: width: 400 }}" alt="{{ item.image.alt | escape }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                        {%- else -%}
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUUTk5MvbKcMcACFnaW3cb0njlZAHsWU28GDk4ovz5y4AXG4H7dQYTHdkTm-b8R6OdiLVQcDsUADfpB1Z_ukRc3HmiV8MleN2r2SXTOhReUvEltpbYsp-ymJ5yeQcUUg5hUovjlFVRrLPY_yEnGLrHAGjAfUNrPUxkCGseQmGj31mPTCRMk0O8StcSoCGjQvlTLqklwb5EqRCMf6Hs9PrT3vTgPf6c51u-p_fJZwF5a8NETdxOi9NG0ThU52dDFngmRuhoGD3fDBxu" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                        {%- endif -%}
+                        <div class="absolute inset-0 border border-outline-variant/30 pointer-events-none"></div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-between flex-1 py-1">
+                        <div class="flex justify-between items-start gap-4">
+                            <div class="flex flex-col">
+                                <a href="{{ item.url }}" class="font-body-main text-body-main text-primary uppercase tracking-wider hover:underline">{{ item.product.title }}</a>
+                                {%- unless item.product.has_only_default_variant -%}
+                                    <span class="font-caption text-caption text-on-surface-variant mt-1">{{ item.variant.title }}</span>
+                                {%- endunless -%}
+                            </div>
+                            <span class="font-label-mono text-label-mono text-primary">{{ item.final_line_price | money }}</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center gap-3 font-label-mono text-label-mono text-primary border border-outline-variant px-3 py-1">
+                                    <button class="text-on-surface-variant hover:text-primary transition-colors" onclick="updateCartItem('{{ item.key }}', {{ item.quantity | minus: 1 }})">-</button>
+                                    <span>{{ item.quantity }}</span>
+                                    <button class="text-on-surface-variant hover:text-primary transition-colors" onclick="updateCartItem('{{ item.key }}', {{ item.quantity | plus: 1 }})">+</button>
+                                </div>
+                            </div>
+                            <button onclick="updateCartItem('{{ item.key }}', 0)" class="font-label-mono text-label-mono text-on-surface-variant hover:text-error transition-colors underline decoration-outline-variant hover:decoration-error underline-offset-4">REMOVE</button>
+                        </div>
+                    </div>
+                </div>
+            {%- endfor -%}
+
+            <!-- Upsell Blocks -->
+            {%- for block in section.blocks -%}
+                {%- if block.type == 'upsell' and block.settings.product != blank -%}
+                    {%- assign upsell_product = block.settings.product -%}
+                    <div class="p-8 md:p-12 border-b border-outline-variant shrink-0" {{ block.shopify_attributes }}>
+                        <div class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest mb-6">{{ block.settings.heading }}</div>
+                        <div class="flex gap-6">
+                            <div class="w-20 h-28 shrink-0 relative">
+                                <img src="{{ upsell_product.featured_image | image_url: width: 200 }}" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-300">
+                                <div class="absolute inset-0 border border-outline-variant/30 pointer-events-none"></div>
+                            </div>
+                            <div class="flex flex-col justify-between flex-1">
+                                <div class="flex justify-between items-start gap-4">
+                                    <a href="{{ upsell_product.url }}" class="font-body-main text-body-main text-primary uppercase tracking-wider hover:underline">{{ upsell_product.title }}</a>
+                                    <span class="font-label-mono text-label-mono text-primary">{{ upsell_product.price | money }}</span>
+                                </div>
+                                {%- form 'product', upsell_product -%}
+                                    <input type="hidden" name="id" value="{{ upsell_product.selected_or_first_available_variant.id }}">
+                                    <button type="button" class="mt-4 font-label-mono text-label-mono text-primary hover:text-background hover:bg-primary border border-primary px-4 py-2 uppercase transition-colors" onclick="addUpsellToCart(this.form)">
+                                        + ADD
+                                    </button>
+                                {%- endform -%}
+                            </div>
+                        </div>
+                    </div>
+                {%- endif -%}
+            {%- endfor -%}
+
+        </div>
+
+        <!-- Drawer Footer (Subtotal & CTA) -->
+        <div class="p-8 md:p-12 border-t border-outline-variant bg-background shrink-0 flex flex-col gap-8 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20">
+            {%- if section.settings.show_cart_note -%}
+                <cart-note class="block mb-4">
+                    <label for="CartDrawer-Note" class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-2 block">ORDER NOTE</label>
+                    <textarea id="CartDrawer-Note" class="w-full bg-surface border border-outline-variant p-4 font-body-main text-primary focus:outline-none focus:border-primary resize-none h-24" name="note">{{ cart.note }}</textarea>
+                </cart-note>
+            {%- endif -%}
+
+            <div class="flex justify-between items-end">
+                <span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Estimated Subtotal</span>
+                <span class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-widest">{{ cart.total_price | money }}</span>
+            </div>
+            <p class="font-caption text-caption text-on-surface-variant text-center border-t border-outline-variant pt-4">
+                TAXES AND SHIPPING CALCULATED AT SECURE TERMINAL.
+            </p>
+            <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form">
+                <button type="submit" name="checkout" class="w-full bg-primary text-background border border-primary py-6 md:py-8 font-label-mono text-[14px] uppercase tracking-[0.2em] font-bold hover:bg-background hover:text-primary transition-all duration-300 flex justify-center items-center gap-4 group cursor-pointer">
+                    <span>INITIALIZE CHECKOUT</span>
+                    <span class="material-symbols-outlined transform group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
+                </button>
+            </form>
+        </div>
+    {%- else -%}
+        <!-- Empty Cart State -->
+        <div class="flex-1 flex flex-col items-center justify-center p-8 text-center bg-surface">
+            <span class="material-symbols-outlined text-[64px] text-outline-variant mb-6">shopping_cart</span>
+            <p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest mb-8">{{ section.settings.empty_cart_text }}</p>
+            <a href="{{ routes.all_products_collection_url }}" onclick="closeCartDrawer()" class="inline-block bg-background text-primary px-12 py-5 font-label-mono text-label-mono uppercase hover:bg-primary hover:text-background transition-colors border border-primary">
+                {{ section.settings.empty_cart_button }}
+            </a>
+        </div>
+    {%- endif -%}
+</aside>
+
+<script>
+    function closeCartDrawer() {
+        const drawer = document.getElementById('cart-drawer');
+        const overlay = document.getElementById('cart-overlay');
+        if(drawer && overlay) {
+            drawer.classList.add('translate-x-full');
+            drawer.classList.remove('translate-x-0');
+            overlay.classList.add('hidden');
+        }
+    }
+
+    function addUpsellToCart(form) {
+        const formData = new FormData(form);
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            refreshCartDrawer();
+        })
+        .catch(error => console.error('Error adding upsell:', error));
+    }
+
+    // AJAX Cart Update
+    function updateCartItem(key, quantity) {
+        fetch(window.Shopify.routes.root + 'cart/change.js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: key,
+                quantity: quantity
+            })
+        })
+        .then(response => response.json())
+        .then(state => {
+            refreshCartDrawer();
+            updateCartCount(state.item_count);
+        })
+        .catch(error => {
+            console.error('Error updating cart:', error);
+        });
+    }
+
+    // Reload the section HTML via Section Rendering API
+    function refreshCartDrawer() {
+        fetch(window.location.pathname + '?section_id=cart-drawer-public-equity')
+        .then(response => response.text())
+        .then(text => {
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(text, 'text/html');
+            const newDrawer = htmlDocument.getElementById('cart-drawer');
+            if(newDrawer) {
+                document.getElementById('cart-drawer').innerHTML = newDrawer.innerHTML;
+            }
+        })
+        .catch(error => console.error('Error refreshing cart:', error));
+    }
+    
+    function updateCartCount(count) {
+        const countBubble = document.getElementById('CartCount');
+        if(countBubble) {
+            if(count > 0) {
+                countBubble.textContent = count;
+                countBubble.classList.remove('hidden');
+            } else {
+                countBubble.classList.add('hidden');
+            }
+        }
+    }
+    
+    // Note Save
+    document.addEventListener('change', function(event) {
+        if(event.target.id === 'CartDrawer-Note') {
+            fetch(window.Shopify.routes.root + 'cart/update.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ note: event.target.value })
+            });
+        }
+    });
+</script>
+
+{% schema %}
+{
+  "name": "Cart Drawer (PE)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "drawer_width",
+      "min": 400,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Drawer Width (Desktop)",
+      "default": 540
+    },
+    {
+      "type": "header",
+      "content": "Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_shipping_bar",
+      "label": "Show Free Shipping Bar",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free Shipping Threshold (in cents)",
+      "info": "Example: For $200, enter 20000.",
+      "default": 20000
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart_note",
+      "label": "Enable Order Note",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Empty Cart State"
+    },
+    {
+      "type": "text",
+      "id": "empty_cart_text",
+      "label": "Empty Cart Message",
+      "default": "CART IS EMPTY"
+    },
+    {
+      "type": "text",
+      "id": "empty_cart_button",
+      "label": "Empty Cart Button Text",
+      "default": "RETURN TO SHOP"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "upsell",
+      "name": "Upsell Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "ADD ONS"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

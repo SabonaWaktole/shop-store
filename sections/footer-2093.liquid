@@ -1,0 +1,77 @@
+{% schema %}
+{
+  "name": "Footer 2093",
+  "tag": "section",
+  "class": "section-footer-2093",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "LYFESTYLE_2093"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright Text",
+      "default": "© 2093 PHASE TWO ENTERPRISES. ALL RIGHTS RESERVED. SYSTEM_STATUS: OPERATIONAL."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer 2093"
+    }
+  ]
+}
+{% endschema %}
+
+<footer class="footer-2093 w-full py-section-gap px-margin-desktop flex flex-col md-flex-row justify-between items-center gap-gutter bg-surface-container-high border-t-2 border-primary-fixed">
+  <div class="flex flex-col gap-4">
+    <div class="font-headline-lg text-on-surface uppercase font-bold tracking-tighter">{{ section.settings.brand_name }}</div>
+    <p class="font-utility-label text-secondary-fixed-dim uppercase tracking-widest max-w-sm text-center md-text-left">
+      {{ section.settings.copyright }}
+    </p>
+  </div>
+  <div class="flex flex-wrap justify-center gap-8">
+    <a class="font-utility-label uppercase tracking-widest text-on-tertiary-container footer-link" href="#">PRIVACY_PROTOCOL</a>
+    <a class="font-utility-label uppercase tracking-widest text-on-tertiary-container footer-link" href="#">TERMS_OF_SERVICE</a>
+    <a class="font-utility-label uppercase tracking-widest text-on-tertiary-container footer-link" href="#">DISTRIBUTION_NODES</a>
+    <a class="font-utility-label uppercase tracking-widest text-on-tertiary-container footer-link" href="#">DATA_PURGE</a>
+  </div>
+</footer>
+
+<style>
+  .footer-2093 {
+    width: 100%;
+    padding-top: var(--spacing-section-gap);
+    padding-bottom: var(--spacing-section-gap);
+    padding-left: var(--spacing-margin-desktop);
+    padding-right: var(--spacing-margin-desktop);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-gutter);
+    background-color: var(--color-surface-container-high);
+    border-top: 2px solid var(--color-primary-fixed);
+  }
+  .footer-2093 .flex-col { flex-direction: column; }
+  .footer-2093 .gap-4 { gap: 1rem; }
+  .footer-2093 .gap-8 { gap: 2rem; }
+  .footer-2093 .flex-wrap { flex-wrap: wrap; }
+  .footer-2093 .justify-center { justify-content: center; }
+  .footer-2093 .max-w-sm { max-width: 24rem; }
+  .footer-2093 .text-center { text-align: center; }
+  .footer-2093 .text-on-surface { color: var(--color-on-surface); }
+  .footer-2093 .text-secondary-fixed-dim { color: var(--color-secondary-fixed-dim); }
+  .footer-2093 .text-on-tertiary-container { color: var(--color-on-tertiary-container); }
+  .footer-2093 .footer-link { transition: color 0.15s; text-decoration: none; }
+  .footer-2093 .footer-link:hover { color: var(--color-primary-fixed-dim); }
+  
+  @media (min-width: 768px) {
+    .footer-2093 {
+      flex-direction: row;
+    }
+    .footer-2093 .md-text-left { text-align: left; }
+  }
+</style>

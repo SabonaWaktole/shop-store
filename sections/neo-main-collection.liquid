@@ -1,0 +1,231 @@
+{% schema %}
+{
+  "name": "NEO-DYS Collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12,
+      "label": "Products per page"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="mb-12 border-l-2 border-primary-container pl-6">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <span class="font-utility-label text-primary-container mb-2 block">// CURRENT_PHASE: 01_GENESIS</span>
+      <h2 class="font-headline-lg text-4xl md:text-5xl uppercase">{{ collection.title | default: 'System_Output: Apparel' }}</h2>
+    </div>
+    <div class="text-right font-utility-label text-on-surface-variant text-xs">
+      <p>RECORDS_FOUND: {{ collection.products_count | default: 128 }}</p>
+      <p>LOCATION: SECTOR_07</p>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-gutter">
+  <!-- Filters Sidebar -->
+  <aside class="w-full lg:w-64 flex-shrink-0 space-y-10">
+    <div class="border border-outline-variant p-4 bg-surface-container-low">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="font-utility-label text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">filter_list</span> PARAMETERS
+        </h3>
+        <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="text-[10px] hover:text-primary-container uppercase underline">Reset</a>
+      </div>
+      
+      {%- if collection.filters.size > 0 -%}
+        <form id="CollectionFiltersForm" class="space-y-8">
+          {%- for filter in collection.filters -%}
+            <div class="mb-8">
+              <h4 class="font-utility-label text-xs text-on-surface-variant mb-4 border-b border-outline-variant pb-1 uppercase">{{ filter.label }}</h4>
+              {%- case filter.type -%}
+                {%- when 'boolean' or 'list' -%}
+                  <ul class="space-y-2 text-sm uppercase">
+                    {%- for filter_value in filter.values -%}
+                      <li class="flex items-center gap-2 group cursor-pointer">
+                        <input type="checkbox"
+                          name="{{ filter_value.param_name }}"
+                          value="{{ filter_value.value }}"
+                          id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                          {% if filter_value.active -%}checked{%- endif %}
+                          class="w-3 h-3 appearance-none border border-outline-variant checked:border-primary-container checked:bg-primary-container transition-colors group-hover:border-primary-container cursor-pointer"
+                        >
+                        <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}" class="cursor-pointer {% if filter_value.active %}text-primary-container{% else %}group-hover:text-primary-container{% endif %}">
+                          {{ filter_value.label }} ({{ filter_value.count }})
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- when 'price_range' -%}
+                  <div class="space-y-4">
+                    <div class="flex justify-between gap-4">
+                      <input name="{{ filter.min_value.param_name }}"
+                        id="Filter-{{ filter.min_value.param_name }}"
+                        {% if filter.min_value.value -%}
+                          value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                        {%- endif %}
+                        type="number"
+                        placeholder="0"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        class="w-full bg-transparent border-b border-outline-variant text-on-surface font-utility-label py-2 focus:border-primary-container focus:ring-0 text-xs uppercase"
+                      >
+                      <input name="{{ filter.max_value.param_name }}"
+                        id="Filter-{{ filter.max_value.param_name }}"
+                        {% if filter.max_value.value -%}
+                          value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                        {%- endif %}
+                        type="number"
+                        placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        class="w-full bg-transparent border-b border-outline-variant text-on-surface font-utility-label py-2 focus:border-primary-container focus:ring-0 text-xs uppercase"
+                      >
+                    </div>
+                  </div>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+          <button type="submit" class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">APPLY_PARAMETERS</button>
+        </form>
+      {%- else -%}
+        <!-- Fallback Filters -->
+        <div class="mb-8">
+          <h4 class="font-utility-label text-xs text-on-surface-variant mb-4 border-b border-outline-variant pb-1">CATEGORY</h4>
+          <ul class="space-y-2 text-sm uppercase">
+            <li class="flex items-center gap-2 group cursor-pointer">
+              <div class="w-3 h-3 border border-outline-variant group-hover:border-primary-container transition-colors"></div>
+              <span class="group-hover:text-primary-container">Outwear (24)</span>
+            </li>
+            <li class="flex items-center gap-2 group cursor-pointer">
+              <div class="w-3 h-3 border border-primary-container bg-primary-container"></div>
+              <span class="text-primary-container">Utility Tops (42)</span>
+            </li>
+          </ul>
+        </div>
+        <div class="mb-8">
+          <h4 class="font-utility-label text-xs text-on-surface-variant mb-4 border-b border-outline-variant pb-1">FITMENT</h4>
+          <div class="grid grid-cols-3 gap-2">
+            <button class="border border-outline-variant py-2 text-xs hover:border-primary-container hover:text-primary-container transition-all">XS</button>
+            <button class="border border-primary-container bg-primary-container/10 text-primary-container py-2 text-xs">S</button>
+            <button class="border border-outline-variant py-2 text-xs hover:border-primary-container hover:text-primary-container transition-all">M</button>
+            <button class="border border-outline-variant py-2 text-xs hover:border-primary-container hover:text-primary-container transition-all">L</button>
+            <button class="border border-outline-variant py-2 text-xs hover:border-primary-container hover:text-primary-container transition-all">XL</button>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+    
+    <div class="hidden lg:block border border-outline-variant p-4 bg-surface-container-lowest">
+      <p class="font-utility-label text-[10px] leading-relaxed text-on-surface-variant italic">
+        "EACH ARTIFACT IS SUBJECT TO CRYPTO-AUTHENTICATION. SHIPMENT FROM SECTOR_07 MAY INCUR ADDITIONAL TELEPORTATION FEES."
+      </p>
+    </div>
+  </aside>
+
+  <!-- Product Grid Area -->
+  <div class="flex-1">
+    <!-- Sorting & View Controls -->
+    <div class="flex items-center justify-between mb-8 border-b border-outline-variant pb-4">
+      <div class="flex items-center gap-4">
+        <span class="font-utility-label text-xs uppercase hidden sm:inline">Sort_By:</span>
+        <select class="bg-transparent border-none focus:ring-0 font-utility-label text-xs uppercase text-primary-container cursor-pointer py-0" name="sort_by" id="SortBy">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected="selected"{% endif %}>
+              {{ option.name }}
+            </option>
+          {%- endfor -%}
+        </select>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="material-symbols-outlined p-1 text-primary-container">grid_view</button>
+        <button class="material-symbols-outlined p-1 text-on-surface-variant hover:text-primary-container">view_list</button>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-gutter gap-y-12">
+      {%- if collection.products.size > 0 -%}
+        {% paginate collection.products by section.settings.products_per_page %}
+          {%- for product in collection.products -%}
+            <div class="product-card group cursor-pointer">
+              <a href="{{ product.url }}" class="block relative aspect-[3/4] overflow-hidden bg-surface-container-low border border-outline-variant mb-4">
+                {%- if product.featured_image -%}
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700' }}
+                {%- endif -%}
+                
+                <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+                  <div class="w-full py-3 bg-primary-container text-black text-center font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">VIEW_DETAILS</div>
+                </div>
+              </a>
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface"><a href="{{ product.url }}">{{ product.title }}</a></h4>
+                  <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">{{ product.type | default: 'APPAREL' }} // {{ product.vendor | default: 'UNKNOWN' }}</p>
+                </div>
+                <span class="font-utility-label text-[14px] text-primary-container">{{ product.price | money_without_currency | replace: ',', '' | replace: '.00', '' }}_CR</span>
+              </div>
+            </div>
+          {%- endfor -%}
+        {% endpaginate %}
+      {%- else -%}
+        <!-- Fallback Products -->
+        <div class="product-card group cursor-pointer">
+          <div class="relative aspect-[3/4] overflow-hidden bg-surface-container-low border border-outline-variant mb-4">
+            <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdxNcb6BNZjX84t7O-rT7fR-RXXVfdtgt6JKcyTYtxONTjiSwBymEhBKTPcRvF5T-lUpb9BOvfkjTHcxCKvVPO-QCsYN_T5MWEiZzgXzZA61PLkKUVCmtPSD0gYX12-Cxze6IV74wwBL-QbKdN4ZGsU3bOK_EV-A_GeQvshCBB8MOIttbgLKnyI7CSWWZl6EbrIIJ47PEqsyLXrkk53O0YUl0r0RXk77el42hOlEdXvHGSWWBUIrCp3CR0DSvC7v1PX63O0gNmXAMr">
+            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+              <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">VIEW_DETAILS</button>
+            </div>
+          </div>
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">VANGUARD_SHELL_2093</h4>
+              <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">OUTERWEAR // BLACK_OPS</p>
+            </div>
+            <span class="font-utility-label text-[14px] text-primary-container">1,450_CR</span>
+          </div>
+        </div>
+        
+        <div class="product-card group cursor-pointer">
+          <div class="relative aspect-[3/4] overflow-hidden bg-surface-container-low border border-outline-variant mb-4">
+            <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5RgcwTPkghs0OpuZp20yNA-67ft44qsMPBXOLfdxqiMvWytxflmHBnV4-neoBP5ib87zogMg6lkRkALREBVQKX20BdD5Xb1odQlLocK-z_G4rYsMCj_O8rFusft4wpRSplSv2UqCi8tdY_t8_6MGdhbFf-33-BXyFb53jvL4B3Oz9upVvhAIHN0W8g4T7Tkz3eLWr7YGpZK50S6vQJnyfVRCsWcnS4oJRnsY9_nVJquH61rX2_XSqmQOPwqeOEErbQL5hY0doPqBL">
+            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+              <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">VIEW_DETAILS</button>
+            </div>
+          </div>
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">SIGNAL_JAMMER_GLOVE</h4>
+              <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">HARDWARE // ENCRYPTED</p>
+            </div>
+            <span class="font-utility-label text-[14px] text-primary-container">820_CR</span>
+          </div>
+        </div>
+        
+        <div class="product-card group cursor-pointer">
+          <div class="relative aspect-[3/4] overflow-hidden bg-surface-container-low border border-outline-variant mb-4">
+            <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBRajcpyjSWUwkAC_ze3IGW3EW9-rvjCV0gD3qlbj846t_xPB-OPicf3jy0Z9PYse3upQlD8scnxjxiHeX_un2kclHi6D4oNstrxeEI2OVkEvGJmGIeX0mSpjvoHQ-1UhyOMzm01wyJ35Cnt6F-eZgeFRDuZuiF8E8bYXsHsFcxBuV3LPGghIhMfyM8tMxAILcJTJ6s9Dh0_Cppk582f-lTsnbYKAkBgJTy1rXv4cmfc9KaeKbyA23wUQ67fJAbVThFK-IXKGwIj9G">
+            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+              <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">VIEW_DETAILS</button>
+            </div>
+          </div>
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">OPERATOR_BOOTS_MK.II</h4>
+              <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">FOOTWEAR // KINETIC</p>
+            </div>
+            <span class="font-utility-label text-[14px] text-primary-container">1,100_CR</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

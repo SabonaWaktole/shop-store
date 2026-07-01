@@ -1,0 +1,104 @@
+{% schema %}
+{
+  "name": "NEO-DYS Related Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "SYNERGY_ARTIFACTS"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "COMPLEMENTARY_ASSETS_FOR_TOTAL_INTEGRATION"
+    },
+    {
+      "type": "product_list",
+      "id": "related_products",
+      "label": "Products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NEO-DYS Related Products"
+    }
+  ]
+}
+{% endschema %}
+
+<!-- SYNERGY_ARTIFACTS SECTION (Bento Style) -->
+<section class="px-margin-desktop py-section-gap bg-surface-container-lowest border-t border-outline">
+  <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+      <div>
+          <h3 class="font-headline-lg text-headline-lg uppercase mb-2">{{ section.settings.title }}</h3>
+          <p class="font-body-md text-secondary opacity-60">{{ section.settings.subtitle }}</p>
+      </div>
+      <div class="font-utility-label text-[10px] border-l border-primary-fixed-dim pl-4 py-2">
+          PROTOCOL: UNIFIED_AESTHETIC_01
+      </div>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+    {%- if section.settings.related_products != blank -%}
+      {%- for product in section.settings.related_products limit: 3 -%}
+        <div class="group relative aspect-square border border-outline-variant overflow-hidden metal-texture cursor-pointer">
+          <a href="{{ product.url }}" class="block w-full h-full">
+            {%- if product.featured_image -%}
+              <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}">
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0' }}
+            {%- endif -%}
+            <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
+            <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-background to-transparent transform translate-y-4 group-hover:translate-y-0 transition-transform pointer-events-none">
+              <h4 class="font-headline-lg text-xl mb-1">{{ product.title }}</h4>
+              <div class="flex justify-between items-center">
+                <p class="font-utility-label text-[10px] text-primary-fixed-dim uppercase">{{ product.type | default: 'SYSTEM_UPGRADE' }}</p>
+                <span class="font-utility-label text-sm">{{ product.price | money }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <!-- Fallback Data -->
+      <!-- ITEM 1 -->
+      <div class="group relative aspect-square border border-outline-variant overflow-hidden metal-texture cursor-pointer">
+          <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbak0pnlcxFqanOawrCKdcTJgtFEeiAVu0ok4Cw_n2e5NoeqGLnPD6YMc6uIh38MA0zXw-a42AzM4H2zVsv-mErc5XS89kQ4o13lRYGTmkh10ZPQQiHczwbAzKZTs-C0Fil0nxsbROd9ZpNk6zq8e_uihglyoEtRZRP_pypTkp4SMZabK8J7zgupDqCN1qym1xm-9aa_Jv0z5zpMNMmI2Ulw_uoPufoTP8-SFjhL0V6ZfVE-5hi3rQShTnBEupIQaAT_N8W5ef3FjR"/>
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
+          <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-background to-transparent transform translate-y-4 group-hover:translate-y-0 transition-transform">
+              <h4 class="font-headline-lg text-xl mb-1">KINETIC_SHROUD</h4>
+              <div class="flex justify-between items-center">
+                  <p class="font-utility-label text-[10px] text-primary-fixed-dim uppercase">LIQUID_REPELLENT_FABRIC</p>
+                  <span class="font-utility-label text-sm">$890.00</span>
+              </div>
+          </div>
+      </div>
+      <!-- ITEM 2 -->
+      <div class="group relative aspect-square border border-outline-variant overflow-hidden metal-texture cursor-pointer">
+          <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL2wkPej-C3ikUsmMcSsiNQirSWsNyEguq0zZAk_YycVwh2LwxXrAvBOmOXPL4gBlyqhd845twhTEbByfs08JF2TgdvY6xaE8jcxQPi-LFIIn0lauwaHye93Lru4TJss_5PNSTQWPyaMCSdMp7W4DQqkONY5z3M5FqTNyK_6niRD-Cc9HKpQmffEE17mJdv5BUR7yW5HyBDryp4vD3BPkGRZVsEj1k6uN3wFjTR7spmPLIvwHqAN7gO34K0GSOPMAyrBjvNz0YaVQY"/>
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
+          <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-background to-transparent transform translate-y-4 group-hover:translate-y-0 transition-transform">
+              <h4 class="font-headline-lg text-xl mb-1">GRAVITY_BOOTS_V2</h4>
+              <div class="flex justify-between items-center">
+                  <p class="font-utility-label text-[10px] text-primary-fixed-dim uppercase">URBAN_TERRAIN_CALIBRATED</p>
+                  <span class="font-utility-label text-sm">$1,200.00</span>
+              </div>
+          </div>
+      </div>
+      <!-- ITEM 3 -->
+      <div class="group relative aspect-square border border-outline-variant overflow-hidden metal-texture cursor-pointer">
+          <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2fW2yyrqEvca5yG0ke2HPZbw7DhMgTiT29mTBXe1dfKNUDNklHtsXSBHfuoprUgLJrEifCr9dwt5a2rOh0WMYt_ku0kbVMEDjZ3Iihm0CnmE_HHCqPjeIVJDkK_HW7sU2s8qNTPc__y_nKDqDhEkTj3DvwCyIAP4xRLudbYeQPoEdDU-yOkrYEMbE57rFAalVZ1U7F9JiDqKIp-kiRds2gURP4_9qBImDPaWbZbwEsNL_gfVTZH3tHcVXlvvWQipuI0-TGw5ZHILh"/>
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
+          <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-background to-transparent transform translate-y-4 group-hover:translate-y-0 transition-transform">
+              <h4 class="font-headline-lg text-xl mb-1">OPTIC_SHIELD_03</h4>
+              <div class="flex justify-between items-center">
+                  <p class="font-utility-label text-[10px] text-primary-fixed-dim uppercase">POLARIZED_SENSORY_INPUT</p>
+                  <span class="font-utility-label text-sm">$650.00</span>
+              </div>
+          </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>

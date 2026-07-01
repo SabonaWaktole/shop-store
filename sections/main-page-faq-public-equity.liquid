@@ -1,0 +1,126 @@
+<div class="w-full max-w-container-max mx-auto pt-[60px] md:pt-[100px] pb-32 px-margin-mobile md:px-margin-desktop" data-section-id="{{ section.id }}" data-section-type="faq">
+    
+    <header class="mb-16 border-b border-outline-variant pb-8">
+        <h1 class="font-display-xl text-display-xl uppercase max-w-5xl leading-none text-[36px] md:text-[64px] mb-8">
+            {{ section.settings.heading | default: 'FAQ' }}
+        </h1>
+        {%- if section.settings.subtext != blank -%}
+            <p class="font-body-main text-body-main text-on-surface-variant max-w-3xl">
+                {{ section.settings.subtext }}
+            </p>
+        {%- endif -%}
+    </header>
+
+    <div class="max-w-4xl">
+        {%- for block in section.blocks -%}
+            {%- if block.type == 'category' -%}
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tight mt-16 mb-8 first:mt-0">
+                    {{ block.settings.title }}
+                </h2>
+            {%- elsif block.type == 'question' -%}
+                <div class="faq-item border-b border-outline-variant" {{ block.shopify_attributes }}>
+                    <button class="w-full flex justify-between items-center py-6 focus:outline-none group text-left" onclick="toggleFaqAccordion(this)">
+                        <span class="font-label-mono text-label-mono text-primary uppercase tracking-widest pr-8">{{ block.settings.question }}</span>
+                        <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors shrink-0 faq-icon">add</span>
+                    </button>
+                    <div class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                        <div class="pb-8 font-body-main text-body-main text-on-surface-variant pl-0 md:pl-4 border-l-0 md:border-l border-outline-variant md:ml-4">
+                            {{ block.settings.answer }}
+                        </div>
+                    </div>
+                </div>
+            {%- endif -%}
+        {%- else -%}
+            <!-- Fallback FAQ items if no blocks are configured -->
+            <div class="faq-item border-b border-outline-variant">
+                <button class="w-full flex justify-between items-center py-6 focus:outline-none group text-left" onclick="toggleFaqAccordion(this)">
+                    <span class="font-label-mono text-label-mono text-primary uppercase tracking-widest pr-8">WHAT IS YOUR SHIPPING POLICY?</span>
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors shrink-0 faq-icon">add</span>
+                </button>
+                <div class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                    <div class="pb-8 font-body-main text-body-main text-on-surface-variant">
+                        All orders are processed within 2-3 business days. Shipping times vary by location. Due to the nature of these limited artifacts, all sales are final.
+                    </div>
+                </div>
+            </div>
+            <div class="faq-item border-b border-outline-variant">
+                <button class="w-full flex justify-between items-center py-6 focus:outline-none group text-left" onclick="toggleFaqAccordion(this)">
+                    <span class="font-label-mono text-label-mono text-primary uppercase tracking-widest pr-8">DO YOU ACCEPT RETURNS?</span>
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors shrink-0 faq-icon">add</span>
+                </button>
+                <div class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                    <div class="pb-8 font-body-main text-body-main text-on-surface-variant">
+                        Due to the limited nature of our drops, all sales are final. Please refer to our sizing guide before purchasing.
+                    </div>
+                </div>
+            </div>
+        {%- endfor -%}
+    </div>
+</div>
+
+<script>
+    function toggleFaqAccordion(btn) {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector('.faq-icon');
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+            icon.textContent = 'add';
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            icon.textContent = 'remove';
+        }
+    }
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Page (PE)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page Heading",
+      "default": "FREQUENTLY ASKED QUESTIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subheading Text",
+      "default": "Everything you need to know about ordering, shipping, and returns."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Header",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "ORDERS & SHIPPING"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question & Answer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your shipping policy?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>All orders are processed within 2-3 business days.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

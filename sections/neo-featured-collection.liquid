@@ -1,0 +1,158 @@
+{% schema %}
+{
+  "name": "NEO-DYS Featured",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "PHASE_TWO_DROPS"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "ACTIVE_HARDWARE_INVENTORY"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 4,
+      "label": "Maximum products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NEO-DYS Featured"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="py-section-gap px-margin-desktop bg-background relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-1/3 h-full volumetric-glow pointer-events-none"></div>
+  
+  <div class="flex flex-col md:flex-row justify-between items-baseline mb-16 border-b border-outline/20 pb-4 relative z-10">
+    <div>
+      <h3 class="font-headline-lg text-headline-lg uppercase tracking-tight">{{ section.settings.title }}</h3>
+      <p class="font-utility-label text-utility-label text-primary-container mt-2">{{ section.settings.subtitle }}</p>
+    </div>
+    <div class="flex gap-8 mt-4 md:mt-0">
+      <button class="font-utility-label text-utility-label text-secondary hover:text-primary-container transition-colors uppercase border-b border-transparent hover:border-primary-container">ALL_ITEMS</button>
+      <button class="font-utility-label text-utility-label text-secondary opacity-40 hover:opacity-100 transition-opacity uppercase">TOP_SELLERS</button>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter relative z-10">
+    {%- assign collection = collections[section.settings.collection] -%}
+    {%- if section.settings.collection != blank and collection.products_count > 0 -%}
+      {%- for product in collection.products limit: section.settings.products_to_show -%}
+        <div class="group relative">
+          <a href="{{ product.url }}" class="block aspect-[3/4] bg-surface-container-low overflow-hidden relative border border-outline/10 group-hover:border-primary-container transition-all duration-500">
+            {%- if product.featured_image -%}
+              <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}">
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700' }}
+            {%- endif -%}
+            
+            {%- assign now_seconds = 'now' | date: "%s" | plus: 0 -%}
+            {%- assign product_seconds = product.created_at | date: "%s" | plus: 0 -%}
+            {%- assign diff_seconds = now_seconds | minus: product_seconds -%}
+            {%- if product.tags contains 'NEW' or diff_seconds < 2592000 -%}
+              <div class="absolute top-4 left-4 bg-primary-container text-black font-utility-label text-[10px] px-2 py-0.5 font-bold">NEW</div>
+            {%- endif -%}
+            
+            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+              <div class="w-full py-3 bg-primary-container text-black text-center font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">QUICK_ADD</div>
+            </div>
+          </a>
+          <div class="mt-6 flex justify-between items-start">
+            <div>
+              <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface"><a href="{{ product.url }}">{{ product.title }}</a></h4>
+              <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">{{ product.type | default: 'HARDWARE' }} // {{ product.vendor | default: 'UNKNOWN' }}</p>
+            </div>
+            <span class="font-utility-label text-[14px] text-primary-container">{{ product.price | money_without_currency | replace: ',', '' | replace: '.00', '' }}_CR</span>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <!-- Fallback Mock Products -->
+      <!-- Product Card 1 -->
+      <div class="group relative">
+        <div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative border border-outline/10 group-hover:border-primary-container transition-all duration-500">
+          <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Vanguard Shell" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdxNcb6BNZjX84t7O-rT7fR-RXXVfdtgt6JKcyTYtxONTjiSwBymEhBKTPcRvF5T-lUpb9BOvfkjTHcxCKvVPO-QCsYN_T5MWEiZzgXzZA61PLkKUVCmtPSD0gYX12-Cxze6IV74wwBL-QbKdN4ZGsU3bOK_EV-A_GeQvshCBB8MOIttbgLKnyI7CSWWZl6EbrIIJ47PEqsyLXrkk53O0YUl0r0RXk77el42hOlEdXvHGSWWBUIrCp3CR0DSvC7v1PX63O0gNmXAMr"/>
+          <div class="absolute top-4 left-4 bg-primary-container text-black font-utility-label text-[10px] px-2 py-0.5 font-bold">NEW</div>
+          <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+            <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">QUICK_ADD</button>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-between items-start">
+          <div>
+            <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">VANGUARD_SHELL_2093</h4>
+            <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">OUTERWEAR // BLACK_OPS</p>
+          </div>
+          <span class="font-utility-label text-[14px] text-primary-container">1,450_CR</span>
+        </div>
+      </div>
+      
+      <!-- Product Card 2 -->
+      <div class="group relative">
+        <div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative border border-outline/10 group-hover:border-primary-container transition-all duration-500">
+          <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Signal Jammer Glove" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5RgcwTPkghs0OpuZp20yNA-67ft44qsMPBXOLfdxqiMvWytxflmHBnV4-neoBP5ib87zogMg6lkRkALREBVQKX20BdD5Xb1odQlLocK-z_G4rYsMCj_O8rFusft4wpRSplSv2UqCi8tdY_t8_6MGdhbFf-33-BXyFb53jvL4B3Oz9upVvhAIHN0W8g4T7Tkz3eLWr7YGpZK50S6vQJnyfVRCsWcnS4oJRnsY9_nVJquH61rX2_XSqmQOPwqeOEErbQL5hY0doPqBL"/>
+          <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+            <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">QUICK_ADD</button>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-between items-start">
+          <div>
+            <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">SIGNAL_JAMMER_GLOVE</h4>
+            <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">HARDWARE // ENCRYPTED</p>
+          </div>
+          <span class="font-utility-label text-[14px] text-primary-container">820_CR</span>
+        </div>
+      </div>
+      
+      <!-- Product Card 3 -->
+      <div class="group relative">
+        <div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative border border-outline/10 group-hover:border-primary-container transition-all duration-500">
+          <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Operator Boots Mk.II" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBRajcpyjSWUwkAC_ze3IGW3EW9-rvjCV0gD3qlbj846t_xPB-OPicf3jy0Z9PYse3upQlD8scnxjxiHeX_un2kclHi6D4oNstrxeEI2OVkEvGJmGIeX0mSpjvoHQ-1UhyOMzm01wyJ35Cnt6F-eZgeFRDuZuiF8E8bYXsHsFcxBuV3LPGghIhMfyM8tMxAILcJTJ6s9Dh0_Cppk582f-lTsnbYKAkBgJTy1rXv4cmfc9KaeKbyA23wUQ67fJAbVThFK-IXKGwIj9G"/>
+          <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+            <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">QUICK_ADD</button>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-between items-start">
+          <div>
+            <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">OPERATOR_BOOTS_MK.II</h4>
+            <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">FOOTWEAR // KINETIC</p>
+          </div>
+          <span class="font-utility-label text-[14px] text-primary-container">1,100_CR</span>
+        </div>
+      </div>
+      
+      <!-- Product Card 4 -->
+      <div class="group relative">
+        <div class="aspect-[3/4] bg-surface-container-low overflow-hidden relative border border-outline/10 group-hover:border-primary-container transition-all duration-500">
+          <img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt="Neural Link Headpiece" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-V6NAQsIX_9S5cH_bviyy6nqhhMLck728_9qTDyB8tu6mit4AVru4HSV3DMyu3orLvdFmKWU5IK_ug_pDFdmn8U-mUwHLYU7xaIbowFLV70lq6Bm-drlP8slv1MIEpwi8vI71x1DATzNjPnzgPJmVoRkxurvV8zCL2XvB4ZeQ9MrI110JflmbPNyF6iu9IUIbHHziTnYkjgtkHlwSVa2dbDfgDFNi9x3BP9QxOSbRxXP-oc4PDK9OnnMllgq7kRo1CEerAMW4N_o7"/>
+          <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-background/90 backdrop-blur-sm">
+            <button class="w-full py-3 bg-primary-container text-black font-utility-label text-[12px] font-bold uppercase tracking-widest hover:bg-white transition-colors">QUICK_ADD</button>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-between items-start">
+          <div>
+            <h4 class="font-utility-label text-[14px] uppercase tracking-tight text-on-surface">NEURAL_LINK_HEADPIECE</h4>
+            <p class="font-utility-label text-[10px] text-on-surface-variant uppercase mt-1">ACCESSORY // UPLINK</p>
+          </div>
+          <span class="font-utility-label text-[14px] text-primary-container">450_CR</span>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>

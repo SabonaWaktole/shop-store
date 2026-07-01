@@ -1,0 +1,112 @@
+{% layout 'theme' %}
+
+<div class="w-full max-w-[480px] mx-auto px-6 py-24">
+
+  <h1 class="text-2xl font-semibold tracking-tighter uppercase mb-10 text-center" style="color: #000;">
+    Create Account
+  </h1>
+
+  {%- form 'create_customer' -%}
+    {%- if form.errors -%}
+      <div class="mb-8 p-4 border text-sm" style="border-color: #ff3333; color: #ff3333;">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div class="mb-6">
+      <label
+        for="customer-first-name"
+        class="block text-xs font-medium uppercase tracking-widest mb-2"
+        style="color: #737373;"
+      >
+        First Name
+      </label>
+      <input
+        type="text"
+        id="customer-first-name"
+        name="customer[first_name]"
+        autocomplete="given-name"
+        required
+        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
+        style="border-color: #e5e5e5;"
+      >
+    </div>
+
+    <div class="mb-6">
+      <label
+        for="customer-last-name"
+        class="block text-xs font-medium uppercase tracking-widest mb-2"
+        style="color: #737373;"
+      >
+        Last Name
+      </label>
+      <input
+        type="text"
+        id="customer-last-name"
+        name="customer[last_name]"
+        autocomplete="family-name"
+        required
+        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
+        style="border-color: #e5e5e5;"
+      >
+    </div>
+
+    <div class="mb-6">
+      <label
+        for="customer-email"
+        class="block text-xs font-medium uppercase tracking-widest mb-2"
+        style="color: #737373;"
+      >
+        Email
+      </label>
+      <input
+        type="email"
+        id="customer-email"
+        name="customer[email]"
+        autocomplete="email"
+        autocapitalize="off"
+        required
+        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
+        style="border-color: #e5e5e5;"
+      >
+    </div>
+
+    <div class="mb-8">
+      <label
+        for="customer-password"
+        class="block text-xs font-medium uppercase tracking-widest mb-2"
+        style="color: #737373;"
+      >
+        Password
+      </label>
+      <input
+        type="password"
+        id="customer-password"
+        name="customer[password]"
+        autocomplete="new-password"
+        required
+        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
+        style="border-color: #e5e5e5;"
+      >
+    </div>
+
+    <button
+      type="submit"
+      class="w-full py-4 text-sm tracking-widest uppercase font-medium hover:opacity-90 transition-opacity"
+      style="background-color: #000; color: #fff;"
+    >
+      Create Account
+    </button>
+  {%- endform -%}
+
+  <div class="mt-8 text-center">
+    <a
+      href="{{ routes.account_login_url }}"
+      class="text-sm underline underline-offset-4 hover:opacity-70 transition-opacity"
+      style="color: #737373;"
+    >
+      Already have an account? Sign in
+    </a>
+  </div>
+
+</div>

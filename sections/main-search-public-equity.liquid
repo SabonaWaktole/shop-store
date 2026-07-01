@@ -1,0 +1,70 @@
+<div class="w-full max-w-container-max mx-auto pt-[60px] md:pt-[100px] pb-32" data-section-id="{{ section.id }}" data-section-type="search">
+    <header class="px-margin-mobile md:px-margin-desktop mb-12 md:mb-24 flex flex-col gap-8">
+        <h1 class="font-display-xl text-display-xl uppercase max-w-5xl leading-none text-[48px] md:text-[80px]">
+            {%- if search.performed -%}
+                SEARCH: "{{ search.terms | escape }}"
+            {%- else -%}
+                SEARCH
+            {%- endif -%}
+        </h1>
+        
+        <form action="{{ routes.search_url }}" method="get" class="w-full max-w-2xl relative" role="search">
+            <input type="hidden" name="type" value="product">
+            <input type="text" name="q" value="{{ search.terms | escape }}" placeholder="ENTER QUERY..." class="w-full bg-transparent border-b border-outline hover:border-primary focus:border-primary focus:ring-0 text-primary font-label-mono text-label-mono py-4 transition-all outline-none tracking-[0.2em] placeholder:text-outline-variant uppercase">
+            <button type="submit" class="absolute right-0 top-1/2 -translate-y-1/2 text-primary hover:opacity-70 transition-opacity">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </form>
+    </header>
+
+    {%- if search.performed -%}
+        {%- if search.results_count == 0 -%}
+            <div class="px-margin-mobile md:px-margin-desktop text-center py-24">
+                <p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">
+                    NO ARTIFACTS MATCH YOUR QUERY.
+                </p>
+            </div>
+        {%- else -%}
+            {% paginate search.results by section.settings.products_per_page %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter bg-outline-variant border-y border-outline-variant">
+                    {%- for item in search.results -%}
+                        {%- if item.object_type == 'product' -%}
+                            {% render 'product-card-public-equity', product: item %}
+                        {%- else -%}
+                            <!-- Render non-product results nicely -->
+                            <a href="{{ item.url }}" class="bg-surface p-8 flex flex-col justify-center items-center text-center group border border-outline-variant h-full aspect-[3/4]">
+                                <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase mb-4">{{ item.title }}</h3>
+                                <span class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest group-hover:text-primary transition-colors">VIEW {{ item.object_type | upcase }}</span>
+                            </a>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+                
+                {%- if paginate.pages > 1 -%}
+                    <div class="mt-24 flex justify-center">
+                        <a href="{{ paginate.next.url }}" class="border border-outline-variant px-12 py-6 font-label-mono text-label-mono uppercase hover:bg-primary hover:text-on-primary hover:border-primary transition-colors duration-300 text-center">
+                            LOAD NEXT SEQUENCE
+                        </a>
+                    </div>
+                {%- endif -%}
+            {% endpaginate %}
+        {%- endif -%}
+    {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Search Results (PE)",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 16,
+      "label": "Results per page"
+    }
+  ]
+}
+{% endschema %}

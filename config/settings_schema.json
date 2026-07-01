@@ -1,0 +1,292 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Public Equity",
+    "theme_version": "1.0.0",
+    "theme_author": "Antigravity",
+    "theme_documentation_url": "https://shopify.com",
+    "theme_support_url": "https://shopify.com"
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Fonts are defined by the developer to maintain design consistency. Use these settings to control scale and styling."
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "label": "Heading scale multiplier",
+        "min": 0.8,
+        "max": 2.0,
+        "step": 0.1,
+        "default": 1.0
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_uppercase",
+        "label": "Uppercase headings",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "body_size",
+        "label": "Body text size",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "small_text_size",
+        "label": "Small text size",
+        "min": 10,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "button_text_size",
+        "label": "Button text size",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      },
+      {
+        "type": "checkbox",
+        "id": "button_uppercase",
+        "label": "Uppercase buttons",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bg_primary",
+        "label": "Primary background",
+        "default": "#131314"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_secondary",
+        "label": "Secondary background",
+        "default": "#1f1f20"
+      },
+      {
+        "type": "color",
+        "id": "color_text_primary",
+        "label": "Primary text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary text",
+        "default": "#c4c7c8"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent color",
+        "info": "Used for primary buttons, sale badges, and highlights.",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border color",
+        "default": "#444748"
+      },
+      {
+        "type": "color",
+        "id": "color_hover",
+        "label": "Hover overlay color",
+        "default": "#353436"
+      },
+      {
+        "type": "color",
+        "id": "color_overlay",
+        "label": "Popup/Modal overlay color",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 80
+      }
+    ]
+  },
+  {
+    "name": "Commerce & Product Logic",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Preorder"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_preorder",
+        "label": "Enable preorder functionality",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "preorder_btn_text",
+        "label": "Preorder button text",
+        "default": "PREORDER NOW"
+      },
+      {
+        "type": "header",
+        "content": "Low-Stock States"
+      },
+      {
+        "type": "range",
+        "id": "low_stock_threshold",
+        "label": "Low stock threshold",
+        "info": "Show low stock warning when inventory is below this number. Set to 0 to disable.",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "default": 5
+      },
+      {
+        "type": "header",
+        "content": "Variant UI"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_color_swatches",
+        "label": "Enable color swatches",
+        "info": "Requires setting up visual filters in the Shopify Search & Discovery app.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_size_pills",
+        "label": "Use pill buttons for size variants",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Localization"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_country_selector",
+        "label": "Enable country/region selector",
+        "info": "Will display in the footer.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_language_selector",
+        "label": "Enable language selector",
+        "info": "Will display in the footer.",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Drop-Day Logic",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Countdown & Scheduling"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_global_countdown",
+        "label": "Enable global drop countdown",
+        "info": "Shows a countdown banner at the top of the site."
+      },
+      {
+        "type": "text",
+        "id": "global_drop_date",
+        "label": "Global Drop Date",
+        "info": "Format: YYYY-MM-DDTHH:MM:SSZ (e.g. 2093-10-31T20:00:00Z)"
+      },
+      {
+        "type": "header",
+        "content": "Waitlist & Capture"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_waitlist_mode",
+        "label": "Enable Waitlist Mode",
+        "info": "Replaces Add to Cart with an email capture form for unreleased products.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_bis",
+        "label": "Enable Back-in-Stock capture",
+        "info": "Show email signup when a product is sold out.",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Automation"
+      },
+      {
+        "type": "checkbox",
+        "id": "auto_preorder_to_live",
+        "label": "Auto-switch Preorder to Live",
+        "info": "Automatically changes 'Preorder' to 'Add to Cart' when the scheduled ship date passes.",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Media & Performance",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_lazy_loading",
+        "label": "Enable lazy loading for images",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "image_quality",
+        "label": "Image Quality Preference",
+        "options": [
+          {
+            "value": "pristine",
+            "label": "Pristine (Highest quality)"
+          },
+          {
+            "value": "compressed",
+            "label": "Compressed (Faster loading)"
+          }
+        ],
+        "default": "pristine"
+      }
+    ]
+  },
+  {
+    "name": "Advanced",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Global Custom CSS",
+        "info": "Add custom CSS styles to override default theme behaviors."
+      }
+    ]
+  }
+]

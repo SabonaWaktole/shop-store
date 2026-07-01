@@ -1,0 +1,267 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  {% if section.settings.color_bg != blank and section.settings.color_bg != 'rgba(0,0,0,0)' %}
+    #shopify-section-{{ section.id }} footer { background-color: {{ section.settings.color_bg }}; }
+  {% endif %}
+  {% if section.settings.color_text != blank and section.settings.color_text != 'rgba(0,0,0,0)' %}
+    #shopify-section-{{ section.id }} footer,
+    #shopify-section-{{ section.id }} footer a { color: {{ section.settings.color_text }}; }
+  {% endif %}
+{%- endstyle -%}
+
+<footer class="text-primary font-label-mono text-label-mono w-full border-t border-outline-variant section-{{ section.id }}-padding bg-background transition-colors">
+    <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        
+        <!-- Top Section (Grid) -->
+        <div class="grid grid-cols-1 md:grid-cols-{{ section.blocks.size | default: 1 }} gap-16 mb-24">
+            {%- for block in section.blocks -%}
+                <div class="flex flex-col gap-6" {{ block.shopify_attributes }}>
+                    {%- if block.settings.heading != blank -%}
+                        <h4 class="font-body-main font-bold uppercase tracking-widest text-on-surface-variant mb-2">{{ block.settings.heading }}</h4>
+                    {%- endif -%}
+                    
+                    {%- case block.type -%}
+                        {%- when 'link_list' -%}
+                            {%- if block.settings.menu != blank -%}
+                                <ul class="flex flex-col gap-4">
+                                    {%- for link in linklists[block.settings.menu].links -%}
+                                        <li>
+                                            <a href="{{ link.url }}" class="hover:underline hover:text-accent transition-all uppercase">{{ link.title }}</a>
+                                        </li>
+                                    {%- endfor -%}
+                                </ul>
+                            {%- endif -%}
+                            
+                        {%- when 'text' -%}
+                            <div class="prose prose-invert font-body-main text-on-surface-variant max-w-none">
+                                {{ block.settings.subtext }}
+                            </div>
+                            
+                        {%- when 'newsletter' -%}
+                            <div class="flex flex-col gap-4">
+                                <div class="font-body-main text-on-surface-variant">{{ block.settings.text }}</div>
+                                {%- form 'customer', id: 'FooterNewsletterForm', class: 'flex w-full relative' -%}
+                                    <input type="hidden" name="contact[tags]" value="newsletter">
+                                    <input type="email" name="contact[email]" class="cinetica-input w-full pr-10" placeholder="{{ block.settings.placeholder }}" required>
+                                    <button type="submit" class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">
+                                        <span class="material-symbols-outlined">arrow_forward</span>
+                                    </button>
+                                {%- endform -%}
+                            </div>
+                    {%- endcase -%}
+                </div>
+            {%- endfor -%}
+        </div>
+
+        <!-- Middle Section (Logo) -->
+        <div class="flex items-center justify-center border-t border-b border-outline-variant py-16 mb-16 relative overflow-hidden">
+            {%- if section.settings.logo_image != blank -%}
+                <img src="{{ section.settings.logo_image | image_url: width: 800 }}" alt="{{ section.settings.logo_image.alt | escape }}" class="max-w-full h-auto object-contain" style="max-height: 120px;">
+            {%- else -%}
+                <h2 class="font-display-xl text-display-xl tracking-tighter uppercase leading-none text-center m-0 max-w-full whitespace-nowrap">
+                    {{ section.settings.brand_text | default: 'PUBLIC EQUITY' }}
+                </h2>
+            {%- endif -%}
+        </div>
+
+        <!-- Bottom Section (Meta) -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-6">
+                {%- if section.settings.show_social -%}
+                    <a href="{{ settings.social_instagram_link | default: '#' }}" class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined text-[24px]">photo_camera</span></a>
+                    <a href="{{ settings.social_twitter_link | default: '#' }}" class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined text-[24px]">chat_bubble</span></a>
+                {%- endif -%}
+                
+                {%- if section.settings.show_localization and localization.available_countries.size > 1 -%}
+                    {%- form 'localization', id: 'FooterCountryForm', class: 'relative' -%}
+                        <select name="country_code" class="bg-transparent border border-outline-variant rounded px-2 py-1 text-label-mono font-label-mono uppercase outline-none focus:border-primary" onchange="this.form.submit()">
+                            {%- for country in localization.available_countries -%}
+                                <option value="{{ country.iso_code }}" class="bg-surface text-primary" {%- if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                                    {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                                </option>
+                            {%- endfor -%}
+                        </select>
+                    {%- endform -%}
+                {%- endif -%}
+            </div>
+
+            <div class="text-on-surface-variant uppercase text-center md:text-left">
+                &copy; {{ 'now' | date: "%Y" }} {{ section.settings.brand_text | default: 'PUBLIC EQUITY' }}. ALL RIGHTS RESERVED.
+            </div>
+
+            <div class="flex items-center gap-4">
+                {%- if section.settings.show_payment_icons -%}
+                    {%- for type in shop.enabled_payment_types -%}
+                        {{ type | payment_type_svg_tag: class: 'h-6 w-auto' }}
+                    {%- endfor -%}
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Branding"
+    },
+    {
+      "type": "text",
+      "id": "brand_text",
+      "label": "Brand Text",
+      "default": "PUBLIC EQUITY"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Footer Logo Image"
+    },
+    {
+      "type": "header",
+      "content": "Toggles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_localization",
+      "label": "Show country/region selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors (Optional Overrides)"
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text color"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 128
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 128
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Quick links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "About us"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Text",
+          "default": "<p>Share store details, promotions, or brand content with your customers.</p>"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Subscribe"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Sign up to get the latest on sales, new releases and more.</p>"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Input Placeholder",
+          "default": "EMAIL ADDRESS"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "link_list"
+      },
+      {
+        "type": "newsletter"
+      }
+    ]
+  }
+}
+{% endschema %}
