@@ -204,7 +204,7 @@
   {%- assign header_position = "fixed top-0" -%}
 {%- endif -%}
 
-<header class="{{ header_position }} left-0 w-full z-[100] border-b transition-all duration-300" id="main-header" style="background-color: {% if section.settings.transparent_header %}transparent{% else %}{{ section.settings.header_bg_color }}{% endif %}; color: {{ section.settings.header_text_color }}; border-color: {{ section.settings.header_border_color }}; min-height: {{ section.settings.header_height }}px;">
+<header class="{{ header_position }} left-0 w-full z-[100] border-b transition-all duration-300 {% if section.settings.transparent_header %}backdrop-blur-md{% endif %}" id="main-header" style="background-color: {% if section.settings.transparent_header %}rgba(255, 255, 255, 0.15){% else %}{{ section.settings.header_bg_color }}{% endif %}; color: {{ section.settings.header_text_color }}; border-color: {{ section.settings.header_border_color }}; min-height: {{ section.settings.header_height }}px;">
   <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-4 flex justify-between items-center h-full" style="min-height: {{ section.settings.header_height }}px;">
     
     <!-- Mobile Menu Toggle (Left) -->
