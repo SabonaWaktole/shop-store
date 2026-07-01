@@ -1,1 +1,159 @@
-{"sections":{"hero":{"type":"luxury-hero","settings":{"image":"shopify:\/\/shop_images\/backgrnd.avif","heading":"DROP 01: BEGINNINGS","text":"Sign up for exclusive access before the global release."}},"countdown":{"type":"countdown-banner","settings":{"heading":"DROP 01 LAUNCHES IN","target_date":"2026-07-15 12:00:00"}},"featured":{"type":"luxury-featured-collection","settings":{"title":"PRE-FALL 2026","collection":"","products_to_show":4}},"1782905282990bb76e":{"type":"_blocks","blocks":{"ai_gen_block_fdef26d_ccBwtt":{"type":"ai_gen_block_fdef26d","settings":{"heading":"Featured products","collection":"","products_count":8,"products_per_row":4,"products_per_row_tablet":"3","products_per_row_mobile":"2","grid_gap":20,"heading_alignment":"center","heading_size":36,"heading_color":"#000000","card_background":"#ffffff","card_border_radius":8,"product_title_size":16,"product_title_color":"#000000","product_price_size":18,"product_price_color":"#000000","button_text":"Add to cart","button_text_size":14,"button_background":"#000000","button_hover_background":"#333333","button_text_color":"#ffffff","button_border_radius":4,"background_color":"#f9f9f9"},"blocks":{}}},"block_order":["ai_gen_block_fdef26d_ccBwtt"],"name":"Products","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"section_width":"page-width","section_height":"","section_height_custom":50,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0}}},"order":["hero","countdown","featured","1782905282990bb76e"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "luxury-hero",
+      "settings": {
+        "image": "shopify://shop_images/backgrnd.avif",
+        "hero_height": "85vh",
+        "text_alignment": "left",
+        "content_position": "end",
+        "content_width": "max-w-md",
+        "overlay_color": "#000000",
+        "overlay_opacity": 40,
+        "overlay_gradient": true,
+        "heading": "DROP 01: BEGINNINGS",
+        "heading_font_size_desktop": 36,
+        "heading_font_size_mobile": 30,
+        "heading_font_weight": "600",
+        "heading_uppercase": true,
+        "heading_color": "#000000",
+        "text": "Sign up for exclusive access before the global release.",
+        "subtext_font_size": 14,
+        "subtext_color": "#6b7280",
+        "cta_text": "Subscribe",
+        "cta_style": "filled",
+        "cta_bg_color": "#000000",
+        "cta_text_color": "#ffffff",
+        "cta_font_size": 14,
+        "cta_border_radius": 0,
+        "card_bg_color": "#ffffff",
+        "card_padding": 32,
+        "card_shadow": true,
+        "card_border_radius": 0
+      }
+    },
+    "countdown": {
+      "type": "countdown-banner",
+      "settings": {
+        "heading": "DROP 01 LAUNCHES IN",
+        "target_date": "2026-07-15 12:00:00"
+      }
+    },
+    "featured": {
+      "type": "luxury-featured-collection",
+      "settings": {
+        "title": "PRE-FALL 2026",
+        "collection": "frontpage",
+        "products_to_show": 4,
+        "grid_columns": "4",
+        "grid_gap_x": 24,
+        "grid_gap_y": 48,
+        "section_padding_top": 96,
+        "section_padding_bottom": 96,
+        "section_bg_color": "#ffffff",
+        "section_text_color": "#000000",
+        "muted_text_color": "#6b7280",
+        "section_border_color": "#e5e7eb",
+        "heading_font_size": 24,
+        "heading_font_weight": "600",
+        "heading_uppercase": true,
+        "view_all_font_size": 12,
+        "card_aspect_ratio": "3/4",
+        "show_hover_image": true,
+        "card_title_font_size": 14,
+        "card_title_font_weight": "500",
+        "card_price_font_size": 12,
+        "show_vendor": false,
+        "show_badges": true,
+        "badge_font_size": 10,
+        "badge_preorder_bg": "#000000",
+        "badge_preorder_text": "#ffffff",
+        "badge_soldout_bg": "#f3f4f6",
+        "badge_soldout_text": "#6b7280",
+        "badge_new_bg": "#000000",
+        "badge_new_text": "#ffffff"
+      }
+    },
+    "1782905282990bb76e": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_fdef26d_ccBwtt": {
+          "type": "ai_gen_block_fdef26d",
+          "settings": {
+            "heading": "Featured products",
+            "collection": "",
+            "products_count": 8,
+            "products_per_row": 4,
+            "products_per_row_tablet": "3",
+            "products_per_row_mobile": "2",
+            "grid_gap": 20,
+            "heading_alignment": "center",
+            "heading_size": 36,
+            "heading_color": "#000000",
+            "card_background": "#ffffff",
+            "card_border_radius": 8,
+            "product_title_size": 16,
+            "product_title_color": "#000000",
+            "product_price_size": 18,
+            "product_price_color": "#000000",
+            "button_text": "Add to cart",
+            "button_text_size": 14,
+            "button_background": "#000000",
+            "button_hover_background": "#333333",
+            "button_text_color": "#ffffff",
+            "button_border_radius": 4,
+            "background_color": "#f9f9f9"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_fdef26d_ccBwtt"
+      ],
+      "name": "Products",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "countdown",
+    "featured",
+    "1782905282990bb76e"
+  ]
+}

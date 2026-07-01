@@ -1,1 +1,39 @@
-{"sections":{"main":{"type":"neo-contact","settings":{"heading":"Get in Touch","subheading":"We'd love to hear from you. Reach out with any questions or feedback."}},"divider_JArYqn":{"type":"divider","name":"t:names.divider_section","settings":{"background_color":"","divider_color":"","section_width":"full-width","thickness":1,"corner_radius":"square","width_percent":100,"alignment_horizontal":"center","padding-block-start":16,"padding-block-end":16}}},"order":["main","divider_JArYqn"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "neo-contact",
+      "settings": {
+        "heading": "Get in Touch",
+        "subheading": "We'd love to hear from you. Reach out with any questions or feedback."
+      }
+    },
+    "divider_JArYqn": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
+    }
+  },
+  "order": [
+    "main",
+    "divider_JArYqn"
+  ]
+}
