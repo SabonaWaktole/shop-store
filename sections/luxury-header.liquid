@@ -25,6 +25,11 @@
       "label": "Header Height"
     },
     {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
       "type": "range",
       "id": "logo_width",
       "min": 80,
@@ -227,7 +232,11 @@
     <!-- Logo (Center) -->
     <div class="flex-shrink-0 text-center lg:flex-1">
       <a href="{{ routes.root_url }}" class="font-semibold tracking-tighter uppercase inline-block" style="width: {{ section.settings.logo_width }}px; max-width: 100%;">
-        <span style="font-size: {{ section.settings.logo_width | divided_by: 6 }}px;">{{ shop.name | default: 'STUDIO' }}</span>
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}" alt="{{ shop.name | escape }}" class="w-full h-auto" loading="eager" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}">
+        {%- else -%}
+          <span style="font-size: {{ section.settings.logo_width | divided_by: 6 }}px;">{{ shop.name | default: 'STUDIO' }}</span>
+        {%- endif -%}
       </a>
     </div>
     

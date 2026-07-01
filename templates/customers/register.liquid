@@ -1,112 +1,134 @@
 {% layout 'theme' %}
 
-<div class="w-full max-w-[480px] mx-auto px-6 py-24">
+{{ 'account.css' | asset_url | stylesheet_tag }}
 
-  <h1 class="text-2xl font-semibold tracking-tighter uppercase mb-10 text-center" style="color: #000;">
-    Create Account
-  </h1>
+<div class="acct-page-bg">
+  <div class="acct-glass-card acct-glass-card--form acct-fade-in" style="max-width:480px;margin:0 auto;padding:6rem 1.5rem;">
 
-  {%- form 'create_customer' -%}
-    {%- if form.errors -%}
-      <div class="mb-8 p-4 border text-sm" style="border-color: #ff3333; color: #ff3333;">
-        {{ form.errors | default_errors }}
+    <h1 class="acct-page-title text-center mb-2">Join Us</h1>
+    <p class="text-sm text-center mb-10" style="color:#737373;">Create your account to get started</p>
+
+    {%- form 'create_customer' -%}
+
+      {%- if form.errors -%}
+        <div class="acct-alert acct-alert--error">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+
+      <div class="acct-input-group">
+        <div class="acct-input-underline">
+          <label for="customer-first-name">First Name</label>
+          <input
+            class="acct-input"
+            type="text"
+            name="customer[first_name]"
+            id="customer-first-name"
+            autocomplete="given-name"
+            required
+          >
+        </div>
       </div>
-    {%- endif -%}
 
-    <div class="mb-6">
-      <label
-        for="customer-first-name"
-        class="block text-xs font-medium uppercase tracking-widest mb-2"
-        style="color: #737373;"
-      >
-        First Name
-      </label>
-      <input
-        type="text"
-        id="customer-first-name"
-        name="customer[first_name]"
-        autocomplete="given-name"
-        required
-        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
-        style="border-color: #e5e5e5;"
-      >
-    </div>
+      <div class="acct-input-group">
+        <div class="acct-input-underline">
+          <label for="customer-last-name">Last Name</label>
+          <input
+            class="acct-input"
+            type="text"
+            name="customer[last_name]"
+            id="customer-last-name"
+            autocomplete="family-name"
+            required
+          >
+        </div>
+      </div>
 
-    <div class="mb-6">
-      <label
-        for="customer-last-name"
-        class="block text-xs font-medium uppercase tracking-widest mb-2"
-        style="color: #737373;"
-      >
-        Last Name
-      </label>
-      <input
-        type="text"
-        id="customer-last-name"
-        name="customer[last_name]"
-        autocomplete="family-name"
-        required
-        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
-        style="border-color: #e5e5e5;"
-      >
-    </div>
+      <div class="acct-input-group">
+        <div class="acct-input-underline">
+          <label for="customer-email">Email</label>
+          <input
+            class="acct-input"
+            type="email"
+            name="customer[email]"
+            id="customer-email"
+            autocomplete="email"
+            required
+          >
+        </div>
+      </div>
 
-    <div class="mb-6">
-      <label
-        for="customer-email"
-        class="block text-xs font-medium uppercase tracking-widest mb-2"
-        style="color: #737373;"
-      >
-        Email
-      </label>
-      <input
-        type="email"
-        id="customer-email"
-        name="customer[email]"
-        autocomplete="email"
-        autocapitalize="off"
-        required
-        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
-        style="border-color: #e5e5e5;"
-      >
-    </div>
+      <div class="acct-input-group">
+        <div class="acct-input-underline">
+          <label for="customer-password">Password</label>
+          <input
+            class="acct-input"
+            type="password"
+            name="customer[password]"
+            id="customer-password"
+            autocomplete="new-password"
+            required
+            oninput="updatePasswordStrength(this.value)"
+          >
+        </div>
+      </div>
 
-    <div class="mb-8">
-      <label
-        for="customer-password"
-        class="block text-xs font-medium uppercase tracking-widest mb-2"
-        style="color: #737373;"
-      >
-        Password
-      </label>
-      <input
-        type="password"
-        id="customer-password"
-        name="customer[password]"
-        autocomplete="new-password"
-        required
-        class="w-full border-0 border-b bg-transparent py-3 text-sm focus:ring-0 focus:border-black outline-none"
-        style="border-color: #e5e5e5;"
-      >
-    </div>
+      <div class="acct-password-meter">
+        <div class="acct-password-meter-bar" id="meter-1"></div>
+        <div class="acct-password-meter-bar" id="meter-2"></div>
+        <div class="acct-password-meter-bar" id="meter-3"></div>
+        <div class="acct-password-meter-bar" id="meter-4"></div>
+      </div>
+      <div class="acct-password-label" id="password-label">&nbsp;</div>
 
-    <button
-      type="submit"
-      class="w-full py-4 text-sm tracking-widest uppercase font-medium hover:opacity-90 transition-opacity"
-      style="background-color: #000; color: #fff;"
-    >
-      Create Account
-    </button>
-  {%- endform -%}
+      <button type="submit" class="acct-btn-primary"><span>Create Account</span></button>
 
-  <div class="mt-8 text-center">
-    <a
-      href="{{ routes.account_login_url }}"
-      class="text-sm underline underline-offset-4 hover:opacity-70 transition-opacity"
-      style="color: #737373;"
-    >
-      Already have an account? Sign in
-    </a>
+    {%- endform -%}
+
+    <div class="acct-divider"><span>or</span></div>
+
+    <p class="text-center">
+      <a href="{{ routes.account_login_url }}" class="acct-link">Already have an account? Sign in</a>
+    </p>
+
   </div>
-
 </div>
+
+<script>
+  function updatePasswordStrength(password) {
+    const bars = [document.getElementById('meter-1'), document.getElementById('meter-2'), document.getElementById('meter-3'), document.getElementById('meter-4')];
+    const label = document.getElementById('password-label');
+
+    // Reset all bars
+    bars.forEach(bar => bar.className = 'acct-password-meter-bar');
+
+    if (!password) {
+      label.textContent = '\u00A0';
+      label.style.color = '#a3a3a3';
+      return;
+    }
+
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
+    if (/[0-9]/.test(password) || /[^A-Za-z0-9]/.test(password)) strength++;
+
+    const levels = [
+      { cls: 'active-weak', text: 'Weak', color: '#EF4444' },
+      { cls: 'active-fair', text: 'Fair', color: '#F59E0B' },
+      { cls: 'active-good', text: 'Good', color: '#3B82F6' },
+      { cls: 'active-strong', text: 'Strong', color: '#10B981' }
+    ];
+
+    const level = levels[Math.min(strength, 4) - 1] || levels[0];
+
+    for (let i = 0; i < Math.min(strength, 4); i++) {
+      bars[i].classList.add(level.cls);
+    }
+
+    label.textContent = level.text;
+    label.style.color = level.color;
+  }
+</script>

@@ -1,139 +1,134 @@
-{% comment %}
-  Customer Order Detail
-  Shows individual order information, line items, and shipping address
-{% endcomment %}
+{% comment %} Customer Order Detail — Premium Design {% endcomment %}
 
-<div class="max-w-[1200px] mx-auto py-24 px-4 md:px-8">
+{{ 'account.css' | asset_url | stylesheet_tag }}
 
-  <!-- Back Link -->
-  <a href="{{ routes.account_url }}" class="inline-block mb-12 text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
-    &larr; Back to Account
-  </a>
+<div class="acct-page-bg">
+  <div class="max-w-[1200px] mx-auto py-24 px-4 md:px-8">
 
-  <!-- Order Heading -->
-  <h1 class="text-2xl font-semibold tracking-tighter uppercase text-foreground mb-4">Order {{ order.name }}</h1>
+    <nav class="acct-breadcrumbs acct-fade-in">
+      <a href="{{ routes.account_url }}">Account</a>
+      <span class="separator">›</span>
+      <span class="current">Order {{ order.name }}</span>
+    </nav>
 
-  <!-- Order Meta -->
-  <div class="flex flex-wrap gap-x-8 gap-y-2 mb-16 text-sm text-muted-foreground">
-    <span>{{ order.created_at | date: "%B %d, %Y" }}</span>
-    <span class="text-xs tracking-widest uppercase">{{ order.fulfillment_status_label }}</span>
-    <span class="text-xs tracking-widest uppercase">{{ order.financial_status_label }}</span>
-  </div>
+    <div class="acct-fade-in acct-fade-in-delay-1 mb-8">
+      <h1 class="acct-page-title mb-4">Order {{ order.name }}</h1>
 
-  <!-- Line Items -->
-  <section class="mb-16">
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead>
-          <tr class="border-b border-border">
-            <th class="text-left py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Product</th>
-            <th class="text-left py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground hidden md:table-cell">SKU</th>
-            <th class="text-right py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Price</th>
-            <th class="text-center py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Qty</th>
-            <th class="text-right py-3 font-normal text-xs tracking-widest uppercase text-muted-foreground">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for line_item in order.line_items %}
-            <tr class="border-b border-border">
-              <td class="py-4">
-                {% if line_item.url %}
-                  <a href="{{ line_item.url }}" class="text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors">
-                    {{ line_item.title }}
-                  </a>
-                {% else %}
-                  <span class="text-foreground">{{ line_item.title }}</span>
-                {% endif %}
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <span class="text-sm" style="color: #737373;">{{ order.created_at | date: "%B %d, %Y" }}</span>
 
-                {% if line_item.variant.title != 'Default Title' %}
-                  <span class="block text-xs text-muted-foreground mt-1">{{ line_item.variant.title }}</span>
-                {% endif %}
+        {%- capture fulfillment_class -%}
+          {%- if order.fulfillment_status == 'fulfilled' -%}acct-badge--fulfilled
+          {%- elsif order.fulfillment_status == 'partial' -%}acct-badge--partial
+          {%- else -%}acct-badge--unfulfilled{%- endif -%}
+        {%- endcapture -%}
+        <span class="acct-badge {{ fulfillment_class | strip }}"><span class="acct-badge-dot"></span>{{ order.fulfillment_status_label }}</span>
 
-                {% if line_item.fulfillment %}
-                  <span class="block text-xs text-muted-foreground mt-1">
-                    Fulfilled {{ line_item.fulfillment.created_at | date: "%B %d, %Y" }}
-                    {% if line_item.fulfillment.tracking_url %}
-                      &middot;
-                      <a href="{{ line_item.fulfillment.tracking_url }}" class="underline underline-offset-4 hover:text-foreground transition-colors" target="_blank" rel="noopener">
-                        Track
-                      </a>
-                    {% endif %}
-                  </span>
-                {% endif %}
-              </td>
-              <td class="py-4 text-muted-foreground hidden md:table-cell">
-                {{ line_item.sku | default: '—' }}
-              </td>
-              <td class="py-4 text-right">
-                {{ line_item.original_price | money }}
-              </td>
-              <td class="py-4 text-center">
-                {{ line_item.quantity }}
-              </td>
-              <td class="py-4 text-right">
-                {{ line_item.final_line_price | money }}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Order Summary & Shipping Address -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-
-    <!-- Order Summary -->
-    <div class="md:order-2">
-      <h2 class="text-xs tracking-widest uppercase text-muted-foreground mb-8">Order Summary</h2>
-
-      <div class="space-y-3 text-sm">
-        <div class="flex justify-between">
-          <span class="text-muted-foreground">Subtotal</span>
-          <span class="text-foreground">{{ order.line_items_subtotal_price | money }}</span>
-        </div>
-
-        {% for shipping_method in order.shipping_methods %}
-          <div class="flex justify-between">
-            <span class="text-muted-foreground">Shipping ({{ shipping_method.title }})</span>
-            <span class="text-foreground">{{ shipping_method.price | money }}</span>
-          </div>
-        {% endfor %}
-
-        {% for tax_line in order.tax_lines %}
-          <div class="flex justify-between">
-            <span class="text-muted-foreground">Tax ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
-            <span class="text-foreground">{{ tax_line.price | money }}</span>
-          </div>
-        {% endfor %}
-
-        {% if order.total_discounts > 0 %}
-          <div class="flex justify-between">
-            <span class="text-muted-foreground">Discounts</span>
-            <span class="text-foreground">-{{ order.total_discounts | money }}</span>
-          </div>
-        {% endif %}
-
-        <div class="flex justify-between pt-4 border-t border-border">
-          <span class="text-foreground font-semibold">Total</span>
-          <span class="text-foreground font-semibold">{{ order.total_price | money }}</span>
-        </div>
+        {%- capture financial_class -%}
+          {%- if order.financial_status == 'paid' -%}acct-badge--paid
+          {%- elsif order.financial_status == 'refunded' or order.financial_status == 'partially_refunded' -%}acct-badge--refunded
+          {%- else -%}acct-badge--pending{%- endif -%}
+        {%- endcapture -%}
+        <span class="acct-badge {{ financial_class | strip }}"><span class="acct-badge-dot"></span>{{ order.financial_status_label }}</span>
       </div>
     </div>
 
-    <!-- Shipping Address -->
-    <div class="md:order-1">
-      <h2 class="text-xs tracking-widest uppercase text-muted-foreground mb-8">Shipping Address</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-      {% if order.shipping_address %}
-        <div class="text-sm text-muted-foreground leading-relaxed">
-          {{ order.shipping_address | format_address }}
+      <div class="lg:col-span-2 acct-fade-in acct-fade-in-delay-2">
+        <h2 class="acct-section-label">Items</h2>
+
+        {% for line_item in order.line_items %}
+          <div class="acct-line-item">
+            <div class="acct-line-item-image">
+              {% if line_item.image %}
+                <img src="{{ line_item.image | image_url: width: 200 }}" alt="{{ line_item.title | escape }}" loading="lazy">
+              {% else %}
+                <div class="w-full h-full flex items-center justify-center text-xs" style="color: #a3a3a3;">No image</div>
+              {% endif %}
+            </div>
+
+            <div class="flex-1 min-w-0">
+              {% if line_item.url %}
+                <a href="{{ line_item.url }}" class="acct-link" style="font-size: 14px; font-weight: 500;">{{ line_item.title }}</a>
+              {% else %}
+                <span style="font-size: 14px; font-weight: 500;">{{ line_item.title }}</span>
+              {% endif %}
+
+              {% if line_item.variant.title != 'Default Title' %}
+                <div class="text-xs" style="color: #737373;">{{ line_item.variant.title }}</div>
+              {% endif %}
+
+              {% if line_item.fulfillment %}
+                <div class="text-xs" style="color: #737373;">
+                  Fulfilled {{ line_item.fulfillment.created_at | date: "%B %d, %Y" }}
+                  {% if line_item.fulfillment.tracking_url %}
+                    <a href="{{ line_item.fulfillment.tracking_url }}" class="acct-track-btn" target="_blank" rel="noopener">Track shipment</a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="text-right flex-shrink-0">
+              <div class="text-sm">{{ line_item.original_price | money }}</div>
+              <div class="text-xs" style="color: #737373;">Qty: {{ line_item.quantity }}</div>
+              <div class="text-sm font-medium">{{ line_item.final_line_price | money }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="acct-fade-in acct-fade-in-delay-3">
+        <div class="acct-summary-card mb-8">
+          <h2 class="acct-section-label">Summary</h2>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between">
+              <span style="color: #737373;">Subtotal</span>
+              <span>{{ order.line_items_subtotal_price | money }}</span>
+            </div>
+
+            {% for shipping_method in order.shipping_methods %}
+              <div class="flex justify-between">
+                <span style="color: #737373;">{{ shipping_method.title }}</span>
+                <span>{{ shipping_method.price | money }}</span>
+              </div>
+            {% endfor %}
+
+            {% for tax_line in order.tax_lines %}
+              <div class="flex justify-between">
+                <span style="color: #737373;">{{ tax_line.title }} ({{ tax_line.rate | times: 100 }}%)</span>
+                <span>{{ tax_line.price | money }}</span>
+              </div>
+            {% endfor %}
+
+            {% if order.total_discounts > 0 %}
+              <div class="flex justify-between">
+                <span style="color: #737373;">Discounts</span>
+                <span>-{{ order.total_discounts | money }}</span>
+              </div>
+            {% endif %}
+
+            <div class="flex justify-between border-t border-border pt-4 mt-4">
+              <span class="font-semibold">Total</span>
+              <span class="font-semibold">{{ order.total_price | money }}</span>
+            </div>
+          </div>
         </div>
-      {% else %}
-        <p class="text-sm text-muted-foreground">No shipping address provided.</p>
-      {% endif %}
+
+        <div class="acct-summary-card">
+          <h2 class="acct-section-label">Shipping Address</h2>
+
+          {% if order.shipping_address %}
+            <div class="text-sm leading-relaxed" style="color: #737373;">
+              {{ order.shipping_address | format_address }}
+            </div>
+          {% else %}
+            <p class="text-sm" style="color: #737373;">No shipping address provided.</p>
+          {% endif %}
+        </div>
+      </div>
+
     </div>
-
   </div>
-
 </div>

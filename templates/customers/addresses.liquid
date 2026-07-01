@@ -1,455 +1,249 @@
-{% comment %}
-  Customer Addresses
-  Manage shipping addresses: list, add, edit, delete
-{% endcomment %}
+{% comment %} Customer Addresses — Premium Design {% endcomment %}
 
-<div class="max-w-[800px] mx-auto py-24 px-4 md:px-8">
+{{ 'account.css' | asset_url | stylesheet_tag }}
 
-  <!-- Back Link -->
-  <a href="{{ routes.account_url }}" class="inline-block mb-12 text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
-    &larr; Back to Account
-  </a>
+<div class="acct-page-bg">
+  <div class="max-w-[1000px] mx-auto py-24 px-4 md:px-8">
 
-  <!-- Heading -->
-  <h1 class="text-2xl font-semibold tracking-tighter uppercase text-foreground mb-16">Addresses</h1>
+    <!-- BREADCRUMBS -->
+    <div class="acct-breadcrumbs acct-fade-in">
+      <a href="{{ routes.account_url }}">Account</a>
+      <span class="separator">›</span>
+      <span class="current">Addresses</span>
+    </div>
 
-  <!-- Add New Address Toggle -->
-  <button
-    type="button"
-    onclick="document.getElementById('new-address-form').classList.toggle('hidden')"
-    class="w-full py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-80 transition-opacity mb-16"
-  >
-    Add New Address
-  </button>
+    <!-- HEADER -->
+    <div class="acct-fade-in acct-fade-in-delay-1 mb-12">
+      <h1 class="acct-page-title">Your Addresses</h1>
+    </div>
 
-  <!-- New Address Form -->
-  <div id="new-address-form" class="hidden mb-20">
-    <h2 class="text-xs tracking-widest uppercase text-muted-foreground mb-8">New Address</h2>
-
-    {% form 'customer_address', customer.new_address %}
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-        <!-- First Name -->
-        <div>
-          <label for="address_first_name_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            First Name
-          </label>
-          <input
-            type="text"
-            id="address_first_name_new"
-            name="address[first_name]"
-            autocomplete="given-name"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
+    <!-- ADDRESS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 acct-fade-in acct-fade-in-delay-2">
+      
+      <!-- FIRST CARD: Add New Address -->
+      <div class="acct-address-card acct-address-card--add" onclick="toggleNewAddress()" id="add-address-trigger">
+        <div class="add-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--color-accent, #8B5CF6);">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
         </div>
-
-        <!-- Last Name -->
-        <div>
-          <label for="address_last_name_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Last Name
-          </label>
-          <input
-            type="text"
-            id="address_last_name_new"
-            name="address[last_name]"
-            autocomplete="family-name"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- Company -->
-        <div class="md:col-span-2">
-          <label for="address_company_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Company
-          </label>
-          <input
-            type="text"
-            id="address_company_new"
-            name="address[company]"
-            autocomplete="organization"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- Address 1 -->
-        <div class="md:col-span-2">
-          <label for="address_address1_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Address
-          </label>
-          <input
-            type="text"
-            id="address_address1_new"
-            name="address[address1]"
-            autocomplete="address-line1"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- Address 2 -->
-        <div class="md:col-span-2">
-          <label for="address_address2_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Apartment, Suite, Etc.
-          </label>
-          <input
-            type="text"
-            id="address_address2_new"
-            name="address[address2]"
-            autocomplete="address-line2"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- City -->
-        <div>
-          <label for="address_city_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            City
-          </label>
-          <input
-            type="text"
-            id="address_city_new"
-            name="address[city]"
-            autocomplete="address-level2"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- Country -->
-        <div>
-          <label for="address_country_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Country / Region
-          </label>
-          <select
-            id="address_country_new"
-            name="address[country]"
-            data-default="{{ form.country }}"
-            autocomplete="country"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors appearance-none"
-          >
-            {{ all_country_option_tags }}
-          </select>
-        </div>
-
-        <!-- Province -->
-        <div>
-          <label for="address_province_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Province / State
-          </label>
-          <select
-            id="address_province_new"
-            name="address[province]"
-            data-default="{{ form.province }}"
-            autocomplete="address-level1"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors appearance-none"
-          >
-          </select>
-        </div>
-
-        <!-- Zip -->
-        <div>
-          <label for="address_zip_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Postal / Zip Code
-          </label>
-          <input
-            type="text"
-            id="address_zip_new"
-            name="address[zip]"
-            autocomplete="postal-code"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- Phone -->
-        <div class="md:col-span-2">
-          <label for="address_phone_new" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-            Phone
-          </label>
-          <input
-            type="tel"
-            id="address_phone_new"
-            name="address[phone]"
-            autocomplete="tel"
-            class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-          />
-        </div>
-
-        <!-- Default Address -->
-        <div class="md:col-span-2">
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              name="address[default]"
-              value="1"
-              class="w-4 h-4 border border-border text-foreground focus:ring-0 focus:ring-offset-0"
-            />
-            <span class="text-xs tracking-widest uppercase text-muted-foreground">Set as default address</span>
-          </label>
-        </div>
+        <span class="text-sm font-medium" style="color: var(--color-secondary-text, #6B7280);">Add New Address</span>
       </div>
 
-      <!-- Submit -->
-      <div class="flex gap-4 mt-10">
-        <button
-          type="submit"
-          class="flex-1 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-80 transition-opacity"
-        >
-          Add Address
-        </button>
-        <button
-          type="button"
-          onclick="document.getElementById('new-address-form').classList.add('hidden')"
-          class="py-4 px-8 border border-border text-xs tracking-widest uppercase text-foreground hover:bg-muted transition-colors"
-        >
-          Cancel
-        </button>
-      </div>
-    {% endform %}
-  </div>
-
-  <!-- Existing Addresses -->
-  {% if customer.addresses.size > 0 %}
-    <div class="space-y-12">
+      <!-- Existing Addresses -->
       {% for address in customer.addresses %}
-        <div class="border-b border-border pb-12">
-
-          <!-- Address Display -->
-          <div id="address-display-{{ address.id }}">
-            {% if address == customer.default_address %}
-              <span class="inline-block text-xs tracking-widest uppercase text-muted-foreground mb-4">Default</span>
-            {% endif %}
-
-            <div class="text-sm text-muted-foreground leading-relaxed mb-6">
-              {{ address | format_address }}
+        <div class="acct-address-card flex flex-col">
+          {% if address == customer.default_address %}
+            <div>
+              <span class="acct-badge acct-badge--default mb-3 inline-block">Default</span>
             </div>
-
-            <div class="flex gap-4">
-              <button
-                type="button"
-                onclick="document.getElementById('edit-address-{{ address.id }}').classList.remove('hidden'); document.getElementById('address-display-{{ address.id }}').classList.add('hidden');"
-                class="text-xs tracking-widest uppercase text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                onclick="if(confirm('Are you sure you want to delete this address?')) { Shopify.postLink('{{ routes.account_addresses_url }}/{{ address.id }}', {'parameters': {'_method': 'delete'}}) }"
-                class="text-xs tracking-widest uppercase text-error underline underline-offset-4 hover:opacity-70 transition-opacity"
-              >
-                Delete
-              </button>
-            </div>
+          {% endif %}
+          <div class="text-sm leading-relaxed mb-6" style="color: #737373;">
+            {{ address | format_address }}
           </div>
-
-          <!-- Edit Address Form (hidden by default) -->
-          <div id="edit-address-{{ address.id }}" class="hidden">
-            <h3 class="text-xs tracking-widest uppercase text-muted-foreground mb-8">Edit Address</h3>
-
-            {% form 'customer_address', address %}
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                <!-- First Name -->
-                <div>
-                  <label for="address_first_name_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    id="address_first_name_{{ address.id }}"
-                    name="address[first_name]"
-                    value="{{ form.first_name }}"
-                    autocomplete="given-name"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Last Name -->
-                <div>
-                  <label for="address_last_name_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="address_last_name_{{ address.id }}"
-                    name="address[last_name]"
-                    value="{{ form.last_name }}"
-                    autocomplete="family-name"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Company -->
-                <div class="md:col-span-2">
-                  <label for="address_company_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Company
-                  </label>
-                  <input
-                    type="text"
-                    id="address_company_{{ address.id }}"
-                    name="address[company]"
-                    value="{{ form.company }}"
-                    autocomplete="organization"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Address 1 -->
-                <div class="md:col-span-2">
-                  <label for="address_address1_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    id="address_address1_{{ address.id }}"
-                    name="address[address1]"
-                    value="{{ form.address1 }}"
-                    autocomplete="address-line1"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Address 2 -->
-                <div class="md:col-span-2">
-                  <label for="address_address2_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Apartment, Suite, Etc.
-                  </label>
-                  <input
-                    type="text"
-                    id="address_address2_{{ address.id }}"
-                    name="address[address2]"
-                    value="{{ form.address2 }}"
-                    autocomplete="address-line2"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- City -->
-                <div>
-                  <label for="address_city_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    id="address_city_{{ address.id }}"
-                    name="address[city]"
-                    value="{{ form.city }}"
-                    autocomplete="address-level2"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Country -->
-                <div>
-                  <label for="address_country_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Country / Region
-                  </label>
-                  <select
-                    id="address_country_{{ address.id }}"
-                    name="address[country]"
-                    data-default="{{ form.country }}"
-                    autocomplete="country"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors appearance-none"
-                  >
-                    {{ all_country_option_tags }}
-                  </select>
-                </div>
-
-                <!-- Province -->
-                <div>
-                  <label for="address_province_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Province / State
-                  </label>
-                  <select
-                    id="address_province_{{ address.id }}"
-                    name="address[province]"
-                    data-default="{{ form.province }}"
-                    autocomplete="address-level1"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground focus:outline-none focus:border-foreground transition-colors appearance-none"
-                  >
-                  </select>
-                </div>
-
-                <!-- Zip -->
-                <div>
-                  <label for="address_zip_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Postal / Zip Code
-                  </label>
-                  <input
-                    type="text"
-                    id="address_zip_{{ address.id }}"
-                    name="address[zip]"
-                    value="{{ form.zip }}"
-                    autocomplete="postal-code"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Phone -->
-                <div class="md:col-span-2">
-                  <label for="address_phone_{{ address.id }}" class="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    id="address_phone_{{ address.id }}"
-                    name="address[phone]"
-                    value="{{ form.phone }}"
-                    autocomplete="tel"
-                    class="w-full bg-transparent border-0 border-b border-border py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
-                  />
-                </div>
-
-                <!-- Default Address -->
-                <div class="md:col-span-2">
-                  <label class="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="address[default]"
-                      value="1"
-                      {% if address == customer.default_address %}checked{% endif %}
-                      class="w-4 h-4 border border-border text-foreground focus:ring-0 focus:ring-offset-0"
-                    />
-                    <span class="text-xs tracking-widest uppercase text-muted-foreground">Set as default address</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Submit -->
-              <div class="flex gap-4 mt-10">
-                <button
-                  type="submit"
-                  class="flex-1 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-80 transition-opacity"
-                >
-                  Update Address
-                </button>
-                <button
-                  type="button"
-                  onclick="document.getElementById('edit-address-{{ address.id }}').classList.add('hidden'); document.getElementById('address-display-{{ address.id }}').classList.remove('hidden');"
-                  class="py-4 px-8 border border-border text-xs tracking-widest uppercase text-foreground hover:bg-muted transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            {% endform %}
+          <div class="flex gap-3 mt-auto">
+            <button type="button" class="acct-btn-secondary" style="padding: 8px 20px; font-size: 10px;" onclick="toggleEditAddress('{{ address.id }}')">Edit</button>
+            <button type="button" class="acct-btn-danger" style="padding: 8px 20px; font-size: 10px;" onclick="if(confirm('Delete this address?')){Shopify.postLink('{{ routes.account_addresses_url }}/{{ address.id }}',{'parameters':{'_method':'delete'}})}">Delete</button>
           </div>
-
         </div>
       {% endfor %}
     </div>
-  {% else %}
-    <p class="text-sm text-muted-foreground">No addresses saved yet.</p>
-  {% endif %}
 
+    <!-- NEW ADDRESS FORM -->
+    <div id="new-address-form" class="acct-slide-panel acct-glass-card mb-12">
+      <h2 class="acct-section-label">New Address</h2>
+      {% form 'customer_address', customer.new_address %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+          <div class="acct-input-group">
+            <label for="address_first_name_new">First Name</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_first_name_new" name="address[first_name]" autocomplete="given-name" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group">
+            <label for="address_last_name_new">Last Name</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_last_name_new" name="address[last_name]" autocomplete="family-name" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group md:col-span-2">
+            <label for="address_company_new">Company</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_company_new" name="address[company]" autocomplete="organization" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group md:col-span-2">
+            <label for="address_address1_new">Address</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_address1_new" name="address[address1]" autocomplete="address-line1" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group md:col-span-2">
+            <label for="address_address2_new">Apartment, Suite, Etc.</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_address2_new" name="address[address2]" autocomplete="address-line2" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group">
+            <label for="address_city_new">City</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_city_new" name="address[city]" autocomplete="address-level2" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group">
+            <label for="address_country_new">Country/Region</label>
+            <div class="acct-input-underline">
+              <select id="address_country_new" name="address[country]" data-default="{{ form.country }}" autocomplete="country" class="acct-select">
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+          </div>
+          <div class="acct-input-group">
+            <label for="address_province_new">Province/State</label>
+            <div class="acct-input-underline">
+              <select id="address_province_new" name="address[province]" data-default="{{ form.province }}" autocomplete="address-level1" class="acct-select">
+              </select>
+            </div>
+          </div>
+          <div class="acct-input-group">
+            <label for="address_zip_new">Postal/Zip Code</label>
+            <div class="acct-input-underline">
+              <input type="text" id="address_zip_new" name="address[zip]" autocomplete="postal-code" class="acct-input">
+            </div>
+          </div>
+          <div class="acct-input-group md:col-span-2">
+            <label for="address_phone_new">Phone</label>
+            <div class="acct-input-underline">
+              <input type="tel" id="address_phone_new" name="address[phone]" autocomplete="tel" class="acct-input">
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" name="address[default]" value="1" class="acct-checkbox">
+              <span class="text-xs tracking-widest uppercase" style="color: #737373;">Set as default address</span>
+            </label>
+          </div>
+        </div>
+        <div class="flex gap-4 mt-8">
+          <button type="submit" class="acct-btn-primary flex-1"><span>Add Address</span></button>
+          <button type="button" class="acct-btn-secondary" onclick="toggleNewAddress()">Cancel</button>
+        </div>
+      {% endform %}
+    </div>
+
+    <!-- EDIT ADDRESS FORMS -->
+    {% for address in customer.addresses %}
+      <div id="edit-address-{{ address.id }}" class="acct-slide-panel acct-glass-card col-span-full">
+        <h2 class="acct-section-label">Edit Address</h2>
+        {% form 'customer_address', address %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            <div class="acct-input-group">
+              <label for="address_first_name_{{ address.id }}">First Name</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_first_name_{{ address.id }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group">
+              <label for="address_last_name_{{ address.id }}">Last Name</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_last_name_{{ address.id }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group md:col-span-2">
+              <label for="address_company_{{ address.id }}">Company</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_company_{{ address.id }}" name="address[company]" value="{{ form.company }}" autocomplete="organization" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group md:col-span-2">
+              <label for="address_address1_{{ address.id }}">Address</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_address1_{{ address.id }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group md:col-span-2">
+              <label for="address_address2_{{ address.id }}">Apartment, Suite, Etc.</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_address2_{{ address.id }}" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group">
+              <label for="address_city_{{ address.id }}">City</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_city_{{ address.id }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group">
+              <label for="address_country_{{ address.id }}">Country/Region</label>
+              <div class="acct-input-underline">
+                <select id="address_country_{{ address.id }}" name="address[country]" data-default="{{ form.country }}" autocomplete="country" class="acct-select">
+                  {{ all_country_option_tags }}
+                </select>
+              </div>
+            </div>
+            <div class="acct-input-group">
+              <label for="address_province_{{ address.id }}">Province/State</label>
+              <div class="acct-input-underline">
+                <select id="address_province_{{ address.id }}" name="address[province]" data-default="{{ form.province }}" autocomplete="address-level1" class="acct-select">
+                </select>
+              </div>
+            </div>
+            <div class="acct-input-group">
+              <label for="address_zip_{{ address.id }}">Postal/Zip Code</label>
+              <div class="acct-input-underline">
+                <input type="text" id="address_zip_{{ address.id }}" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code" class="acct-input">
+              </div>
+            </div>
+            <div class="acct-input-group md:col-span-2">
+              <label for="address_phone_{{ address.id }}">Phone</label>
+              <div class="acct-input-underline">
+                <input type="tel" id="address_phone_{{ address.id }}" name="address[phone]" value="{{ form.phone }}" autocomplete="tel" class="acct-input">
+              </div>
+            </div>
+            <div class="md:col-span-2">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" name="address[default]" value="1" class="acct-checkbox" {% if address == customer.default_address %}checked{% endif %}>
+                <span class="text-xs tracking-widest uppercase" style="color: #737373;">Set as default address</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex gap-4 mt-8">
+            <button type="submit" class="acct-btn-primary flex-1"><span>Update Address</span></button>
+            <button type="button" class="acct-btn-secondary" onclick="toggleEditAddress('{{ address.id }}')">Cancel</button>
+          </div>
+        {% endform %}
+      </div>
+    {% endfor %}
+
+  </div>
 </div>
 
 <script>
+  function toggleNewAddress() {
+    const form = document.getElementById('new-address-form');
+    const trigger = document.getElementById('add-address-trigger');
+    form.classList.toggle('is-open');
+    if (form.classList.contains('is-open')) {
+      trigger.style.display = 'none';
+    } else {
+      trigger.style.display = 'flex';
+    }
+  }
+
+  function toggleEditAddress(id) {
+    const form = document.getElementById('edit-address-' + id);
+    form.classList.toggle('is-open');
+  }
+
   // Initialize Shopify country/province selectors
   document.addEventListener('DOMContentLoaded', function () {
     if (typeof Shopify !== 'undefined' && Shopify.CountryProvinceSelector) {
-      // New address form
       new Shopify.CountryProvinceSelector(
         'address_country_new',
         'address_province_new',
         { hideElement: 'address_province_new_container' }
       );
 
-      // Edit address forms
       {% for address in customer.addresses %}
         new Shopify.CountryProvinceSelector(
           'address_country_{{ address.id }}',
