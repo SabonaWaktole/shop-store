@@ -33,7 +33,14 @@
 
     <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto relative group/header" style="height: {{ section.settings.header_height }}px;">
         
-        <!-- Navigation Links (Left) -->
+        <!-- Mobile Menu Trigger (Left) -->
+        <div class="md:hidden flex items-center">
+            <button class="hover:opacity-70 transition-opacity" aria-label="Menu" onclick="document.getElementById('MobileMenu').classList.toggle('translate-x-[-100%]');">
+                <span class="material-symbols-outlined" style="font-size: {{ section.settings.icon_size | times: 0.8 | round }}px;">menu</span>
+            </button>
+        </div>
+
+        <!-- Navigation Links (Left, Desktop) -->
         <div class="hidden md:flex items-center gap-10">
             {% for link in linklists[section.settings.menu].links %}
                 {%- assign is_mega = false -%}
@@ -107,7 +114,7 @@
         </a>
 
         <!-- Trailing Icons (Right) -->
-        <div class="flex items-center gap-8 text-primary dark:text-primary">
+        <div class="flex items-center gap-4 md:gap-8 text-primary dark:text-primary">
             {% if shop.customer_accounts_enabled %}
                 <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="hover:opacity-70 transition-opacity">
                     <span class="material-symbols-outlined" style="font-size: {{ section.settings.icon_size }}px;">person</span>
@@ -146,6 +153,32 @@
                 </div>
             {%- endif -%}
         </predictive-search>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="MobileMenu" class="fixed inset-0 bg-background z-50 translate-x-[-100%] transition-transform duration-500 ease-in-out md:hidden flex flex-col" style="padding-top: {{ section.settings.header_height }}px;">
+        <button class="absolute top-6 right-margin-mobile text-primary hover:opacity-70 transition-opacity" aria-label="Close Menu" onclick="document.getElementById('MobileMenu').classList.add('translate-x-[-100%]');">
+            <span class="material-symbols-outlined" style="font-size: {{ section.settings.icon_size }}px;">close</span>
+        </button>
+        <div class="flex flex-col gap-6 px-margin-mobile py-8 overflow-y-auto w-full h-full">
+            {% for link in linklists[section.settings.menu].links %}
+                <a href="{{ link.url }}" class="font-display-xl text-4xl uppercase text-primary hover:text-accent transition-colors">{{ link.title }}</a>
+                {%- if link.links != blank -%}
+                    <div class="flex flex-col gap-4 pl-4 border-l border-outline-variant mt-2 mb-4">
+                        {%- for childlink in link.links -%}
+                            <a href="{{ childlink.url }}" class="font-label-mono text-on-surface-variant uppercase tracking-widest text-lg">{{ childlink.title }}</a>
+                        {%- endfor -%}
+                    </div>
+                {%- endif -%}
+            {% endfor %}
+            <div class="border-t border-outline-variant mt-8 pt-8 flex flex-col gap-4">
+                {% if shop.customer_accounts_enabled %}
+                    <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="font-label-mono text-on-surface-variant uppercase tracking-widest flex items-center gap-4">
+                        <span class="material-symbols-outlined">person</span> {% if customer %}ACCOUNT{% else %}LOGIN / REGISTER{% endif %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </nav>
 
