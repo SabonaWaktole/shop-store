@@ -71,9 +71,9 @@
                 <div class="flex items-center gap-2 text-primary whitespace-nowrap relative group cursor-pointer">
                     <span>SORT: <span id="SortLabel">FEATURED</span></span>
                     <span class="material-symbols-outlined text-[14px]">swap_vert</span>
-                    <select name="sort_by" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" onchange="document.getElementById('SortLabel').innerText = this.options[this.selectedIndex].text; this.form.submit();">
+                    <select name="sort_by" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full bg-surface text-primary" onchange="document.getElementById('SortLabel').innerText = this.options[this.selectedIndex].text; this.form.submit();">
                         {%- for option in collection.sort_options -%}
-                            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+                            <option value="{{ option.value }}" class="bg-surface text-primary" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
                         {%- endfor -%}
                     </select>
                 </div>
