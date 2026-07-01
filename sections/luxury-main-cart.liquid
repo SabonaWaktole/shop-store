@@ -1,0 +1,193 @@
+{% schema %}
+{
+  "name": "Luxury Cart",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#333333"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart_note",
+      "label": "Enable cart note",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .luxury-cart-container {
+    background-color: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    min-height: 60vh;
+  }
+  .luxury-cart-border {
+    border-color: {{ section.settings.border_color }};
+  }
+  .luxury-cart-input {
+    background: transparent;
+    border: 1px solid {{ section.settings.border_color }};
+    color: {{ section.settings.text_color }};
+  }
+  .luxury-cart-input:focus {
+    outline: none;
+    border-color: {{ section.settings.text_color }};
+  }
+  .luxury-cart-btn {
+    background-color: {{ section.settings.text_color }};
+    color: {{ section.settings.background }};
+    transition: opacity 0.3s ease;
+  }
+  .luxury-cart-btn:hover {
+    opacity: 0.8;
+  }
+  .luxury-cart-btn-outline {
+    background: transparent;
+    color: {{ section.settings.text_color }};
+    border: 1px solid {{ section.settings.text_color }};
+    transition: opacity 0.3s ease;
+  }
+  .luxury-cart-btn-outline:hover {
+    opacity: 0.7;
+  }
+  .luxury-cart-link {
+    color: {{ section.settings.text_color }};
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  .luxury-cart-link:hover {
+    opacity: 1;
+  }
+</style>
+
+<div class="luxury-cart-container py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="flex items-end justify-between mb-12 border-b pb-6 luxury-cart-border">
+      <h1 class="text-4xl md:text-5xl font-serif tracking-tighter">Your Cart</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="luxury-cart-link tracking-widest uppercase text-xs">Continue Shopping</a>
+    </div>
+
+    {% if cart.empty? %}
+      <div class="text-center py-20">
+        <h2 class="text-2xl font-serif tracking-tighter mb-6">Your cart is currently empty.</h2>
+        <a href="{{ routes.all_products_collection_url }}" class="inline-block luxury-cart-btn px-8 py-4 tracking-widest uppercase text-sm font-medium">
+          Start Shopping
+        </a>
+      </div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" id="cart" class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Cart Items List (Left Column) -->
+        <div class="lg:col-span-8">
+          <!-- Desktop Header -->
+          <div class="hidden md:grid grid-cols-12 gap-4 pb-4 border-b luxury-cart-border text-xs tracking-widest uppercase opacity-70">
+            <div class="col-span-6">Product</div>
+            <div class="col-span-3 text-center">Quantity</div>
+            <div class="col-span-3 text-right">Total</div>
+          </div>
+
+          <!-- Items -->
+          <div class="flex flex-col gap-8 py-8 border-b luxury-cart-border">
+            {% for item in cart.items %}
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                
+                <!-- Image & Info -->
+                <div class="md:col-span-6 flex gap-6 items-center">
+                  <a href="{{ item.url }}" class="w-24 h-32 flex-shrink-0 border luxury-cart-border overflow-hidden">
+                    {% if item.image %}
+                      <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" class="w-full h-full object-cover" loading="lazy">
+                    {% else %}
+                      {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+                    {% endif %}
+                  </a>
+                  
+                  <div class="flex flex-col gap-2">
+                    <a href="{{ item.url }}" class="text-lg md:text-xl font-medium tracking-wide hover:opacity-70 transition-opacity">
+                      {{ item.product.title }}
+                    </a>
+                    
+                    {% unless item.product.has_only_default_variant %}
+                      <p class="text-sm opacity-70">{{ item.variant.title }}</p>
+                    {% endunless %}
+                    
+                    <p class="text-sm opacity-70 md:hidden">{{ item.original_price | money }}</p>
+                    
+                    <a href="{{ item.url_to_remove }}" class="luxury-cart-link text-xs mt-2 uppercase tracking-widest w-fit">Remove</a>
+                  </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="md:col-span-3 flex justify-start md:justify-center">
+                  <div class="flex items-center border luxury-cart-border h-12 w-32">
+                    <button type="button" class="w-10 h-full flex items-center justify-center opacity-70 hover:opacity-100" onclick="this.nextElementSibling.stepDown(); this.form.submit();">-</button>
+                    <input type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" class="w-12 h-full text-center bg-transparent border-none focus:outline-none focus:ring-0 p-0 text-sm" onchange="this.form.submit();">
+                    <button type="button" class="w-10 h-full flex items-center justify-center opacity-70 hover:opacity-100" onclick="this.previousElementSibling.stepUp(); this.form.submit();">+</button>
+                  </div>
+                </div>
+
+                <!-- Total -->
+                <div class="md:col-span-3 text-left md:text-right">
+                  <p class="text-lg md:text-xl font-medium tracking-wide">{{ item.final_line_price | money }}</p>
+                </div>
+
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Order Summary (Right Column) -->
+        <div class="lg:col-span-4">
+          <div class="p-8 border luxury-cart-border flex flex-col gap-8 sticky top-8">
+            <h2 class="text-2xl font-serif tracking-tighter">Order Summary</h2>
+            
+            <div class="flex justify-between items-center text-lg md:text-xl">
+              <span class="opacity-70">Subtotal</span>
+              <span class="font-medium tracking-wide">{{ cart.total_price | money }}</span>
+            </div>
+
+            <p class="text-sm opacity-70 leading-relaxed">
+              Taxes and shipping calculated at checkout.
+            </p>
+
+            {% if section.settings.show_cart_note %}
+              <div class="flex flex-col gap-3">
+                <label for="Cart-note" class="text-sm tracking-widest uppercase opacity-70">Order Note (Optional)</label>
+                <textarea class="luxury-cart-input w-full p-4 text-sm" name="note" id="Cart-note" rows="4" placeholder="How can we help you?">{{ cart.note }}</textarea>
+              </div>
+            {% endif %}
+
+            <div class="flex flex-col gap-4 mt-4">
+              <button type="submit" name="update" class="w-full luxury-cart-btn-outline py-4 tracking-widest uppercase text-sm font-medium">
+                Update Cart
+              </button>
+              <button type="submit" name="checkout" class="w-full luxury-cart-btn py-4 tracking-widest uppercase text-sm font-medium">
+                Check Out
+              </button>
+            </div>
+            
+          </div>
+        </div>
+        
+      </form>
+    {% endif %}
+
+  </div>
+</div>
