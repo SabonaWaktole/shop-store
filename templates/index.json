@@ -91,7 +91,7 @@
           "type": "ai_gen_block_fdef26d",
           "settings": {
             "heading": "Featured products",
-            "collection": "",
+            "collection": "jacket",
             "products_count": 8,
             "products_per_row": 4,
             "products_per_row_tablet": "3",
