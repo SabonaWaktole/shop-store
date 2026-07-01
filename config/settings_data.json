@@ -86,8 +86,9 @@
         "type": "luxury-header",
         "settings": {
           "sticky_header": true,
-          "transparent_header": false,
+          "transparent_header": true,
           "header_height": 52,
+          "logo": "shopify://shop_images/public_equity.webp",
           "logo_width": 100,
           "nav_font_size": 14,
           "nav_letter_spacing": "0.05em",
