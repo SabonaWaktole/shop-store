@@ -11,9 +11,15 @@
     {
       "type": "text",
       "id": "target_date",
-      "label": "Target Date",
+      "label": "Fallback Target Date",
       "info": "Format: YYYY-MM-DD HH:MM:SS (e.g. 2026-07-15 12:00:00)",
       "default": "2026-07-15 12:00:00"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Sync with Collection",
+      "info": "Automatically counts down to the earliest upcoming product release date in this collection. Overrides the manual date above."
     }
   ],
   "presets": [
@@ -24,11 +30,37 @@
 }
 {% endschema %}
 
+{%- liquid
+  assign target_date_string = section.settings.target_date
+  
+  if section.settings.collection != blank
+    assign synced_collection = collections[section.settings.collection]
+    assign now_timestamp = "now" | date: "%s" | times: 1
+    assign earliest_future_date = nil
+    assign earliest_future_timestamp = 9999999999999
+    
+    for product in synced_collection.products
+      assign release_date = product.metafields.drop.release_date.value
+      if release_date != blank
+        assign release_timestamp = release_date | date: "%s" | times: 1
+        if release_timestamp > now_timestamp and release_timestamp < earliest_future_timestamp
+          assign earliest_future_timestamp = release_timestamp
+          assign earliest_future_date = release_date
+        endif
+      endif
+    endfor
+    
+    if earliest_future_date != nil
+      assign target_date_string = earliest_future_date
+    endif
+  endif
+-%}
+
 <section class="py-12 border-b border-border bg-background overflow-hidden relative">
     <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
         <h3 class="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-6">{{ section.settings.heading }}</h3>
         
-        <div id="countdown-timer" class="flex items-center justify-center gap-4 md:gap-8 font-serif tracking-tighter text-4xl md:text-6xl" data-target="{{ section.settings.target_date }}">
+        <div id="countdown-timer" class="flex items-center justify-center gap-4 md:gap-8 font-serif tracking-tighter text-4xl md:text-6xl" data-target="{{ target_date_string }}">
             <div class="flex flex-col items-center">
                 <span id="cd-days" class="w-16 md:w-24 text-primary">00</span>
                 <span class="text-[10px] md:text-xs font-sans tracking-widest uppercase text-muted-foreground mt-2">Days</span>
@@ -71,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date().getTime();
         const diff = targetDate - now;
 
-        if (diff <= 0) {
+        if (isNaN(targetDate) || diff <= 0) {
             daysEl.innerText = '00';
             hoursEl.innerText = '00';
             minutesEl.innerText = '00';
