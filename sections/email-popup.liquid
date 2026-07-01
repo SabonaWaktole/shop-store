@@ -20,7 +20,7 @@
 
 <div id="email-popup" class="fixed inset-0 bg-primary/20 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4">
     <div class="bg-background w-full max-w-md p-8 relative shadow-2xl animate-fade-in-up">
-        <button class="absolute top-4 right-4 text-muted-foreground hover:text-primary transition-colors" onclick="document.getElementById('email-popup').classList.add('hidden')">
+        <button class="absolute top-4 right-4 text-muted-foreground hover:text-primary transition-colors" onclick="dismissPopup()">
             <span class="material-symbols-outlined font-light">close</span>
         </button>
         
@@ -36,6 +36,9 @@
                 <div class="p-4 bg-muted text-primary text-sm font-medium text-center mb-4 uppercase tracking-wide">
                     You're on the list.
                 </div>
+                <script>
+                    localStorage.setItem('user_subscribed', 'true');
+                </script>
             {%- else -%}
                 {%- if form.errors -%}
                     <div class="p-4 border border-error text-error text-sm mb-4">
@@ -74,18 +77,34 @@
 </style>
 
 <script>
-// Show popup automatically after 5 seconds if not seen
-if (!localStorage.getItem('popup_seen')) {
-    setTimeout(() => {
-        document.getElementById('email-popup').classList.remove('hidden');
-        localStorage.setItem('popup_seen', 'true');
-    }, 5000);
+// Show popup automatically after 5 seconds if not dismissed in this session AND user is not subscribed
+(function() {
+    var isCustomer = {% if customer %}true{% else %}false{% endif %};
+    var hasSubscribed = localStorage.getItem('user_subscribed') === 'true';
+    var dismissedInSession = sessionStorage.getItem('popup_dismissed') === 'true';
+
+    // Also reset if in theme editor to make testing easier
+    if (window.Shopify && window.Shopify.designMode) {
+        dismissedInSession = false;
+        hasSubscribed = false;
+    }
+
+    if (!dismissedInSession && !hasSubscribed && !isCustomer) {
+        setTimeout(() => {
+            document.getElementById('email-popup').classList.remove('hidden');
+        }, 5000);
+    }
+})();
+
+function dismissPopup() {
+    document.getElementById('email-popup').classList.add('hidden');
+    sessionStorage.setItem('popup_dismissed', 'true');
 }
 
 // Close on outside click
 document.getElementById('email-popup').addEventListener('click', function(e) {
     if (e.target === this) {
-        this.classList.add('hidden');
+        dismissPopup();
     }
 });
 </script>

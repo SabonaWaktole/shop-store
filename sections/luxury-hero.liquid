@@ -275,7 +275,11 @@
   }
 </style>
 
-<section id="Hero-{{ section.id }}" class="relative w-full flex justify-center overflow-hidden" style="min-height: {{ section.settings.hero_height }}; align-items: {{ section.settings.content_position }};">
+<div class="relative w-full">
+  <!-- Solid white block extending upwards to sit directly behind the transparent header -->
+  <div class="absolute top-[-100px] left-0 w-full h-[100px] bg-white" data-header-theme="light"></div>
+
+  <section id="Hero-{{ section.id }}" class="relative w-full flex justify-center overflow-hidden" style="min-height: {{ section.settings.hero_height }}; align-items: {{ section.settings.content_position }};">
     
     <!-- Background Image -->
     <div class="absolute inset-0 w-full h-full">
@@ -301,7 +305,7 @@
     </div>
 
     <!-- Content / Email Capture Card -->
-    <div class="relative z-10 w-full {{ section.settings.content_width }} mx-4 mt-24 mb-16 md:mb-24 animate-fade-in-up" 
+    <div id="hero-signup-card" class="relative z-10 w-full {{ section.settings.content_width }} mx-4 mt-24 mb-16 md:mb-24 animate-fade-in-up" 
          style="background-color: {{ section.settings.card_bg_color }}; padding: {{ section.settings.card_padding }}px; border-radius: {{ section.settings.card_border_radius }}px; text-align: {{ section.settings.text_alignment }};{% if section.settings.card_shadow %} box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);{% endif %}">
         
         <h2 class="hero-heading tracking-tighter mb-3" style="font-weight: {{ section.settings.heading_font_weight }}; color: {{ section.settings.heading_color }};{% if section.settings.heading_uppercase %} text-transform: uppercase;{% endif %}">{{ section.settings.heading }}</h2>
@@ -314,6 +318,9 @@
                 <div class="p-4 bg-muted text-primary text-sm font-medium text-center uppercase tracking-wide" style="background-color: {{ section.settings.card_bg_color | color_darken: 5 }};">
                     Thank you. Check your inbox.
                 </div>
+                <script>
+                    localStorage.setItem('user_subscribed', 'true');
+                </script>
             {%- else -%}
                 {%- if form.errors -%}
                     <div class="p-4 border border-error text-error text-sm mb-4">
@@ -352,4 +359,20 @@
             {%- endif -%}
         {% endform %}
     </div>
+
+    <!-- Subscriber Detection Script -->
+    <script>
+        (function() {
+            var isCustomer = {% if customer %}true{% else %}false{% endif %};
+            var hasSubscribed = localStorage.getItem('user_subscribed') === 'true';
+            
+            if (isCustomer || hasSubscribed) {
+                var card = document.getElementById('hero-signup-card');
+                if (card) {
+                    card.style.display = 'none';
+                }
+            }
+        })();
+    </script>
 </section>
+</div>

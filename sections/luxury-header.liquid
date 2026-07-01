@@ -15,6 +15,13 @@
       "label": "Transparent Header"
     },
     {
+      "type": "checkbox",
+      "id": "dynamic_text_color",
+      "default": true,
+      "label": "Dynamic Text Color",
+      "info": "Text will automatically invert based on the background it scrolls over (mix-blend-mode). Best used with Transparent Header."
+    },
+    {
       "type": "range",
       "id": "header_height",
       "min": 48,
@@ -204,18 +211,37 @@
   {%- assign header_position = "fixed top-0" -%}
 {%- endif -%}
 
-<header class="{{ header_position }} left-0 w-full z-[100] border-b transition-all duration-300 {% if section.settings.transparent_header %}backdrop-blur-md{% endif %}" id="main-header" style="background-color: {% if section.settings.transparent_header %}rgba(255, 255, 255, 0.15){% else %}{{ section.settings.header_bg_color }}{% endif %}; color: {{ section.settings.header_text_color }}; border-color: {{ section.settings.header_border_color }}; min-height: {{ section.settings.header_height }}px;">
+<style>
+  #main-header { transition: background-color 0.3s ease, border-color 0.3s ease; }
+  
+  .header-zone { transition: color 0.3s ease; }
+  
+  .header-zone.zone--dark,
+  .header-zone.zone--dark a,
+  .header-zone.zone--dark span,
+  .header-zone.zone--dark button { color: #000000 !important; }
+  
+  .header-zone.zone--light,
+  .header-zone.zone--light a,
+  .header-zone.zone--light span,
+  .header-zone.zone--light button { color: #ffffff !important; }
+  
+  .header-zone.zone--dark img { filter: none; transition: filter 0.3s ease; }
+  .header-zone.zone--light img { filter: brightness(0) invert(1); transition: filter 0.3s ease; }
+</style>
+
+<header class="{{ header_position }} left-0 w-full z-[100] {% unless section.settings.transparent_header %}border-b{% endunless %} transition-all duration-300" id="main-header" style="background-color: {% if section.settings.transparent_header %}transparent{% else %}{{ section.settings.header_bg_color }}{% endif %}; border-color: {{ section.settings.header_border_color }}; min-height: {{ section.settings.header_height }}px;">
   <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-4 flex justify-between items-center h-full" style="min-height: {{ section.settings.header_height }}px;">
     
     <!-- Mobile Menu Toggle (Left) -->
-    <div class="lg:hidden flex items-center">
+    <div class="lg:hidden flex items-center header-zone zone--dark">
       <button class="hover:opacity-70 transition-opacity">
         <span class="material-symbols-outlined font-light" style="font-size: {{ section.settings.icon_size }}px;">menu</span>
       </button>
     </div>
 
     <!-- Desktop Nav (Left) -->
-    <nav class="hidden lg:flex items-center gap-8 flex-1">
+    <nav class="hidden lg:flex items-center gap-8 flex-1 header-zone zone--dark">
       {%- if section.settings.menu != blank -%}
         {%- for link in linklists[section.settings.menu].links -%}
           <a class="transition-colors hover:opacity-70" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="{{ link.url }}">
@@ -230,10 +256,10 @@
     </nav>
 
     <!-- Logo (Center) -->
-    <div class="flex-shrink-0 text-center lg:flex-1">
+    <div class="flex-shrink-0 text-center lg:flex-1 header-zone zone--dark">
       <a href="{{ routes.root_url }}" class="font-semibold tracking-tighter uppercase inline-block" style="width: {{ section.settings.logo_width }}px; max-width: 100%;">
         {%- if section.settings.logo != blank -%}
-          <img src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}" alt="{{ shop.name | escape }}" class="w-full h-auto" loading="eager" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}">
+          <img src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}" alt="{{ shop.name | escape }}" class="w-full h-auto transition-all duration-300" loading="eager" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}">
         {%- else -%}
           <span style="font-size: {{ section.settings.logo_width | divided_by: 6 }}px;">{{ shop.name | default: 'STUDIO' }}</span>
         {%- endif -%}
@@ -241,7 +267,7 @@
     </div>
     
     <!-- Utilities (Right) -->
-    <div class="flex items-center justify-end gap-6 flex-1">
+    <div class="flex items-center justify-end gap-6 flex-1 header-zone zone--dark">
       {%- if section.settings.header_show_social -%}
         <div class="hidden md:flex gap-4">
           <a href="#" class="hover:opacity-70"><span class="material-symbols-outlined" style="font-size: {{ section.settings.header_social_icon_size }}px;">share</span></a>
@@ -261,21 +287,169 @@
 </header>
 
 <script>
-// Adjust header position on scroll to hide announcement bar
-let lastScrollY = window.scrollY;
-const header = document.getElementById('main-header');
-const announcementEnabled = {{ section.settings.announcement_enabled | json }};
-const stickyHeader = {{ section.settings.sticky_header | json }};
-const announcementHeight = announcementEnabled ? 32 : 0;
+(function() {
+  const header = document.getElementById('main-header');
+  const zones = document.querySelectorAll('.header-zone');
+  const dynamicColor = {{ section.settings.dynamic_text_color | json }};
+  const stickyHeader = {{ section.settings.sticky_header | json }};
+  const announcementEnabled = {{ section.settings.announcement_enabled | json }};
+  const announcementHeight = announcementEnabled ? 32 : 0;
 
-if(stickyHeader && announcementEnabled) {
-  header.style.top = `${announcementHeight}px`;
-  window.addEventListener('scroll', () => {
+  // Announcement bar scroll behavior
+  if (stickyHeader && announcementEnabled) {
+    header.style.top = `${announcementHeight}px`;
+    window.addEventListener('scroll', () => {
       if (window.scrollY > announcementHeight) {
-          header.style.top = '0px';
+        header.style.top = '0px';
       } else {
-          header.style.top = `${announcementHeight - window.scrollY}px`;
+        header.style.top = `${announcementHeight - window.scrollY}px`;
       }
-  });
-}
+    });
+  }
+
+  // Dynamic text color using canvas pixel sampling
+  if (dynamicColor) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 5;
+    canvas.height = 1;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    function samplePixelColor(x, y) {
+      // Hide header temporarily to click through it
+      const oldVisibility = header.style.visibility;
+      const oldPointerEvents = header.style.pointerEvents;
+      header.style.visibility = 'hidden';
+      header.style.pointerEvents = 'none';
+
+      const el = document.elementFromPoint(x, y);
+
+      header.style.visibility = oldVisibility;
+      header.style.pointerEvents = oldPointerEvents;
+
+      if (!el) return null;
+
+      // Walk up the DOM tree from the element at (x,y)
+      let target = el;
+      while (target) {
+        // Explicit override check
+        if (target.dataset && target.dataset.headerTheme) {
+          return target.dataset.headerTheme === 'dark' ? { r: 0, g: 0, b: 0 } : { r: 255, g: 255, b: 255 };
+        }
+        
+        // Handle images by actually reading their pixels!
+        if (target.tagName === 'IMG' && target.complete && target.naturalWidth > 0) {
+          try {
+            const rect = target.getBoundingClientRect();
+            // Calculate where we clicked relative to the image
+            // We use object-fit: cover logic approximation or just direct scale
+            const scaleX = target.naturalWidth / rect.width;
+            const scaleY = target.naturalHeight / rect.height;
+            const imgX = (x - rect.left) * scaleX;
+            const imgY = (y - rect.top) * scaleY;
+            
+            // Draw just that 1x1 pixel from the image to our canvas
+            ctx.clearRect(0, 0, 1, 1);
+            ctx.drawImage(target, imgX, imgY, 1, 1, 0, 0, 1, 1);
+            const pixel = ctx.getImageData(0, 0, 1, 1).data;
+            
+            // If it's mostly opaque, return this color!
+            if (pixel[3] > 50) { 
+              return { r: pixel[0], g: pixel[1], b: pixel[2] };
+            }
+          } catch (e) {
+            // If CORS blocks it, assume images in this store (like product photos) have light backgrounds
+            return { r: 255, g: 255, b: 255 };
+          }
+        }
+
+        const style = window.getComputedStyle(target);
+        const bg = style.backgroundColor;
+
+        // If it's a real color and not transparent
+        if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+          const m = bg.match(/[\d.]+/g);
+          if (m && m.length >= 3) {
+            const a = m.length >= 4 ? parseFloat(m[3]) : 1;
+            if (a > 0.1) {
+              return { r: parseInt(m[0]), g: parseInt(m[1]), b: parseInt(m[2]) };
+            }
+          }
+        }
+
+        // If it has a background image, assume dark (fallback)
+        const bgImg = style.backgroundImage;
+        if (bgImg && bgImg !== 'none' && target !== document.body && target !== document.documentElement) {
+          return { r: 30, g: 30, b: 30 };
+        }
+
+        target = target.parentElement;
+      }
+
+      return null;
+    }
+
+    function updateHeaderTheme() {
+      // Calculate theme for each zone independently
+      zones.forEach(zone => {
+        // Skip hidden zones (like mobile menu on desktop)
+        if (zone.offsetParent === null) return;
+        
+        const rect = zone.getBoundingClientRect();
+        // Sample at the exact center of this specific zone
+        const sampleX = rect.left + rect.width / 2;
+        const sampleY = rect.top + rect.height / 2;
+        
+        const color = samplePixelColor(sampleX, sampleY);
+        let theme = 'light'; // default assumption
+        
+        if (color) {
+          const luminance = (0.299 * color.r + 0.587 * color.g + 0.114 * color.b) / 255;
+          // light bg -> dark text, dark bg -> light text
+          theme = luminance > 0.5 ? 'dark' : 'light';
+        }
+        
+        const newClass = `zone--${theme}`;
+        if (!zone.classList.contains(newClass)) {
+          zone.classList.remove('zone--dark', 'zone--light');
+          zone.classList.add(newClass);
+        }
+      });
+    }
+
+    // Throttled scroll handler
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateHeaderTheme();
+          ticking = false;
+        });
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    function initialRun() {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          updateHeaderTheme();
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      initialRun();
+    } else {
+      window.addEventListener('load', initialRun);
+    }
+
+    // Run again shortly after load to account for images finishing rendering
+    setTimeout(updateHeaderTheme, 100);
+    setTimeout(updateHeaderTheme, 500);
+    setTimeout(updateHeaderTheme, 1500);
+  }
+})();
 </script>
+
