@@ -4,19 +4,19 @@
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  --regime-void: #050505;
-  --regime-black: #0a0a0a;
-  --regime-charcoal: #141414;
-  --regime-gunmetal: #1e1e1e;
-  --regime-steel: #2a2a2a;
-  --regime-silver: #a8a8a8;
-  --regime-mist: #6b6b6b;
-  --regime-neon: #39ff14;
-  --regime-neon-dim: rgba(57, 255, 20, 0.15);
-  --regime-neon-glow: rgba(57, 255, 20, 0.4);
-  --regime-rebel: #ff4500;
-  --regime-rebel-dim: rgba(255, 69, 0, 0.2);
-  --regime-flash: #ffffff;
+  --regime-void: #ffffff;
+  --regime-black: #f9fafb;
+  --regime-charcoal: #f3f4f6;
+  --regime-gunmetal: #e5e7eb;
+  --regime-steel: #d1d5db;
+  --regime-silver: #4b5563;
+  --regime-mist: #6b7280;
+  --regime-neon: #000000;
+  --regime-neon-dim: rgba(0, 0, 0, 0.05);
+  --regime-neon-glow: rgba(0, 0, 0, 0.1);
+  --regime-rebel: #111827;
+  --regime-rebel-dim: rgba(17, 24, 39, 0.1);
+  --regime-flash: #000000;
   --regime-font-display: 'Orbitron', 'Rajdhani', system-ui, sans-serif;
   --regime-font-body: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   --regime-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,8 +40,8 @@ body.regime-2093::before {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.03) 2px,
-    rgba(0, 0, 0, 0.03) 4px
+    rgba(255, 255, 255, 0.8) 2px,
+    rgba(255, 255, 255, 0.8) 4px
   );
   opacity: 0.4;
 }

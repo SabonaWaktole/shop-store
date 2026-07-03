@@ -35,10 +35,10 @@
         
         /* Spacing & Layout */
         --container-width: {{ settings.global_container_width | default: '1400px' }};
-        --section-spacing: {% if settings.global_section_spacing == 'compact' %}40px{% elsif settings.global_section_spacing == 'spacious' %}120px{% else %}80px{% endif %};
-        --padding-horizontal: {{ settings.global_horizontal_padding | default: 24 }}px;
-        --grid-gap: {{ settings.global_grid_gap | default: 24 }}px;
-        --card-gap: {{ settings.global_card_gap | default: 16 }}px;
+        --section-spacing: {% if settings.global_section_spacing == 'compact' %}40px{% elsif settings.global_section_spacing == 'spacious' %}120px{% else %}100px{% endif %};
+        --padding-horizontal: {{ settings.global_horizontal_padding | default: 32 }}px;
+        --grid-gap: {{ settings.global_grid_gap | default: 32 }}px;
+        --card-gap: {{ settings.global_card_gap | default: 24 }}px;
         
         /* Components */
         --border-radius-global: {{ settings.global_border_radius | default: 8 }}px;

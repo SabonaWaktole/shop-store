@@ -162,11 +162,11 @@
       }
     },
     "color_palette": {
-      "background": "#0a0a0a",
-      "foreground": "#a8a8a8",
-      "color1": "#39ff14",
-      "color2": "#1e1e1e",
-      "color3": "#2a2a2a"
+      "background": "#ffffff",
+      "foreground": "#0f0f0f",
+      "color1": "#0f0f0f",
+      "color2": "#f7f7f5",
+      "color3": "#e5e5e0"
     }
   },
   "presets": {
