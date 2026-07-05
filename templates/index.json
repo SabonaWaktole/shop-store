@@ -12,7 +12,7 @@
     "hero": {
       "type": "luxury-hero",
       "settings": {
-        "image": "shopify://shop_images/backgrnd.avif",
+        "image": "shopify://shop_images/Collection.jpg",
         "hero_height": "85vh",
         "text_alignment": "left",
         "content_position": "end",
