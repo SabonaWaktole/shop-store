@@ -168,6 +168,11 @@
           "ordereasy_custom_script": "<script></script>",
           "disable_form_product_validation": false
         }
+      },
+      "16987187365865460165": {
+        "type": "shopify://apps/ez-preorder/blocks/pre-order/27f5c03b-584b-4f19-8dc2-99bf52c8c09f",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_palette": {
