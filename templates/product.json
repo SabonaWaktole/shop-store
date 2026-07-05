@@ -13,7 +13,7 @@
       "type": "luxury-main-product",
       "settings": {
         "enable_sticky_info": true,
-        "preorder_date": "Expected to ship August 2026",
+        "preorder_date": "in August 2026",
         "gallery_width": "8",
         "image_gap": "8",
         "image_aspect": "auto",
