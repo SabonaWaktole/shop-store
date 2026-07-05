@@ -86,7 +86,7 @@
         "type": "luxury-header",
         "settings": {
           "sticky_header": true,
-          "transparent_header": true,
+          "transparent_header": false,
           "dynamic_text_color": true,
           "header_height": 48,
           "logo_width": 100,
