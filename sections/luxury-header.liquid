@@ -37,6 +37,12 @@
       "label": "Logo Image"
     },
     {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "info": "Text displayed when no logo image is selected. Defaults to shop name."
+    },
+    {
       "type": "range",
       "id": "logo_width",
       "min": 80,
@@ -261,7 +267,8 @@
         {%- if section.settings.logo != blank -%}
           <img src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}" alt="{{ shop.name | escape }}" class="w-full h-auto transition-all duration-300" loading="eager" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}">
         {%- else -%}
-          <span style="font-size: {{ section.settings.logo_width | divided_by: 6 }}px;">{{ shop.name | default: 'STUDIO' }}</span>
+          {%- assign custom_logo_text = section.settings.logo_text | default: shop.name | default: 'STUDIO' -%}
+          <span style="font-size: {{ section.settings.logo_width | divided_by: 6 }}px; white-space: nowrap;">{{ custom_logo_text }}</span>
         {%- endif -%}
       </a>
     </div>
