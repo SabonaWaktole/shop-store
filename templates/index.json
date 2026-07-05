@@ -27,7 +27,7 @@
         "content_position": "end",
         "content_width": "max-w-md",
         "overlay_color": "#000000",
-        "overlay_opacity": 40,
+        "overlay_opacity": 0,
         "overlay_gradient": true,
         "heading": "DROP 01: BEGINNINGS",
         "heading_font_size_desktop": 36,
