@@ -87,7 +87,7 @@
         "settings": {
           "sticky_header": true,
           "transparent_header": false,
-          "dynamic_text_color": true,
+          "dynamic_text_color": false,
           "header_height": 48,
           "logo_width": 100,
           "nav_font_size": 14,
@@ -95,7 +95,7 @@
           "nav_font_weight": "500",
           "nav_uppercase": true,
           "icon_size": 24,
-          "announcement_enabled": true,
+          "announcement_enabled": false,
           "announcement_text": "Sign up for early access to Drop 01.",
           "announcement_link": "",
           "announcement_bg_color": "#000000",
