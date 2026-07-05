@@ -134,7 +134,7 @@
           <span class="add-to-cart-text__content">
             <span>
               {%- if current_variant.available -%}
-                {%- if product.tags contains 'preorder' -%}
+                {%- if product.tags contains 'preorder' or current_variant.inventory_policy == 'continue' and current_variant.inventory_quantity <= 0 -%}
                   Pre-order
                 {%- else -%}
                   {{- 'products.product.add_to_cart' | t -}}

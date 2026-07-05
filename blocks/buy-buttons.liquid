@@ -24,7 +24,7 @@
 
     if variant.available
       assign can_add_to_cart = true
-      if product.tags contains 'preorder'
+      if product.tags contains 'preorder' or inventory_policy == 'continue' and inventory_quantity <= 0
         assign add_to_cart_text = 'Pre-order'
       else
         assign add_to_cart_text = 'products.product.add_to_cart' | t
