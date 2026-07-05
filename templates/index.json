@@ -54,7 +54,7 @@
       "type": "countdown-banner",
       "settings": {
         "heading": "DROP 01 LAUNCHES IN",
-        "target_date": "2026-07-15 12:00:00",
+        "target_date": "2026-07-7 12:00:00",
         "collection": "frontpage"
       }
     },
