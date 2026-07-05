@@ -12,7 +12,16 @@
     "hero": {
       "type": "luxury-hero",
       "settings": {
+        "hero_mode": "gallery",
         "image": "shopify://shop_images/backgrnd.avif",
+        "gallery_layout": "featured-left",
+        "gallery_gap": 0,
+        "gallery_image_fit": "contain",
+        "gallery_image_1": "shopify://shop_images/whitesweetshortfullboyf.png",
+        "gallery_image_2": "shopify://shop_images/whitesweetshortfullgirl.png",
+        "gallery_image_3": "shopify://shop_images/blackvintagefullboy.png",
+        "gallery_image_4": "shopify://shop_images/blackvintagefullgirl.png",
+        "gallery_mobile_layout": "vertical",
         "hero_height": "85vh",
         "text_alignment": "left",
         "content_position": "end",
