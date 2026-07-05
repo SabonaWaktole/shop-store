@@ -19,6 +19,7 @@
   endif
 
   assign alt_text_fallback = 'accessibility.home_logo_alt' | t: store_name: shop.name
+  assign custom_logo_text = block_settings.logo_text | default: shop.name
 %}
 
 {% comment %}
@@ -58,7 +59,7 @@
       class: 'header-logo__image',
       height: settings.logo_height,
       alt_text_fallback: alt_text_fallback,
-      text_fallback: shop.name,
+      text_fallback: custom_logo_text,
       style: logo_style
     %}
   </span>
@@ -73,7 +74,7 @@
         class: 'header-logo__image',
         height: settings.logo_height,
         alt_text_fallback: alt_text_fallback,
-        text_fallback: shop.name,
+        text_fallback: custom_logo_text,
         style: inverse_logo_style
       %}
     </span>
@@ -92,6 +93,7 @@
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    white-space: nowrap;
 
     &[data-hidden-on-home-page] {
       display: none;
@@ -147,6 +149,12 @@
     {
       "type": "paragraph",
       "content": "t:content.edit_logo_in_theme_settings"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "info": "Text displayed when no logo image is selected. Defaults to shop name."
     },
     {
       "type": "header",

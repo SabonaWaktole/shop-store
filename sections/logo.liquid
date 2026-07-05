@@ -73,7 +73,8 @@
         {{ logo_image }}
       </div>
     {% else %}
-      {% render 'jumbo-text', text: shop.name, block_settings: section.settings %}
+      {% assign custom_logo_text = section_settings.logo_text | default: shop.name %}
+      {% render 'jumbo-text', text: custom_logo_text, block_settings: section.settings %}
     {% endif %}
   </div>
 </div>
@@ -85,6 +86,7 @@
     max-height: calc(var(--logo-height, 100%) + var(--padding-block-start) + var(--padding-block-end));
     font-size: var(--logo-height);
     display: flex;
+    white-space: nowrap;
 
     @media screen and (max-width: 749px) {
       max-height: calc(
@@ -164,6 +166,12 @@
     {
       "type": "paragraph",
       "content": "t:content.edit_logo_in_theme_settings"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "info": "Text displayed when no logo image is selected. Defaults to shop name."
     },
     {
       "type": "header",

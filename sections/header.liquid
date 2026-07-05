@@ -534,19 +534,11 @@
 
     &[transparent='not-sticky'][data-sticky-state='active'],
     &:has(.menu-list__link:not([aria-haspopup]):hover) {
-      --header-logo-display: unset;
-      --header-logo-inverse-display: unset;
-      --color-foreground: inherit;
-      --color-foreground-rgb: inherit;
-      --color-background: inherit;
-      --color-background-rgb: inherit;
-      --color-border: inherit;
-      --color-border-rgb: inherit;
       --closed-underlay-height: 100%;
     }
 
     /** For transparent header, apply transparent text color to rows when menu is not hovered */
-    &:not([data-sticky-state='active']):not(:has(.menu-list__link:is(:hover, [aria-expanded='true']))) .header__row {
+    .header__row {
       --color-foreground: var(--color-transparent-text);
       --color-foreground-rgb: var(--color-transparent-text-rgb);
       --color-border: var(--color-transparent-text);
@@ -557,10 +549,7 @@
 
     /* Swap the cart bubble in transparent state only when using the default
        style. Custom bubble colors apply unchanged across header states. */
-    &[data-bubble-style='default']:not([data-sticky-state='active']):not(
-        :has(.menu-list__link:is(:hover, [aria-expanded='true']))
-      )
-      .header__row {
+    &[data-bubble-style='default'] .header__row {
       --cart-bubble-background: var(--color-transparent-text, var(--cart-bubble-background-fallback));
       --cart-bubble-text: var(--color-transparent-text-contrast, var(--cart-bubble-text-fallback));
     }
@@ -569,14 +558,6 @@
     &:has(.mega-menu__list:hover),
     &:has(.menu-list__link:is(:hover, [aria-expanded='true'])),
     &:has(.menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])) {
-      --header-logo-display: unset;
-      --header-logo-inverse-display: unset;
-      --color-foreground: inherit;
-      --color-foreground-rgb: inherit;
-      --color-background: inherit;
-      --color-background-rgb: inherit;
-      --color-border: inherit;
-      --color-border-rgb: inherit;
       --header-content-transition-timing: var(--submenu-animation-speed) var(--ease-out-cubic);
     }
   }
