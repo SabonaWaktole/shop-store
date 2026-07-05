@@ -14,7 +14,7 @@
       "settings": {
         "hero_mode": "gallery",
         "image": "shopify://shop_images/backgrnd.avif",
-        "gallery_layout": "featured-left",
+        "gallery_layout": "horizontal",
         "gallery_gap": 0,
         "gallery_image_fit": "contain",
         "gallery_image_1": "shopify://shop_images/whitesweetshortfullboyf.png",
