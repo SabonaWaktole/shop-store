@@ -241,7 +241,7 @@
     
     <!-- Mobile Menu Toggle (Left) -->
     <div class="lg:hidden flex items-center header-zone zone--dark">
-      <button class="hover:opacity-70 transition-opacity">
+      <button class="hover:opacity-70 transition-opacity" onclick="openMobileMenu()">
         <span class="material-symbols-outlined font-light" style="font-size: {{ section.settings.icon_size }}px;">menu</span>
       </button>
     </div>
@@ -292,6 +292,93 @@
     </div>
   </div>
 </header>
+
+<!-- Mobile Menu Drawer -->
+<div id="luxury-mobile-menu" class="luxury-mobile-overlay" onclick="if(event.target===this)closeMobileMenu()">
+  <div class="luxury-mobile-drawer">
+    <div class="flex items-center justify-between px-6 py-5 border-b" style="border-color: {{ section.settings.header_border_color }};">
+      <span class="font-semibold tracking-tighter uppercase" style="font-size: 16px;">{{ section.settings.logo_text | default: shop.name }}</span>
+      <button onclick="closeMobileMenu()" class="hover:opacity-70 transition-opacity">
+        <span class="material-symbols-outlined font-light" style="font-size: 24px;">close</span>
+      </button>
+    </div>
+    <nav class="flex flex-col px-6 py-6 gap-1">
+      {%- if section.settings.menu != blank -%}
+        {%- for link in linklists[section.settings.menu].links -%}
+          <a class="py-3 transition-colors hover:opacity-70 border-b" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }}; border-color: {{ section.settings.header_border_color }}20;{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="{{ link.url }}">
+            {{ link.title }}
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        <a class="py-3 transition-colors hover:opacity-70 border-b" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }}; border-color: {{ section.settings.header_border_color }}20;{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="/collections/all">Shop</a>
+        <a class="py-3 transition-colors hover:opacity-70 border-b" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }}; border-color: {{ section.settings.header_border_color }}20;{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="#">Collections</a>
+        <a class="py-3 transition-colors hover:opacity-70 border-b" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }}; border-color: {{ section.settings.header_border_color }}20;{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}" href="#">Editorial</a>
+      {%- endif -%}
+    </nav>
+    <div class="flex flex-col px-6 gap-1 mt-auto pb-8">
+      <a href="{{ routes.search_url }}" class="py-3 flex items-center gap-3 hover:opacity-70 transition-opacity" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}">
+        <span class="material-symbols-outlined font-light" style="font-size: 20px;">search</span>
+        <span>Search</span>
+      </a>
+      <a href="{{ routes.account_url }}" class="py-3 flex items-center gap-3 hover:opacity-70 transition-opacity" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}">
+        <span class="material-symbols-outlined font-light" style="font-size: 20px;">person</span>
+        <span>Account</span>
+      </a>
+      <a href="{{ routes.cart_url }}" class="py-3 flex items-center gap-3 hover:opacity-70 transition-opacity" style="font-size: {{ section.settings.nav_font_size }}px; letter-spacing: {{ section.settings.nav_letter_spacing }}; font-weight: {{ section.settings.nav_font_weight }};{% if section.settings.nav_uppercase %} text-transform: uppercase;{% endif %}">
+        <span class="material-symbols-outlined font-light" style="font-size: 20px;">shopping_bag</span>
+        <span>Cart ({{ cart.item_count }})</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .luxury-mobile-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0);
+    visibility: hidden;
+    transition: background 0.3s ease, visibility 0.3s ease;
+  }
+  .luxury-mobile-overlay.is-open {
+    visibility: visible;
+    background: rgba(0,0,0,0.4);
+  }
+  .luxury-mobile-drawer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85vw;
+    max-width: 380px;
+    height: 100%;
+    background-color: {{ section.settings.header_bg_color }};
+    color: {{ section.settings.header_text_color }};
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+  }
+  .luxury-mobile-overlay.is-open .luxury-mobile-drawer {
+    transform: translateX(0);
+  }
+  .luxury-mobile-drawer a {
+    color: {{ section.settings.header_text_color }};
+    text-decoration: none;
+  }
+</style>
+
+<script>
+  function openMobileMenu() {
+    document.getElementById('luxury-mobile-menu').classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    document.getElementById('luxury-mobile-menu').classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+</script>
 
 <script>
 (function() {
