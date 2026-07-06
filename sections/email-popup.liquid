@@ -53,9 +53,14 @@
                            placeholder="Email Address"
                            required>
                            
-                    <button type="submit" class="w-full bg-primary text-primary-foreground font-medium text-sm tracking-widest uppercase py-4 hover:bg-primary/90 transition-colors">
-                        Subscribe
-                    </button>
+                    <div class="flex flex-col gap-3">
+                        <button type="submit" class="w-full bg-primary text-primary-foreground font-medium text-sm tracking-widest uppercase py-4 hover:bg-primary/90 transition-colors">
+                            Subscribe
+                        </button>
+                        <button type="button" onclick="dismissPopup()" class="w-full text-center text-xs text-muted-foreground hover:text-primary transition-opacity opacity-50 hover:opacity-100 uppercase tracking-widest">
+                            Skip for now
+                        </button>
+                    </div>
                 </div>
                 
                 <p class="text-xs text-muted-foreground text-center mt-6">

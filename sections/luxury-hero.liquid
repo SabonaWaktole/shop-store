@@ -615,6 +615,9 @@
                         <span>{{ section.settings.cta_text }}</span>
                         <span class="material-symbols-outlined text-sm font-light transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </button>
+                    <button type="button" onclick="dismissHeroCard()" class="w-full text-center text-xs transition-opacity opacity-50 hover:opacity-100 uppercase tracking-widest mt-2" style="color: {{ section.settings.subtext_color }};">
+                        Skip for now
+                    </button>
                 </div>
             {%- endif -%}
         {% endform %}
@@ -622,11 +625,18 @@
 
     <!-- Subscriber Detection Script -->
     <script>
+        function dismissHeroCard() {
+            var card = document.getElementById('hero-signup-card');
+            if (card) card.style.display = 'none';
+            sessionStorage.setItem('hero_skipped', 'true');
+        }
+
         (function() {
             var isCustomer = {% if customer %}true{% else %}false{% endif %};
             var hasSubscribed = localStorage.getItem('user_subscribed') === 'true';
+            var hasSkipped = sessionStorage.getItem('hero_skipped') === 'true';
             
-            if (isCustomer || hasSubscribed) {
+            if (isCustomer || hasSubscribed || hasSkipped) {
                 var card = document.getElementById('hero-signup-card');
                 if (card) {
                     card.style.display = 'none';
