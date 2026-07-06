@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/public_equity.webp",
-    "logo_inverse": "{{ shop.brand.logo }}",
+    "logo": "shopify://shop_images/pelogo.jpg",
+    "logo_inverse": "shopify://shop_images/pelogo.jpg",
     "logo_height": 36,
     "logo_height_mobile": 28,
     "favicon": "shopify://shop_images/public_equity.webp",
