@@ -9,11 +9,11 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/logo2.png",
-    "logo_inverse": "shopify://shop_images/logo2.png",
+    "logo": "shopify://shop_images/public_equity_logo.png",
+    "logo_inverse": "shopify://shop_images/public_equity_logo_02f72674-a6b8-4b21-9d6e-3cd080032268.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
-    "favicon": "shopify://shop_images/logo2.png",
+    "favicon": "shopify://shop_images/public_equity_logo.png",
     "type_body_font": "instrument_sans_n4",
     "type_subheading_font": "playfair_display_n4",
     "type_heading_font": "playfair_display_n4",
