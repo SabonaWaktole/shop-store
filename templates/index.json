@@ -161,17 +161,6 @@
     },
     "17836976657ee0c877": {
       "type": "_blocks",
-      "blocks": {
-        "omnisend_email_marketing_sms_embedded_form_RiFAgC": {
-          "type": "shopify://apps/omnisend-email-marketing-sms/blocks/embedded-form/44704aa2-794f-4c5d-8c8e-039c841158e9",
-          "settings": {
-            "form_id": "6a5110e4f39c1ca7f39a8a3b"
-          }
-        }
-      },
-      "block_order": [
-        "omnisend_email_marketing_sms_embedded_form_RiFAgC"
-      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
