@@ -22,7 +22,7 @@
         "gallery_image_3": "shopify://shop_images/31CBEA9C-94DB-4310-91C3-ED1E30BC2571.jpg",
         "gallery_image_4": "shopify://shop_images/71D7BB36-EBBF-4E14-80DE-0B805F2D8F96.png",
         "gallery_mobile_layout": "vertical",
-        "hero_height": "85vh",
+        "hero_height": "100vh",
         "text_alignment": "left",
         "content_position": "end",
         "content_width": "max-w-md",
