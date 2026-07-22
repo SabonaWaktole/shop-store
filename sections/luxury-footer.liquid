@@ -325,12 +325,12 @@
                                         <option value="+1">CA (+1)</option>
                                     </select>
                                     <input type="tel" 
+                                           name="contact[phone]"
                                            id="local-phone-footer"
                                            class="flex-1 w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors" 
                                            style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_link_font_size }}px;"
                                            placeholder="Phone Number"
                                            required>
-                                    <input type="hidden" name="contact[phone]" id="contact-phone-footer">
                                 </div>
                                 <button type="submit" class="font-medium uppercase tracking-widest px-8 py-3 transition-colors flex-shrink-0" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
                                     {{ section.settings.newsletter_button_text }}
@@ -428,7 +428,9 @@ function submitFooterStep1() {
 
 document.getElementById('FooterContactForm').addEventListener('submit', function(e) {
     var countryCode = document.getElementById('country-code-footer').value;
-    var localPhone = document.getElementById('local-phone-footer').value;
-    document.getElementById('contact-phone-footer').value = countryCode + localPhone;
+    var phoneInput = document.getElementById('local-phone-footer');
+    if (!phoneInput.value.startsWith('+')) {
+        phoneInput.value = countryCode + phoneInput.value;
+    }
 });
 </script>

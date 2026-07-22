@@ -70,11 +70,11 @@
                             <option value="+1">CA (+1)</option>
                         </select>
                         <input type="tel" 
+                               name="contact[phone]"
                                id="local-phone-popup"
                                class="flex-1 w-full bg-background border-b border-border px-0 py-3 text-sm focus:border-primary focus:ring-0 transition-colors placeholder:text-muted-foreground" 
                                placeholder="Phone Number"
                                required>
-                        <input type="hidden" name="contact[phone]" id="contact-phone-popup">
                     </div>
                            
                     <div class="flex items-start gap-2 pt-2">
@@ -152,8 +152,10 @@ function submitPopupStep1() {
 
 document.getElementById('PopupContactForm').addEventListener('submit', function(e) {
     var countryCode = document.getElementById('country-code-popup').value;
-    var localPhone = document.getElementById('local-phone-popup').value;
-    document.getElementById('contact-phone-popup').value = countryCode + localPhone;
+    var phoneInput = document.getElementById('local-phone-popup');
+    if (!phoneInput.value.startsWith('+')) {
+        phoneInput.value = countryCode + phoneInput.value;
+    }
 });
 
 function dismissPopup() {

@@ -627,12 +627,12 @@
                             <option value="+1">CA (+1)</option>
                         </select>
                         <input type="tel" 
+                               name="contact[phone]"
                                id="local-phone-hero"
                                class="flex-1 w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors" 
                                style="border-color: {{ section.settings.subtext_color }}; color: {{ section.settings.heading_color }};"
                                placeholder="Phone Number"
                                required>
-                        <input type="hidden" name="contact[phone]" id="contact-phone-hero">
                     </div>
                            
                     <div class="flex items-start gap-2 pt-2">
@@ -681,8 +681,10 @@
 
         document.getElementById('HeroContactForm').addEventListener('submit', function(e) {
             var countryCode = document.getElementById('country-code-hero').value;
-            var localPhone = document.getElementById('local-phone-hero').value;
-            document.getElementById('contact-phone-hero').value = countryCode + localPhone;
+            var phoneInput = document.getElementById('local-phone-hero');
+            if (!phoneInput.value.startsWith('+')) {
+                phoneInput.value = countryCode + phoneInput.value;
+            }
         });
 
         function dismissHeroCard() {
