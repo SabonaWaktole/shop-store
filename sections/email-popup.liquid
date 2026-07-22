@@ -70,11 +70,11 @@
                             <option value="+1">CA (+1)</option>
                         </select>
                         <input type="tel" 
-                               name="contact[phone]"
                                id="local-phone-popup"
                                class="flex-1 w-full bg-background border-b border-border px-0 py-3 text-sm focus:border-primary focus:ring-0 transition-colors placeholder:text-muted-foreground" 
                                placeholder="Phone Number"
                                required>
+                        <input type="tel" name="contact[phone]" id="contact-phone-popup" class="hidden" tabindex="-1">
                     </div>
                            
                     <div class="flex items-start gap-2 pt-2">
@@ -150,13 +150,17 @@ function submitPopupStep1() {
     localStorage.setItem('user_subscribed', 'true');
 }
 
-document.getElementById('PopupContactForm').addEventListener('submit', function(e) {
+function updatePopupPhone() {
     var countryCode = document.getElementById('country-code-popup').value;
-    var phoneInput = document.getElementById('local-phone-popup');
-    if (!phoneInput.value.startsWith('+')) {
-        phoneInput.value = countryCode + phoneInput.value;
+    var localPhone = document.getElementById('local-phone-popup').value;
+    if (localPhone) {
+        document.getElementById('contact-phone-popup').value = countryCode + localPhone;
+    } else {
+        document.getElementById('contact-phone-popup').value = '';
     }
-});
+}
+document.getElementById('country-code-popup').addEventListener('change', updatePopupPhone);
+document.getElementById('local-phone-popup').addEventListener('input', updatePopupPhone);
 
 function dismissPopup() {
     document.getElementById('email-popup').classList.add('hidden');
