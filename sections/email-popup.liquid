@@ -88,7 +88,7 @@
                     </p>
 
                     <div class="flex flex-col gap-3 pt-2">
-                        <button type="submit" class="w-full bg-primary text-primary-foreground font-medium text-sm tracking-widest uppercase py-4 hover:bg-primary/90 transition-colors">
+                        <button type="button" onclick="submitPopupStep2()" class="w-full bg-primary text-primary-foreground font-medium text-sm tracking-widest uppercase py-4 hover:bg-primary/90 transition-colors">
                             Subscribe &rarr;
                         </button>
                         <button type="button" onclick="dismissPopup()" class="w-full text-center text-xs text-muted-foreground hover:text-primary transition-opacity opacity-50 hover:opacity-100 uppercase tracking-widest">
@@ -151,13 +151,46 @@ function submitPopupStep1() {
     localStorage.setItem('user_subscribed', 'true');
 }
 
-document.getElementById('PopupContactForm').addEventListener('submit', function(e) {
-    var countryCode = document.getElementById('country-code-popup').value;
+function enforceCountryCodePopup() {
+    var cc = document.getElementById('country-code-popup').value;
     var phoneInput = document.getElementById('local-phone-popup');
-    if (phoneInput.value && !phoneInput.value.startsWith('+')) {
-        phoneInput.value = countryCode + phoneInput.value;
+    if (!phoneInput.value.startsWith(cc)) {
+        // Strip non-digits from whatever they typed and append to cc
+        var digits = phoneInput.value.replace(/\D/g, '');
+        // Remove the cc prefix from digits if they typed it manually
+        var ccDigits = cc.replace(/\D/g, '');
+        if (digits.startsWith(ccDigits)) {
+            digits = digits.substring(ccDigits.length);
+        }
+        phoneInput.value = cc + ' ' + digits;
     }
-}, true);
+}
+document.getElementById('local-phone-popup').addEventListener('focus', enforceCountryCodePopup);
+document.getElementById('local-phone-popup').addEventListener('input', enforceCountryCodePopup);
+document.getElementById('country-code-popup').addEventListener('change', function() {
+    document.getElementById('local-phone-popup').value = '';
+    enforceCountryCodePopup();
+    document.getElementById('local-phone-popup').focus();
+});
+
+function submitPopupStep2() {
+    var form = document.getElementById('PopupContactForm');
+    var phoneInput = document.getElementById('local-phone-popup');
+    if (!phoneInput.checkValidity()) {
+        phoneInput.reportValidity();
+        return;
+    }
+    
+    var emailInput = form.querySelector('input[name="contact[email]"]');
+    if (typeof window.omnisend !== 'undefined') {
+        window.omnisend.push(["identifyContact", { 
+            email: emailInput.value,
+            phone: phoneInput.value.replace(/\D/g, '+') // basic e164 formatting
+        }]);
+    }
+    
+    form.submit();
+}
 
 function dismissPopup() {
     document.getElementById('email-popup').classList.add('hidden');

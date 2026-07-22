@@ -333,9 +333,11 @@
                                            placeholder="Phone Number"
                                            required>
                                 </div>
-                                <button type="submit" class="font-medium uppercase tracking-widest px-8 py-3 transition-colors flex-shrink-0" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
-                                    {{ section.settings.newsletter_button_text }}
-                                </button>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <button type="button" onclick="submitFooterStep2()" class="w-full font-medium uppercase tracking-widest px-8 py-3 transition-colors" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
+                                        Subscribe &rarr;
+                                    </button>
+                                </div>
                             </div>
                             <div class="flex flex-col gap-2 mt-2">
                                 <div class="flex items-start gap-2">
@@ -427,11 +429,51 @@ function submitFooterStep1() {
     document.getElementById('footer-step-2').classList.remove('hidden');
 }
 
-document.getElementById('FooterContactForm').addEventListener('submit', function(e) {
-    var countryCode = document.getElementById('country-code-footer').value;
+function enforceCountryCodeFooter() {
+    var cc = document.getElementById('country-code-footer').value;
     var phoneInput = document.getElementById('local-phone-footer');
-    if (phoneInput.value && !phoneInput.value.startsWith('+')) {
-        phoneInput.value = countryCode + phoneInput.value;
+    if (!phoneInput.value.startsWith(cc)) {
+        var digits = phoneInput.value.replace(/\D/g, '');
+        var ccDigits = cc.replace(/\D/g, '');
+        if (digits.startsWith(ccDigits)) {
+            digits = digits.substring(ccDigits.length);
+        }
+        phoneInput.value = cc + ' ' + digits;
     }
-}, true);
+}
+document.getElementById('local-phone-footer').addEventListener('focus', enforceCountryCodeFooter);
+document.getElementById('local-phone-footer').addEventListener('input', enforceCountryCodeFooter);
+document.getElementById('country-code-footer').addEventListener('change', function() {
+    document.getElementById('local-phone-footer').value = '';
+    enforceCountryCodeFooter();
+    document.getElementById('local-phone-footer').focus();
+});
+
+function submitFooterStep2() {
+    var form = document.getElementById('FooterContactForm');
+    var phoneInput = document.getElementById('local-phone-footer');
+    if (!phoneInput.checkValidity()) {
+        phoneInput.reportValidity();
+        return;
+    }
+    
+    var emailInput = form.querySelector('input[name="contact[email]"]');
+    var e164Phone = '+' + phoneInput.value.replace(/\D/g, '');
+    
+    if (typeof window.omnisend !== 'undefined') {
+        window.omnisend.push(["identifyContact", { 
+            email: emailInput.value,
+            phone: e164Phone
+        }]);
+    }
+    
+    if (typeof klaviyo !== 'undefined') {
+        klaviyo.push(['identify', { 
+            '$email': emailInput.value,
+            '$phone_number': e164Phone
+        }]);
+    }
+    
+    form.submit();
+}
 </script>
