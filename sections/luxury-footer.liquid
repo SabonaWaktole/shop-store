@@ -305,16 +305,46 @@
                             Successfully subscribed.
                         </div>
                     {%- else -%}
-                        <div class="flex flex-col sm:flex-row gap-4">
+                        <div id="footer-step-1" class="flex flex-col sm:flex-row gap-4">
                             <input type="email" 
                                    name="contact[email]" 
                                    class="flex-1 bg-transparent border-b px-0 py-3 focus:ring-0 transition-colors" 
                                    style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_link_font_size }}px;"
                                    placeholder="Email Address"
                                    required>
-                            <button type="submit" class="font-medium uppercase tracking-widest px-8 py-3 transition-colors flex-shrink-0" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
+                            <button type="button" onclick="submitFooterStep1()" class="font-medium uppercase tracking-widest px-8 py-3 transition-colors flex-shrink-0" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
                                 {{ section.settings.newsletter_button_text }}
                             </button>
+                        </div>
+                        
+                        <div id="footer-step-2" class="flex flex-col gap-4 hidden">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <div class="flex flex-1 items-end gap-2 w-full">
+                                    <select id="country-code-footer" class="bg-transparent border-b px-2 py-3 text-sm focus:ring-0 transition-colors w-[90px]" style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }};">
+                                        <option value="+1">US (+1)</option>
+                                        <option value="+1">CA (+1)</option>
+                                    </select>
+                                    <input type="tel" 
+                                           id="local-phone-footer"
+                                           class="flex-1 w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors" 
+                                           style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_link_font_size }}px;"
+                                           placeholder="Phone Number"
+                                           required>
+                                    <input type="hidden" name="contact[phone]" id="contact-phone-footer">
+                                </div>
+                                <button type="submit" class="font-medium uppercase tracking-widest px-8 py-3 transition-colors flex-shrink-0" style="background-color: {{ section.settings.footer_text_color }}; color: {{ section.settings.footer_bg_color }}; font-size: {{ section.settings.footer_link_font_size | minus: 2 }}px;">
+                                    {{ section.settings.newsletter_button_text }}
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-2 mt-2">
+                                <div class="flex items-start gap-2">
+                                    <input type="checkbox" id="sms-consent-footer" name="customer[accepts_sms_marketing]" class="mt-1 bg-transparent focus:ring-0 rounded-sm" style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }};">
+                                    <label for="sms-consent-footer" class="cursor-pointer" style="color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_link_font_size }}px;">Text me too</label>
+                                </div>
+                                <p class="italic leading-relaxed opacity-75" style="color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_copyright_font_size }}px;">
+                                    Recurring automated marketing texts from PUBLIC EQUITY. Consent not a condition of purchase. Msg & data rates may apply. Reply STOP to cancel, HELP for help. <a href="https://publicequity.shop/policies/terms-of-service" class="underline hover:opacity-100 transition-opacity">Terms</a> · <a href="https://publicequity.shop/policies/privacy-policy" class="underline hover:opacity-100 transition-opacity">Privacy</a>
+                                </p>
+                            </div>
                         </div>
                         {%- if form.errors -%}
                             <div class="text-error text-xs mt-2">
@@ -375,3 +405,30 @@
         </div>
     </div>
 </footer>
+
+<script>
+function submitFooterStep1() {
+    var form = document.getElementById('FooterContactForm');
+    var emailInput = form.querySelector('input[name="contact[email]"]');
+    if (!emailInput.checkValidity()) {
+        emailInput.reportValidity();
+        return;
+    }
+    
+    var formData = new FormData(form);
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+    
+    document.getElementById('footer-step-1').classList.add('hidden');
+    document.getElementById('footer-step-2').classList.remove('hidden');
+}
+
+document.getElementById('FooterContactForm').addEventListener('submit', function(e) {
+    var countryCode = document.getElementById('country-code-footer').value;
+    var localPhone = document.getElementById('local-phone-footer').value;
+    document.getElementById('contact-phone-footer').value = countryCode + localPhone;
+});
+</script>
