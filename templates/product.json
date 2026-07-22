@@ -39,7 +39,7 @@
         "low_stock_threshold": 10,
         "show_low_stock": true,
         "show_shipping_accordion": true,
-        "shipping_text": "Due to the limited nature of our products, all sales are final. We do not accept returns, exchanges, or cancellations once an order has been placed.\nPlease allow 2 to 4 weeks for your order to be made, processed, and delivered. Once your order ships, you'll receive a confirmation email with tracking information.",
+        "shipping_text": "Complimentary worldwide shipping on orders over $300. Returns accepted within 14 days of delivery. Preorders cannot be cancelled once production has started.",
         "accordion_font_size": 12
       }
     },
