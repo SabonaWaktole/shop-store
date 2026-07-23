@@ -926,7 +926,7 @@
                 return;
             }
 
-            updateHeroPhone();
+            enforceCountryCodeHero();
 
             if (!phoneInput.checkValidity()) {
                 phoneInput.reportValidity();
@@ -941,7 +941,7 @@
             submitBtn.disabled = true;
 
             var email = emailInput.value.trim();
-            var phone = document.getElementById('contact-phone-hero').value.trim();
+            var phone = '+' + phoneInput.value.replace(/\D/g, '');
             var companyId = getKlaviyoCompanyId();
             var klaviyoOk = false;
 
@@ -960,8 +960,6 @@
             showHeroError('Something went wrong. Please try again.');
         }
 
-        document.getElementById('country-code-hero').addEventListener('change', updateHeroPhone);
-        document.getElementById('local-phone-hero').addEventListener('input', updateHeroPhone);
         document.getElementById('HeroContactForm').addEventListener('submit', handleHeroFormSubmit);
 
         function dismissHeroCard() {

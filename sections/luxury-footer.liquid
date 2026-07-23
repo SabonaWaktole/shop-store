@@ -215,6 +215,28 @@
     },
     {
       "type": "header",
+      "content": "── Klaviyo (optional) ──"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_public_key",
+      "label": "Klaviyo Public API Key",
+      "info": "Your 6-character Klaviyo Site ID. Leave blank to auto-detect from the Klaviyo app script."
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_email_list_id",
+      "label": "Klaviyo Email List ID",
+      "info": "Optional. Adds subscribers to this Klaviyo list."
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_sms_list_id",
+      "label": "Klaviyo SMS List ID",
+      "info": "Optional. Adds SMS subscribers to this Klaviyo list."
+    },
+    {
+      "type": "header",
       "content": "Footer Extras"
     },
     {
@@ -410,6 +432,49 @@
 </footer>
 
 <script>
+var FOOTER_KLAVIYO_CONFIG = {
+    publicKey: {{ section.settings.klaviyo_public_key | json }},
+    emailListId: {{ section.settings.klaviyo_email_list_id | json }},
+    smsListId: {{ section.settings.klaviyo_sms_list_id | json }}
+};
+
+function getKlaviyoCompanyIdFooter() {
+    if (FOOTER_KLAVIYO_CONFIG.publicKey) return FOOTER_KLAVIYO_CONFIG.publicKey;
+    var scripts = document.querySelectorAll('script[src*="klaviyo"]');
+    for (var i = 0; i < scripts.length; i++) {
+        var match = scripts[i].src.match(/company_id=([^&]+)/);
+        if (match) return decodeURIComponent(match[1]);
+    }
+    return null;
+}
+
+function buildKlaviyoSubscriptionPayloadFooter(email, phone, channel) {
+    var attributes = { email: email, subscriptions: {} };
+    if (channel === 'email') attributes.subscriptions.email = { marketing: { consent: 'SUBSCRIBED' } };
+    if (channel === 'sms' && phone) {
+        attributes.phone_number = phone;
+        attributes.subscriptions.sms = { marketing: { consent: 'SUBSCRIBED' } };
+    }
+    var payload = { data: { type: 'subscription', attributes: { custom_source: 'Luxury Footer Signup', profile: { data: { type: 'profile', attributes: attributes } } } } };
+    var listId = channel === 'sms' ? FOOTER_KLAVIYO_CONFIG.smsListId : FOOTER_KLAVIYO_CONFIG.emailListId;
+    if (listId) payload.data.relationships = { list: { data: { type: 'list', id: listId } } };
+    return payload;
+}
+
+async function subscribeViaKlaviyoFooter(email, phone, smsConsent) {
+    var companyId = getKlaviyoCompanyIdFooter();
+    if (!companyId) return false;
+    var headers = { 'Content-Type': 'application/json', Accept: 'application/json', Revision: '2026-04-15' };
+    var emailRes = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(companyId), { method: 'POST', headers: headers, body: JSON.stringify(buildKlaviyoSubscriptionPayloadFooter(email, null, 'email')) });
+    if (!emailRes.ok) return false;
+    if (smsConsent && phone) {
+        var smsRes = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(companyId), { method: 'POST', headers: headers, body: JSON.stringify(buildKlaviyoSubscriptionPayloadFooter(email, phone, 'sms')) });
+        if (!smsRes.ok) return false;
+    }
+    if (window.klaviyo && typeof window.klaviyo.identify === 'function') window.klaviyo.identify({ email: email, phone_number: phone || undefined });
+    return true;
+}
+
 function submitFooterStep1() {
     var form = document.getElementById('FooterContactForm');
     var emailInput = form.querySelector('input[name="contact[email]"]');
@@ -449,9 +514,11 @@ document.getElementById('country-code-footer').addEventListener('change', functi
     document.getElementById('local-phone-footer').focus();
 });
 
-function submitFooterStep2() {
+async function submitFooterStep2() {
     var form = document.getElementById('FooterContactForm');
     var phoneInput = document.getElementById('local-phone-footer');
+    var smsConsent = document.getElementById('sms-consent-footer').checked;
+    
     if (!phoneInput.checkValidity()) {
         phoneInput.reportValidity();
         return;
@@ -467,13 +534,16 @@ function submitFooterStep2() {
         }]);
     }
     
-    if (typeof klaviyo !== 'undefined') {
-        klaviyo.push(['identify', { 
-            '$email': emailInput.value,
-            '$phone_number': e164Phone
-        }]);
-    }
+    await subscribeViaKlaviyoFooter(emailInput.value, e164Phone, smsConsent);
     
-    form.submit();
+    try {
+        await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+    } catch(e) {}
+    
+    document.getElementById('footer-step-2').innerHTML = '<div class="text-sm font-medium uppercase tracking-wide mt-4">Thank you. Check your inbox.</div>';
 }
 </script>
