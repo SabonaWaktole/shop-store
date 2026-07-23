@@ -319,7 +319,7 @@
                     <p style="color: {{ section.settings.footer_text_color }};">{{ section.settings.newsletter_text }}</p>
                 </div>
                 
-                {% form 'customer', id: 'FooterContactForm', class: 'max-w-md w-full' %}
+                {% form 'customer', id: 'FooterContactForm', class: 'max-w-md w-full omnisend-subscribe-form' %}
                     <input type="hidden" name="contact[tags]" value="newsletter, waitlist">
                     <input type="hidden" name="customer[accepts_marketing]" value="true">
                     
@@ -331,7 +331,7 @@
                         <div id="footer-step-1" class="flex flex-col sm:flex-row gap-4">
                             <input type="email" 
                                    name="contact[email]" 
-                                   class="flex-1 bg-transparent border-b px-0 py-3 focus:ring-0 transition-colors" 
+                                   class="flex-1 bg-transparent border-b px-0 py-3 focus:ring-0 transition-colors omnisend-subscribe-input-email" 
                                    style="border-color: {{ section.settings.footer_border_color }}; color: {{ section.settings.footer_text_color }}; font-size: {{ section.settings.footer_link_font_size }}px;"
                                    placeholder="Email Address"
                                    required>
@@ -494,25 +494,7 @@ function submitFooterStep1() {
     document.getElementById('footer-step-2').classList.remove('hidden');
 }
 
-function enforceCountryCodeFooter() {
-    var cc = document.getElementById('country-code-footer').value;
-    var phoneInput = document.getElementById('local-phone-footer');
-    if (!phoneInput.value.startsWith(cc)) {
-        var digits = phoneInput.value.replace(/\D/g, '');
-        var ccDigits = cc.replace(/\D/g, '');
-        if (digits.startsWith(ccDigits)) {
-            digits = digits.substring(ccDigits.length);
-        }
-        phoneInput.value = cc + ' ' + digits;
-    }
-}
-document.getElementById('local-phone-footer').addEventListener('focus', enforceCountryCodeFooter);
-document.getElementById('local-phone-footer').addEventListener('input', enforceCountryCodeFooter);
-document.getElementById('country-code-footer').addEventListener('change', function() {
-    document.getElementById('local-phone-footer').value = '';
-    enforceCountryCodeFooter();
-    document.getElementById('local-phone-footer').focus();
-});
+
 
 async function submitFooterStep2() {
     var form = document.getElementById('FooterContactForm');
@@ -525,7 +507,8 @@ async function submitFooterStep2() {
     }
     
     var emailInput = form.querySelector('input[name="contact[email]"]');
-    var e164Phone = '+' + phoneInput.value.replace(/\D/g, '');
+    var cc = document.getElementById('country-code-footer').value;
+    var e164Phone = cc + phoneInput.value.replace(/\D/g, '');
     
     if (typeof window.omnisend !== 'undefined') {
         window.omnisend.push(["identifyContact", { 

@@ -593,7 +593,7 @@
         <h2 class="hero-heading tracking-tighter mb-3" style="font-weight: {{ section.settings.heading_font_weight }}; color: {{ section.settings.heading_color }};{% if section.settings.heading_uppercase %} text-transform: uppercase;{% endif %}">{{ section.settings.heading }}</h2>
         <p class="mb-8 leading-relaxed" style="font-size: {{ section.settings.subtext_font_size }}px; color: {{ section.settings.subtext_color }};">{{ section.settings.text }}</p>
 
-        {% form 'customer', id: 'HeroContactForm' %}
+        {% form 'customer', id: 'HeroContactForm', class: 'hero-contact-form omnisend-subscribe-form' %}
             <input type="hidden" name="contact[tags]" value="newsletter, waitlist">
             <input type="hidden" name="contact[tags]" value="newsletter, waitlist">
             <input type="hidden" name="customer[accepts_marketing]" value="true">
@@ -629,7 +629,7 @@
                 <div id="hero-step-1" class="flex flex-col gap-4">
                     <input type="email" 
                            name="contact[email]" 
-                           class="w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors" 
+                           class="w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors omnisend-subscribe-input-email" 
                            style="border-color: {{ section.settings.subtext_color }}; color: {{ section.settings.heading_color }};"
                            placeholder="Email Address"
                            required>
@@ -716,25 +716,7 @@
             document.getElementById('hero-step-2').classList.remove('hidden');
         }
 
-        function enforceCountryCodeHero() {
-            var cc = document.getElementById('country-code-hero').value;
-            var phoneInput = document.getElementById('local-phone-hero');
-            if (!phoneInput.value.startsWith(cc)) {
-                var digits = phoneInput.value.replace(/\D/g, '');
-                var ccDigits = cc.replace(/\D/g, '');
-                if (digits.startsWith(ccDigits)) {
-                    digits = digits.substring(ccDigits.length);
-                }
-                phoneInput.value = cc + ' ' + digits;
-            }
-        }
-        document.getElementById('local-phone-hero').addEventListener('focus', enforceCountryCodeHero);
-        document.getElementById('local-phone-hero').addEventListener('input', enforceCountryCodeHero);
-        document.getElementById('country-code-hero').addEventListener('change', function() {
-            document.getElementById('local-phone-hero').value = '';
-            enforceCountryCodeHero();
-            document.getElementById('local-phone-hero').focus();
-        });
+
 
         function submitHeroStep2() {
             var form = document.getElementById('HeroContactForm');
@@ -926,7 +908,7 @@
                 return;
             }
 
-            enforceCountryCodeHero();
+
 
             if (!phoneInput.checkValidity()) {
                 phoneInput.reportValidity();
@@ -941,7 +923,8 @@
             submitBtn.disabled = true;
 
             var email = emailInput.value.trim();
-            var phone = '+' + phoneInput.value.replace(/\D/g, '');
+            var cc = document.getElementById('country-code-hero').value;
+            var phone = cc + phoneInput.value.replace(/\D/g, '');
             var companyId = getKlaviyoCompanyId();
             var klaviyoOk = false;
 
