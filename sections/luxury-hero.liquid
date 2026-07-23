@@ -363,6 +363,46 @@
       "id": "klaviyo_sms_list_id",
       "label": "Klaviyo SMS List ID",
       "info": "Optional. Adds SMS subscribers to this Klaviyo list."
+    },
+    {
+      "type": "header",
+      "content": "── Form Texts ──"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "default": "Email Address",
+      "label": "Email Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder",
+      "default": "Phone Number",
+      "label": "Phone Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "skip_text",
+      "default": "Skip for now",
+      "label": "Skip Button Text"
+    },
+    {
+      "type": "text",
+      "id": "sms_consent_label",
+      "default": "Text me early access",
+      "label": "SMS Consent Label"
+    },
+    {
+      "type": "richtext",
+      "id": "sms_legal_text",
+      "default": "<p>By checking this box and subscribing, you agree to receive recurring automated marketing texts from PUBLIC EQUITY at the number provided. Consent is not a condition of purchase. Msg frequency varies. Msg & data rates may apply. Reply STOP to cancel, HELP for help. <a href=\"/policies/terms-of-service\">Terms</a> · <a href=\"/policies/privacy-policy\">Privacy Policy</a></p>",
+      "label": "SMS Legal Disclaimer"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "default": "Thank you. Check your inbox.",
+      "label": "Success Message"
     }
   ],
   "presets": [
@@ -600,7 +640,7 @@
             
             {%- if form.posted_successfully? -%}
                 <div class="p-4 bg-muted text-primary text-sm font-medium text-center uppercase tracking-wide" style="background-color: {{ section.settings.card_bg_color | color_darken: 5 }};">
-                    Thank you. Check your inbox.
+                    {{ section.settings.success_message }}
                 </div>
                 <script>
                     localStorage.setItem('user_subscribed', 'true');
@@ -631,7 +671,7 @@
                            name="contact[email]" 
                            class="w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors omnisend-subscribe-input-email" 
                            style="border-color: {{ section.settings.subtext_color }}; color: {{ section.settings.heading_color }};"
-                           placeholder="Email Address"
+                           placeholder="{{ section.settings.email_placeholder | escape }}"
                            required>
                            
                     <button type="button" onclick="submitHeroStep1()" class="w-full font-medium tracking-widest uppercase py-4 transition-colors flex items-center justify-center gap-2 group hover:opacity-90"
@@ -640,7 +680,7 @@
                         <span class="material-symbols-outlined text-sm font-light transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </button>
                     <button type="button" onclick="dismissHeroCard()" class="w-full text-center text-xs transition-opacity opacity-50 hover:opacity-100 uppercase tracking-widest mt-2" style="color: {{ section.settings.subtext_color }};">
-                        Skip for now
+                        {{ section.settings.skip_text | escape }}
                     </button>
                 </div>
 
@@ -654,18 +694,18 @@
                                id="local-phone-hero"
                                class="flex-1 w-full bg-transparent border-b px-0 py-3 text-sm focus:ring-0 transition-colors" 
                                style="border-color: {{ section.settings.subtext_color }}; color: {{ section.settings.heading_color }};"
-                               placeholder="Phone Number"
+                               placeholder="{{ section.settings.phone_placeholder | escape }}"
                                required>
                     </div>
                            
                     <div class="flex items-start gap-2 pt-2">
                         <input type="checkbox" id="sms-consent-hero" name="contact[accepts_sms_marketing]" value="true" class="mt-0.5 border-border focus:ring-0 rounded-sm bg-transparent" style="border-color: {{ section.settings.subtext_color }}; color: {{ section.settings.heading_color }};" required>
-                        <label for="sms-consent-hero" class="text-sm cursor-pointer" style="color: {{ section.settings.heading_color }};">Text me early access</label>
+                        <label for="sms-consent-hero" class="text-sm cursor-pointer" style="color: {{ section.settings.heading_color }};">{{ section.settings.sms_consent_label | escape }}</label>
                     </div>
                     
-                    <p class="text-[10.5px] leading-relaxed italic" style="color: {{ section.settings.subtext_color }};">
-                        By checking this box and subscribing, you agree to receive recurring automated marketing texts from PUBLIC EQUITY at the number provided. Consent is not a condition of purchase. Msg frequency varies. Msg & data rates may apply. Reply STOP to cancel, HELP for help. <a href="https://publicequity.shop/policies/terms-of-service" class="underline hover:opacity-100 transition-opacity">Terms</a> · <a href="https://publicequity.shop/policies/privacy-policy" class="underline hover:opacity-100 transition-opacity">Privacy Policy</a>
-                    </p>
+                    <div class="text-[10.5px] leading-relaxed italic prose-a:underline hover:prose-a:opacity-100 transition-opacity" style="color: {{ section.settings.subtext_color }};">
+                        {{ section.settings.sms_legal_text }}
+                    </div>
 
                     <button type="submit" id="hero-submit-btn" class="w-full font-medium tracking-widest uppercase py-4 transition-colors flex items-center justify-center gap-2 group hover:opacity-90"
                             style="background-color: {{ button_bg }}; color: {{ button_text }}; border: {{ button_border }}; font-size: {{ section.settings.cta_font_size }}px; border-radius: {{ section.settings.cta_border_radius }}px;">
@@ -674,7 +714,7 @@
                     </button>
                     <p id="hero-form-error" class="hidden text-sm text-error"></p>
                     <button type="button" onclick="dismissHeroCard()" class="w-full text-center text-xs transition-opacity opacity-50 hover:opacity-100 uppercase tracking-widest mt-2" style="color: {{ section.settings.subtext_color }};">
-                        Skip for now
+                        {{ section.settings.skip_text | escape }}
                     </button>
                 </div>
             {%- endif -%}
@@ -868,7 +908,7 @@
 
         function showHeroSuccess() {
             document.getElementById('hero-step-2').innerHTML =
-                '<div class="p-4 text-sm font-medium text-center uppercase tracking-wide" style="background-color: {{ section.settings.card_bg_color | color_darken: 5 }};">Thank you. Check your inbox.</div>';
+                '<div class="p-4 text-sm font-medium text-center uppercase tracking-wide" style="background-color: {{ section.settings.card_bg_color | color_darken: 5 }};">{{ section.settings.success_message | escape }}</div>';
             localStorage.setItem('user_subscribed', 'true');
         }
 
