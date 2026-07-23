@@ -43,13 +43,19 @@
         "cta_text_color": "#ffffff",
         "cta_font_size": 14,
         "cta_border_radius": 0,
-        "card_bg_color": "#ffffff",
+        "card_bg_color": "{{ settings.color_palette.color3 }}",
         "card_padding": 32,
         "card_shadow": true,
         "card_border_radius": 0,
         "klaviyo_public_key": "",
         "klaviyo_email_list_id": "",
-        "klaviyo_sms_list_id": ""
+        "klaviyo_sms_list_id": "",
+        "email_placeholder": "Email Address",
+        "phone_placeholder": "Phone Number",
+        "skip_text": "Skip for now",
+        "sms_consent_label": "Text me early access",
+        "sms_legal_text": "<p>By checking this box and subscribing, you agree to receive recurring automated marketing texts from PUBLIC EQUITY at the number provided. Consent is not a condition of purchase. Msg frequency varies. Msg & data rates may apply. Reply STOP to cancel, HELP for help. <a href=\"/policies/terms-of-service\">Terms</a> · <a href=\"/policies/privacy-policy\">Privacy Policy</a></p>",
+        "success_message": "Thank you. Check your inbox."
       }
     },
     "countdown": {
