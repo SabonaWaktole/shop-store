@@ -16,15 +16,15 @@
         "image": "shopify://shop_images/backgrnd.avif",
         "gallery_layout": "horizontal",
         "gallery_gap": 0,
-        "gallery_image_fit": "contain",
+        "gallery_image_fit": "cover",
         "gallery_image_1": "shopify://shop_images/black_shorts_girl.png",
         "gallery_image_3": "shopify://shop_images/31CBEA9C-94DB-4310-91C3-ED1E30BC2571.jpg",
         "gallery_image_4": "shopify://shop_images/71D7BB36-EBBF-4E14-80DE-0B805F2D8F96.png",
         "gallery_mobile_layout": "vertical",
         "hero_height": "100vh",
-        "text_alignment": "left",
+        "text_alignment": "center",
         "content_position": "end",
-        "content_width": "max-w-md",
+        "content_width": "max-w-lg",
         "overlay_color": "#000000",
         "overlay_opacity": 20,
         "overlay_gradient": true,
@@ -46,7 +46,10 @@
         "card_bg_color": "#ffffff",
         "card_padding": 32,
         "card_shadow": true,
-        "card_border_radius": 0
+        "card_border_radius": 0,
+        "klaviyo_public_key": "",
+        "klaviyo_email_list_id": "",
+        "klaviyo_sms_list_id": ""
       }
     },
     "countdown": {
