@@ -58,14 +58,6 @@
         "success_message": "Thank you. Check your inbox."
       }
     },
-    "countdown": {
-      "type": "countdown-banner",
-      "settings": {
-        "heading": "All Product Become Available IN",
-        "target_date": "2026-07-7 12:00:00",
-        "collection": "frontpage"
-      }
-    },
     "featured": {
       "type": "luxury-featured-collection",
       "settings": {
@@ -201,7 +193,6 @@
   },
   "order": [
     "hero",
-    "countdown",
     "featured",
     "1782905282990bb76e",
     "17836976657ee0c877"
