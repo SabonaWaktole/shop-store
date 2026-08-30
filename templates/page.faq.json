@@ -45,13 +45,6 @@
             "answer": "<p><strong>No returns or exchanges</strong>. <strong>All sales are final</strong>.</p><p>If your order arrives damaged or irregular, please contact <a href=\"mailto:PublicEquitysupport@gmail.com\">PublicEquitysupport@gmail.com</a> and we will find a remedy for you.</p>"
           }
         },
-        "q4": {
-          "type": "question",
-          "settings": {
-            "question": "WHAT IF I RECEIVE A DEFECTIVE ITEM?",
-            "answer": "<p>Contact us within 48 hours of delivery with photos of the defect. We will assess and provide a replacement or store credit.</p>"
-          }
-        },
         "cat_product": {
           "type": "category",
           "settings": {
@@ -62,7 +55,7 @@
           "type": "question",
           "settings": {
             "question": "HOW DO YOUR SIZES RUN?",
-            "answer": "<p>Our pieces are designed with an oversized fit. We recommend sizing down for a more structured silhouette. Consult the size guide on each product page.</p>"
+            "answer": "<p>Our pieces are designed with an oversized fit. Consult the size guide on each product page.</p>"
           }
         }
       },
@@ -72,7 +65,6 @@
         "q2",
         "cat_returns",
         "q3",
-        "q4",
         "cat_product",
         "q5"
       ],
