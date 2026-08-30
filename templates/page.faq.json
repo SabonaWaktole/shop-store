@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -33,7 +42,7 @@
           "type": "question",
           "settings": {
             "question": "DO YOU ACCEPT RETURNS?",
-            "answer": "<p>Due to the limited nature of our drops, all sales are final. Please refer to our sizing guide before purchasing.</p>"
+            "answer": "<p><strong>No returns or exchanges</strong>. <strong>All sales are final</strong>.</p><p>If your order arrives damaged or irregular, please contact <a href=\"mailto:PublicEquitysupport@gmail.com\">PublicEquitysupport@gmail.com</a> and we will find a remedy for you.</p>"
           }
         },
         "q4": {
@@ -66,7 +75,8 @@
         "q4",
         "cat_product",
         "q5"
-      ]
+      ],
+      "settings": {}
     }
   },
   "order": [
