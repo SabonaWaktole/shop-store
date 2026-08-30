@@ -22,7 +22,7 @@
           "type": "question",
           "settings": {
             "question": "WHAT IS YOUR SHIPPING POLICY?",
-            "answer": "<p>All orders are processed within 2-3 business days. Shipping times vary by location. We ship worldwide via tracked carriers.</p>"
+            "answer": "<p>Please allow 3–5 business days for your order to be processed and shipped.</p><p>Unless otherwise specified, pre-order items require 6–8 weeks for dispatch. Many of our products are made to order — we do our best to be as eco-friendly as possible and avoid wasting fabric that isn't needed.</p><p>Once your order has shipped, you will receive a confirmation email containing tracking information.</p>"
           }
         },
         "q2": {
