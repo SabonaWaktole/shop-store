@@ -36,10 +36,10 @@
         "button_border_radius": 0,
         "preorder_badge_bg": "#000000",
         "preorder_badge_text": "#ffffff",
-        "low_stock_threshold": 10,
+        "low_stock_threshold": 20,
         "show_low_stock": true,
         "show_shipping_accordion": true,
-        "shipping_text": "Due to the limited nature of our products, all sales are final. We do not accept returns, exchanges, or cancellations once an order has been placed.\nPlease allow 2 to 4 weeks for your order to be made, processed, and delivered. Once your order ships, you'll receive a confirmation email with tracking information.",
+        "shipping_text": "ALL SALES ARE FINAL.\n\nSTANDARD SHIPPING — LOCAL AND DOMESTIC ORDERS\n\nPlease allow 3–5 business days for your order to be processed and shipped.\n\nUnless otherwise specified, pre-order items require 6–8 weeks for dispatch. Many of our products are made to order — we do our best to be as eco-friendly as possible and avoid wasting fabric that isn't needed.\n\nOnce your order has shipped, you will receive a confirmation email containing tracking information.",
         "accordion_font_size": 12
       }
     },
